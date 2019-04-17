@@ -25,7 +25,7 @@ SECRET_KEY = '$kx#)tm*wg45!=w)@4j8rq_k7gw92t2j!kgt3f^kn(3ru1renu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["tuerca6.ing.puc.cl"]
 
 
 # Application definition
