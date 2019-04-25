@@ -29,3 +29,21 @@ def skus_stock(request):
         'skus': skus,
     }
     return HttpResponse(template.render(context, request))
+
+
+def fabricar_sin_pagar(request):
+    producto = fabricar_producto(request.GET.get('sku', None), request.GET.get('cantidad', None))
+    template = loader.get_template('masterapp/fabricar_sin_pagar.html')
+    context = {
+        'producto': producto,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def obtener_cuenta(request):
+    cuenta = fabrica_obtener_cuenta()
+    template = loader.get_template('masterapp/fabricar_sin_pagar.html')
+    context = {
+        'cuenta': cuenta,
+    }
+    return HttpResponse(template.render(context, request))

@@ -47,3 +47,31 @@ def obtener_skus_con_stock(id_almacen):
         #return lista
     else:
         return r.status_code
+
+
+def fabricar_producto(sku, cantidad):
+    mensaje = "PUT"+sku+cantidad
+    aut = security_hash(mensaje, key)
+    url = 'https://integracion-2019-dev.herokuapp.com/bodega/fabrica/fabricarSinPago'
+    headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
+    payload = {"sku": sku, "cantidad": int(cantidad)}
+    r = requests.put(url, headers=headers, data=json.dumps(payload))
+    print(r.text)
+    if r.status_code == 200:
+        return r.text
+    else:
+        return r.status_code
+
+
+def fabrica_obtener_cuenta():
+    mensaje = "GET"
+    aut = security_hash(mensaje, key)
+    url = 'https://integracion-2019-dev.herokuapp.com/bodega/fabrica/getCuenta'
+    headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
+    r = requests.put(url, headers=headers)
+    print(r.text)
+    print(r.status_code)
+    if r.status_code == 200:
+        return r.text
+    else:
+        return r.status_code
