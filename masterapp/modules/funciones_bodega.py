@@ -34,7 +34,7 @@ def obtener_skus_con_stock(id_almacen):
         return r.status_code
 
 
-def mover_productos_entre_bodegas(id_producto, id_almacen)
+def mover_productos_entre_almacenes(id_producto, id_almacen)
     mensaje = "POST{}{}".format(id_producto, id_almacen)
     aut = security_hash(mensaje, key)
     url = 'https://integracion-2019-dev.herokuapp.com/bodega/moveStock'
