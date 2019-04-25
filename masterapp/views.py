@@ -5,6 +5,7 @@ from .modules.funciones_bodega import *
 
 # Create your views here.
 
+
 def index(request):
     almacenes = obtener_almacenes()
     template = loader.get_template('masterapp/index.html')
@@ -12,6 +13,7 @@ def index(request):
         'almacenes': almacenes,
     }
     return HttpResponse(template.render(context, request))
+
 
 def productos_en_almacen(request):
     productos = obtener_productos_en_almacen(request.GET.get('almacenId', None), request.GET.get('sku', None))
@@ -45,5 +47,32 @@ def obtener_cuenta(request):
     template = loader.get_template('masterapp/obtener_cuenta.html')
     context = {
         'cuenta': cuenta,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def obtener_eliminar_hook(request):
+    hook = eliminar_hook()
+    template = loader.get_template('masterapp/hook.html')
+    context = {
+        'hook': hook,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def obtener_obtener_hook(request):
+    hook = obtener_hook()
+    template = loader.get_template('masterapp/hook.html')
+    context = {
+        'hook': hook,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def obtener_setear_hook(request):
+    hook = setear_hook(request.GET.get('url', None))
+    template = loader.get_template('masterapp/hook.html')
+    context = {
+        'hook': hook,
     }
     return HttpResponse(template.render(context, request))

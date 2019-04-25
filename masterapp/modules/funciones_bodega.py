@@ -75,3 +75,46 @@ def fabrica_obtener_cuenta():
         return r.text
     else:
         return r.status_code
+
+
+def eliminar_hook():
+    mensaje = "DELETE"
+    aut = security_hash(mensaje, key)
+    url = 'https://integracion-2019-dev.herokuapp.com/bodega/hook'
+    headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
+    r = requests.delete(url, headers=headers)
+    print(r.text)
+    print(r.status_code)
+    if r.status_code == 200:
+        return r.text
+    else:
+        return r.status_code
+
+
+def obtener_hook():
+    mensaje = "GET"
+    aut = security_hash(mensaje, key)
+    url = 'https://integracion-2019-dev.herokuapp.com/bodega/hook'
+    headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
+    r = requests.get(url, headers=headers)
+    print(r.text)
+    print(r.status_code)
+    if r.status_code == 200:
+        return r.text
+    else:
+        return r.status_code
+
+
+def setear_hook(url):
+    mensaje = "PUT"+url
+    aut = security_hash(mensaje, key)
+    url = 'https://integracion-2019-dev.herokuapp.com/bodega/hook'
+    headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
+    payload = {"url": url}
+    r = requests.put(url, headers=headers, data=json.dumps(payload))
+    print(r.text)
+    print(r.status_code)
+    if r.status_code == 200:
+        return r.text
+    else:
+        return r.status_code
