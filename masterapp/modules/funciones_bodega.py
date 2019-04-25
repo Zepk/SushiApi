@@ -5,7 +5,7 @@ import json
 
 # Consultar por almacenes del grupo
 def obtener_almacenes():
-    mensaje = "GET5cbd3ce444f67600049431d4"
+    mensaje = "GET"
     aut = security_hash(mensaje, key)
     url = 'https://integracion-2019-dev.herokuapp.com/bodega/almacenes'
     headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
