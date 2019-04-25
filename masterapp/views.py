@@ -12,3 +12,20 @@ def index(request):
         'almacenes': almacenes,
     }
     return HttpResponse(template.render(context, request))
+
+def productos_en_almacen(request):
+    productos = obtener_productos_en_almacen(request.GET.get('almacenId', None), request.GET.get('sku', None))
+    template = loader.get_template('masterapp/productos_en_almacen.html')
+    context = {
+        'productos': productos,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def skus_stock(request):
+    skus = obtener_skus_con_stock(request.GET.get('almacenId', None))
+    template = loader.get_template('masterapp/sku_stock.html')
+    context = {
+        'skus': skus,
+    }
+    return HttpResponse(template.render(context, request))
