@@ -68,7 +68,7 @@ def fabrica_obtener_cuenta():
     aut = security_hash(mensaje, key)
     url = 'https://integracion-2019-dev.herokuapp.com/bodega/fabrica/getCuenta'
     headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
-    r = requests.put(url, headers=headers)
+    r = requests.get(url, headers=headers)
     print(r.text)
     print(r.status_code)
     if r.status_code == 200:

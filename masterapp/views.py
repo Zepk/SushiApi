@@ -42,7 +42,7 @@ def fabricar_sin_pagar(request):
 
 def obtener_cuenta(request):
     cuenta = fabrica_obtener_cuenta()
-    template = loader.get_template('masterapp/fabricar_sin_pagar.html')
+    template = loader.get_template('masterapp/obtener_cuenta.html')
     context = {
         'cuenta': cuenta,
     }
