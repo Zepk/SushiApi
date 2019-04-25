@@ -23,7 +23,7 @@ def obtener_skus_con_stock(id_almacen):
     mensaje = "GET{}".format(id_almacen)
     aut = make_digest(mensaje, key)
     url = 'https://integracion-2019-dev.herokuapp.com/bodega/skusWithStock?almacenId={}'.format(id_almacen)
-    headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}}:{}".format(grupo, aut)}
+    headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
     r = requests.get(url, headers=headers)
     print(r.text)
     print(r.status_code)
