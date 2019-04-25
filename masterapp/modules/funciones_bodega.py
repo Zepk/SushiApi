@@ -1,7 +1,7 @@
 from .constantes import *
 from .hashing import *
 import requests
-
+import json
 
 # Consultar por almacenes del grupo
 def obtener_almacenes():
@@ -12,5 +12,8 @@ def obtener_almacenes():
     r = requests.get(url, headers=headers)
     if r.status_code == 200:
         return r.text
+        #si queremos retornar la lista de diccionarios
+        #lista = json.loads(r.text)
+        #return lista
     else:
         return r.status_code
