@@ -18,6 +18,19 @@ def obtener_almacenes():
     else:
         return r.status_code
 
+
+def obtener_productos_en_almacen(almacenId, sku):
+    mensaje = "GET"+almacenId+sku
+    aut = security_hash(mensaje, key)
+    url = 'https://integracion-2019-dev.herokuapp.com/bodega/stock?almacenId={}&sku={}'.format(almacenId, sku)
+    headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
+    r = requests.get(url, headers=headers)
+    if r.status_code == 200:
+        return r.text
+    else:
+        return r.status_code
+
+
 # Consultar por skus con stock en un almacen, pide la id del almacen
 def obtener_skus_con_stock(id_almacen):
     mensaje = "GET{}".format(id_almacen)
