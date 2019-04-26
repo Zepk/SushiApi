@@ -53,7 +53,7 @@ def mover_productos_entre_almacenes(id_producto, id_almacen):
     url = 'https://integracion-2019-dev.herokuapp.com/bodega/moveStock'
     headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
     payload = {"productoId": id_producto, "almacenId": id_almacen}
-    r = requests.post(url, headers=headers, data=payload)
+    r = requests.post(url, headers=headers, data=json.dumps(payload))
     if r.status_code == 200:
         return r.text
         #si queremos retornar la lista de diccionarios
