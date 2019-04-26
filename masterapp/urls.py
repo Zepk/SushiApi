@@ -11,5 +11,4 @@ urlpatterns = [
     path('obtener_eliminar_hook/', views.obtener_eliminar_hook, name='obtener_eliminar_hook'),
     path('obtener_obtener_hook/', views.obtener_obtener_hook, name='obtener_obtener_hook'),
     path('obtener_setear_hook/', views.obtener_setear_hook, name='obtener_setear_hook'),
-    path('hook/', views.hook, name='hook'),
 ]
