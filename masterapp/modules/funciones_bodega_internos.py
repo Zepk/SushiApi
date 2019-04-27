@@ -29,5 +29,41 @@ def stock_disponible_sku(sku, cantidad):
     return False
 
 
-def despachar_pedido(sku, cantidad, almacenId):
-    pass
+def obtener_almacenes_con_sku(sku):
+    almacenes = obtener_almacenes()
+    inventario = {}
+    for almacen in almacenes.json():
+        if int(almacen["usedSpace"]) > 0:
+            for skus in obtener_skus_con_stock(almacen["_id"]).json():
+                if skus["_id"] == sku:
+                    inventario[almacen["_id"]] = {"sku": skus["_id"], "total": skus["total"], "despacho": almacen["despacho"]}
+                    break
+    return inventario
+
+
+def despachar_pedido_bodega(sku, cantidad, almacenId):
+    almacen_despachoId = "5cbd3ce444f67600049431d2"
+    almacenes = obtener_almacenes_con_sku(sku)
+    despachados = 0
+    for almacen in almacenes.keys():
+        productos = obtener_productos_en_almacen(almacen, sku).json()
+        for producto in productos:
+            if almacenes[almacen]["despacho"]:
+                despachar_un_producto(producto["_id"], almacenId, 10)
+                despachados += 1
+            else:
+                mover_productos_entre_almacenes(almacen_despachoId, producto["_id"])
+                despachar_un_producto(producto["_id"], almacenId, 10)
+                despachados += 1
+            if despachados == cantidad:
+                print(cantidad , despachados)
+                return True
+    return False
+
+
+def despachar_un_producto(productoId, almacenId, precio):
+    r = mover_productos_entre_bodegas(productoId, almacenId)
+    if r.status_code == 200:
+        return True
+    else:
+        return False
