@@ -28,18 +28,17 @@ def orders(request):
         try:
             body = json.loads(request.body)
             sku = body["sku"]
-            cantidad = int(body["cantidad"])
+            cantidad = body["cantidad"]
             almacenId = body["almacenId"]
         except:
             JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
         if stock_disponible_sku(sku, cantidad):
-            cantidad = True
             # Falta esta funcion
-            aceptado = despachar_pedido(sku, cantidad, almacenId)
+            aceptado = despachar_pedido_bodega(sku, cantidad, almacenId)
             if aceptado:
                 respuesta = {}
                 respuesta["sku"] = sku
-                respuesta["cantidad"] = cantidad
+                respuesta["cantidad"] = True
                 respuesta["almacenId"] = almacenId
                 respuesta["grupo"] = grupo
                 respuesta["aceptado"] = aceptado
