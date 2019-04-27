@@ -4,6 +4,8 @@ from . import views
 
 urlpatterns = [
     path('inventories/', views.inventories, name='inventories'),
+    path('orders/', views.orders, name='orders'),
+    # Borrar urls despues
     path('moveStock/', views.moveStock, name='moveStock'),
     path('moveStockBodega/', views.moveStockBodega, name='moveStockBodega'),
     path('almacenes/', views.almacenes, name='almacenes'),
