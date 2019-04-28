@@ -68,6 +68,7 @@ def despachar_pedido_bodega(sku, cantidad, almacenId):
 
 
 def despachar_un_producto(productoId, almacenId, precio):
+    print(productoId)
     r = mover_productos_entre_bodegas(productoId, almacenId)
     if r.status_code == 200:
         return True
