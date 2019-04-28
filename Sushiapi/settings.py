@@ -92,9 +92,9 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 CELERY_BEAT_SCHEDULE = {
-    'hello': {
-        'task': 'masterapp.tasks.hello',
-        'schedule': crontab()  # execute every minute
+    'vaciar_recepcion_y_pulmon': {
+        'task': 'masterapp.tasks.vaciar_recepcion_y_pulmon',
+        'schedule': 60  # execute every minute
     }
 }
 
