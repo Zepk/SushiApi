@@ -95,7 +95,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
     'vaciar_recepcion_y_pulmon': {
         'task': 'masterapp.tasks.vaciar_recepcion_y_pulmon',
-        'schedule': timedelta(minutes=30)  # execute every minute
+        'schedule': timedelta(minutes=5)  # execute every minute
     }
 }
 
