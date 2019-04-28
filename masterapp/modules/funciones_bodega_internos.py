@@ -48,21 +48,14 @@ def despachar_pedido_bodega(sku, cantidad, almacenId):
     for almacen in almacenes.keys():
         productos = json.loads(obtener_productos_en_almacen(almacen, sku))
         for producto in productos:
-            print(almacen)
-            print('\n')
-            print(producto)
-            print('\n')
             if almacenes[almacen]["despacho"]:
                 if despachar_un_producto(producto["_id"], almacenId, 10):
-                    print('OK {}\n'.format(almacen))
                     despachados += 1
             else:
-                mover_productos_entre_almacenes(almacen_despachoId, producto["_id"])
+                mover_productos_entre_almacenes(producto["_id"], almacen_despachoId)
                 if despachar_un_producto(producto["_id"], almacenId, 10):
-                    print('OK {}\n'.format(almacen))
                     despachados += 1
             if despachados == cantidad:
-                print(cantidad , despachados)
                 return True
     return False
 
