@@ -64,6 +64,22 @@ def mover_productos_entre_almacenes(id_producto, id_almacen):
         return r.status_code
 
 
+def mover_productos_entre_bodegas(id_producto, id_almacen):
+    mensaje = "POST{}{}".format(id_producto, id_almacen)
+    aut = security_hash(mensaje, key)
+    url = 'https://integracion-2019-dev.herokuapp.com/bodega/moveStockBodega'
+    headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
+    payload = {"productoId": id_producto, "almacenId": id_almacen, "precio": 10}
+    r = requests.post(url, headers=headers, data=json.dumps(payload))
+    if r.status_code == 200:
+        return r
+        #si queremos retornar la lista de diccionarios
+        #lista = json.loads(r.text)
+        #return lista
+    else:
+        return r
+
+
 def fabricar_producto(sku, cantidad):
     mensaje = "PUT"+sku+cantidad
     aut = security_hash(mensaje, key)
@@ -133,4 +149,3 @@ def setear_hook(url):
         return r.text
     else:
         return r.status_code
-
