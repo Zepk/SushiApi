@@ -1,4 +1,6 @@
 from django.shortcuts import render
+
+from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from .modules.funciones_bodega import *

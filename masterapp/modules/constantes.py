@@ -6,3 +6,5 @@ almacen_general1 = '5cbd3ce444f67600049431d3'
 almacen_general2 = '5cbd3ce444f67600049431d4'
 pulmon = '5cbd3ce444f67600049431d5'
 cocina = '5cbd3ce444f67600049431d6'
+
+skus=[]
