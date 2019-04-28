@@ -8,9 +8,9 @@ from .funciones_bodega import *
 def stock_disponible():
     almacenes = obtener_almacenes()
     inventario = {}
-    for almacen in almacenes.json():
+    for almacen in json.loads(almacenes):
         if int(almacen["usedSpace"]) > 0:
-            for skus in obtener_skus_con_stock(almacen["_id"]).json():
+            for skus in json.loads(obtener_skus_con_stock(almacen["_id"])):
                 if skus["_id"] in inventario.keys():
                     inventario[skus["_id"]] += skus["total"]
                 else:
@@ -32,9 +32,9 @@ def stock_disponible_sku(sku, cantidad):
 def obtener_almacenes_con_sku(sku):
     almacenes = obtener_almacenes()
     inventario = {}
-    for almacen in almacenes.json():
+    for almacen in json.loads(almacenes):
         if int(almacen["usedSpace"]) > 0:
-            for skus in obtener_skus_con_stock(almacen["_id"]).json():
+            for skus in json.loads(obtener_skus_con_stock(almacen["_id"])):
                 if skus["_id"] == sku:
                     inventario[almacen["_id"]] = {"sku": skus["_id"], "total": skus["total"], "despacho": almacen["despacho"]}
                     break
@@ -46,7 +46,7 @@ def despachar_pedido_bodega(sku, cantidad, almacenId):
     almacenes = obtener_almacenes_con_sku(sku)
     despachados = 0
     for almacen in almacenes.keys():
-        productos = obtener_productos_en_almacen(almacen, sku).json()
+        productos = json.loads(obtener_productos_en_almacen(almacen, sku))
         for producto in productos:
             if almacenes[almacen]["despacho"]:
                 despachar_un_producto(producto["_id"], almacenId, 10)
