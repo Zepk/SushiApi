@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-from datetime import timedelta
+
 import os
 from celery.schedules import crontab
 
@@ -95,7 +95,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
     'vaciar_recepcion_y_pulmon': {
         'task': 'masterapp.tasks.vaciar_recepcion_y_pulmon',
-        'schedule': timedelta(minutes=5)  # execute every minute
+        'schedule': 300  # execute every minute
     }
 }
 
