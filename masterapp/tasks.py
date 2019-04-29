@@ -16,3 +16,8 @@ def vaciar_recepcion_y_pulmon():
                             productos = json.loads(obtener_productos_en_almacen(pulmon, sku))
                             for producto in productos:
                                 mover_productos_entre_almacenes(producto['_id'], almacen2['_id'])
+
+
+@shared_task
+def probando_celery():
+    print('Probando Celery \n')
