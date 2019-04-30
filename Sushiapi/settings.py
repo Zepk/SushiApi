@@ -96,10 +96,6 @@ CELERY_BEAT_SCHEDULE = {
     'vaciar_recepcion_y_pulmon': {
         'task': 'masterapp.tasks.vaciar_recepcion_y_pulmon',
         'schedule': 300  # execute every minute
-    },
-    'probando_celery': {
-        'task': 'masterapp.tasks.probando_celery',
-        'schedule': 60  # execute every minute
     }
 }
 
