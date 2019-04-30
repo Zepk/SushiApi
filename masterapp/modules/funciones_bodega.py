@@ -149,3 +149,40 @@ def setear_hook(url):
         return r.text
     else:
         return r.status_code
+
+# Funcion OK
+def revisar_inventario_producto(grupo):
+    mensaje = "GET"
+    aut = security_hash(mensaje, key)
+    url = 'http://tuerca{}.ing.puc.cl/inventories/'.format(grupo)
+    r = requests.get(url)
+    print(r.text)
+    print(r.status_code)
+    if r.status_code == 200:
+        return r.text
+    else:
+        return r.status_code
+
+# Todavia no sabemos si esta OK, retorna {sku: hola} por mientras
+def pedir_orden_producto(sku, cantidad, almacenId, grupo):
+    mensaje = "POST"
+    aut = security_hash(mensaje, key)
+    url = 'http://tuerca{}.ing.puc.cl/orders/'.format(grupo)
+    headers = {'content-type': 'application/json'}
+    payload = {'sku': sku, 'cantidad': cantidad, 'almacenId': almacenId}
+    r = requests.post(url, headers=headers, data=json.dumps(payload))
+    print(r.text)
+    print(r.status_code)
+    print(r.json())
+    if r.status_code == 200:
+        return r.text
+    else:
+        return r.status_code
+
+# Probando
+
+# Revisar inventario del grupo 10
+# revisar_inventario_producto(10)
+
+# Pedir sal al grupo 10
+# pedir_orden_producto('1004', 1, '5cbd3ce444f67600049431d1', 10)
