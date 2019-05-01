@@ -74,3 +74,36 @@ def despachar_un_producto(productoId, almacenId, precio):
         return True
     else:
         return False
+
+
+# Dado un diccionario creado con contar_productos(), y un sku, revisa si es posible fabricar 1 lote del sku dado
+def fabricable(sku, stock):
+    receta = recetas[sku]
+    for clave in receta.keys():
+        if clave in stock.keys():
+            if int(stock[clave]) >= int(receta[clave]):
+                continue
+
+            else:
+                return False
+        else:
+            return False
+    return True
+
+# Dada una receta, mueve los ingredientes necesarios al almacen de despacho
+# Puede faltar que retorne algo cuando este listo
+def preparar_despacho(receta):
+    for clave in receta.keys():
+        sku_ready = False
+        for almacen in almacenes_nuestro:
+            if almacen != despacho:
+                for producto in json.loads(obtener_productos_en_almacen(almacen, clave)):
+                    if len(json.loads(obtener_productos_en_almacen(despacho, clave))) < receta[clave]:
+                        mover_productos_entre_almacenes(producto['_id'], despacho)
+
+                    else:
+                        sku_ready = True
+                        break
+            if sku_ready:
+                break
+

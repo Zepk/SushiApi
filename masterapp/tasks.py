@@ -24,13 +24,33 @@ def vaciar_recepcion_y_pulmon():
 @shared_task
 def pedir_productos_propios():
     diccionario = contar_productos()
-
     for sku in skus_propios:
         if sku not in diccionario.keys():
-            fabricar_producto(sku, unidades_por_lote[sku])
+            fabricar_producto(sku, str(unidades_por_lote[sku]))
         elif diccionario[sku] < lotes_minimos_materia_prima_propia * unidades_por_lote[sku]:
             fabricar_producto(sku, str(unidades_por_lote[sku]))
             print('pidiendo productos')
 
+
+# La funcion se encarga de producir los productos que podemos producir con las materias primas que podemos producir
+@shared_task
+def fabricar_productos_propios():
+    stock = contar_productos()
+    for sku in skus_produccion_propia:
+        # Si ya tenemos del producto, revisamos si tenemos menos que lo que queremos, en ese caso poducimos, si no, noo
+        if sku in stock.keys():
+            if stock[sku] < delta_stock_minimo * stock_minimo[sku]:
+                if fabricable(sku, stock):
+                    preparar_despacho(recetas[sku])
+                    print(fabricar_producto(sku, unidades_por_lote[sku]))
+                else:
+                    continue
+        # Si no tenemos del producto, lo producimos
+        else:
+            if fabricable(sku, stock):
+                preparar_despacho(recetas[sku])
+                print(fabricar_producto(sku, unidades_por_lote[sku]))
+            else:
+                continue
 
 
