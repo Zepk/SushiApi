@@ -170,10 +170,8 @@ def pedir_orden_producto(sku, cantidad, almacenId, grupo):
     headers = {'content-type': 'application/json', 'group': '6'}
     payload = {'sku': sku, 'cantidad': cantidad, 'almacenId': almacenId}
     r = requests.post(url, headers=headers, data=json.dumps(payload))
-    print(r.text)
-    print(r.status_code)
-    print(r.json())
     if r.status_code == 200:
+        print(r.text)
         return r.text
     else:
         return r.status_code
@@ -184,9 +182,8 @@ def pedir_orden_producto2(sku, cantidad, almacenId, grupo):
     headers = {'content-type': 'application/json', 'group': '6'}
     payload = {'sku': str(sku), 'cantidad': cantidad, 'almacenId': str(almacenId)}
     r = requests.post(url, headers=headers, data=json.dumps(payload))
-    print(r.text)
-    print(r.status_code)
     if r.status_code == 200:
+        print(r.text)
         return r
     else:
         return r
