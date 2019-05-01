@@ -36,11 +36,11 @@ def pedir_productos_propios():
 @shared_task
 def pedir_productos_ajenos():
     diccionario = contar_productos()
-    for sku in skus_propios:
+    for sku in skus_grupos:
         if sku not in diccionario.keys():
             if pedir_orden_producto2(sku, str(unidades_por_lote[sku]), recepcion, grupo).status_code != 200:
                 pedir_orden_producto(sku, str(unidades_por_lote[sku]), recepcion, grupo)
-        elif diccionario[sku] < lotes_minimos_materia_prima_propia * unidades_por_lote[sku]:
+        elif diccionario[sku] < lotes_minimos_materia_prima_ajena * unidades_por_lote[sku]:
             if pedir_orden_producto2(sku, str(unidades_por_lote[sku]), recepcion, grupo).status_code != 200:
                 pedir_orden_producto(sku, str(unidades_por_lote[sku]), recepcion, grupo)
             print('pidiendo productos')
