@@ -27,7 +27,7 @@ SECRET_KEY = 'u4bp7^p&0=7$jinz_gekgxp=00nks3_4wueyyn3!h+f80+e5kj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["tuerca6.ing.puc.cl"]
+ALLOWED_HOSTS = ["tuerca6.ing.puc.cl","localhost"]
 
 
 # Application definition
