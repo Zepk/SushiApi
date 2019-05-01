@@ -1,7 +1,10 @@
 from celery import shared_task
 import json
 from .modules.funciones_bodega import *
+from .modules.funciones_bodega_internos import *
 
+# mueve periodicamente los productos de pulmon y recepcion a almacenes de proposito general
+# Falta tomar en cuenta que no todos los productos son de tamano 1
 @shared_task
 def vaciar_recepcion_y_pulmon():
     almacenes = json.loads(obtener_almacenes())
@@ -17,6 +20,17 @@ def vaciar_recepcion_y_pulmon():
                             for producto in productos:
                                 mover_productos_entre_almacenes(producto['_id'], almacen2['_id'])
 
+# De momento pide 1 lote de cada una de las materias primas que podemos producir, siempre que tengamos menos de 10 lotes
 @shared_task
-def probando_celery():
-    print('Probando Celery \n')
+def pedir_productos_propios():
+    diccionario = contar_productos()
+
+    for sku in skus_propios:
+        if sku not in diccionario.keys():
+            fabricar_producto(sku, unidades_por_lote[sku])
+        elif diccionario[sku] < lotes_minimos_materia_prima_propia * unidades_por_lote[sku]:
+            fabricar_producto(sku, str(unidades_por_lote[sku]))
+            print('pidiendo productos')
+
+
+

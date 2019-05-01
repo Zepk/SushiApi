@@ -20,6 +20,13 @@ def stock_disponible():
         respuesta.append({"sku": k, "total": v})
     return respuesta
 
+# Retorna un diccionario que contiene todas las claves sku: cantidad_disponible
+def contar_productos():
+    diccionario = {}
+    for producto in stock_disponible():
+        diccionario.update({producto['sku']: producto['total']})
+    return diccionario
+
 
 def stock_disponible_sku(sku, cantidad):
     respuesta = stock_disponible()
