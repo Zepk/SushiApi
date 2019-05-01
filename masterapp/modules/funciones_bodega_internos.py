@@ -48,25 +48,6 @@ def obtener_almacenes_con_sku(sku):
     return inventario
 
 
-def despachar_pedido_bodega(sku, cantidad, almacenId):
-    almacen_despachoId = "5cbd3ce444f67600049431d2"
-    almacenes = obtener_almacenes_con_sku(sku)
-    despachados = 0
-    for almacen in almacenes.keys():
-        productos = json.loads(obtener_productos_en_almacen(almacen, sku))
-        for producto in productos:
-            if almacenes[almacen]["despacho"]:
-                if despachar_un_producto(producto["_id"], almacenId, 10):
-                    despachados += 1
-            else:
-                mover_productos_entre_almacenes(producto["_id"], almacen_despachoId)
-                if despachar_un_producto(producto["_id"], almacenId, 10):
-                    despachados += 1
-            if despachados == cantidad:
-                return True
-    return False
-
-
 def despachar_un_producto(productoId, almacenId, precio):
     print(productoId)
     r = mover_productos_entre_bodegas(productoId, almacenId)
@@ -106,4 +87,3 @@ def preparar_despacho(receta):
                         break
             if sku_ready:
                 break
-

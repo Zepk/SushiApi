@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from .modules.funciones_bodega import *
 from .modules.funciones_bodega_internos import *
+from .tasks import *
 from django.http.response import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -34,7 +35,8 @@ def orders(request):
             JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
         if stock_disponible_sku(sku, cantidad):
             # Falta esta funcion
-            aceptado = despachar_pedido_bodega(sku, cantidad, almacenId)
+            despachar_pedido_bodega.delay(sku, cantidad, almacenId)
+            aceptado = True
             if aceptado:
                 respuesta = {}
                 respuesta["sku"] = sku
