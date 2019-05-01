@@ -22,12 +22,14 @@ cocina = '5cc7b139a823b10004d8e6f0'
 
 
 lotes_minimos_materia_prima_propia = 20
+lotes_minimos_materia_prima_ajena = 10
 delta_stock_minimo = 2
 
 almacenes_nuestro = [recepcion, despacho, almacen_general2, almacen_general1, pulmon, cocina]
 
 
 skus_propios = ['1001', '1002', '1003','1007','1016']
+skus_grupos = ['1004', '1005', '1006', '1008', '1009', '1010', '1011', '1012', '1013', '1014', '1015']
 skus_produccion_propia = ['1107', '1207', '1307', '1407', '1116', '1216']
 
 stock_minimo= {

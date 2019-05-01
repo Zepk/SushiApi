@@ -167,7 +167,7 @@ def obtener_inventario_otro_grupo(grupo):
 # Puede que el header este malo
 def pedir_orden_producto(sku, cantidad, almacenId, grupo):
     url = 'http://tuerca{}.ing.puc.cl/orders/'.format(grupo)
-    headers = {'content-type': 'application/json'}
+    headers = {'content-type': 'application/json', 'group': '6'}
     payload = {'sku': sku, 'cantidad': cantidad, 'almacenId': almacenId}
     r = requests.post(url, headers=headers, data=json.dumps(payload))
     print(r.text)
@@ -178,3 +178,15 @@ def pedir_orden_producto(sku, cantidad, almacenId, grupo):
     else:
         return r.status_code
 
+
+def pedir_orden_producto2(sku, cantidad, almacenId, grupo):
+    url = 'http://tuerca{}.ing.puc.cl/orders'.format(grupo)
+    headers = {'content-type': 'application/json', 'group': '6'}
+    payload = {'sku': str(sku), 'cantidad': cantidad, 'almacenId': str(almacenId)}
+    r = requests.post(url, headers=headers, data=json.dumps(payload))
+    print(r.text)
+    print(r.status_code)
+    if r.status_code == 200:
+        return r
+    else:
+        return r
