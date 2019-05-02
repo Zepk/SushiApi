@@ -38,7 +38,18 @@ def pedir_productos_ajenos():
     diccionario = contar_productos()
     for sku, grupos in produccion_otros.items():
         print('El sku {}'.format(sku))
-        if sku not in diccionario.keys():
+        if sku == '1013' and diccionario[sku] < 2 * stock_minimo[sku]:
+            for g in grupos:
+                print('El grupo {}'.format(g))
+                try:
+                    pedir_orden_producto(sku, '3', recepcion, g)
+                except:
+                    pass
+                try:
+                    pedir_orden_producto2(sku, '3', recepcion, g)
+                except:
+                    pass
+        elif sku not in diccionario.keys():
             for g in grupos:
                 print('El grupo {}'.format(g))
                 try:
@@ -68,7 +79,9 @@ def fabricar_productos_propios():
     stock = contar_productos()
     for sku in stock_minimo.keys():
         # Si ya tenemos del producto, revisamos si tenemos menos que lo que queremos, en ese caso poducimos, si no, noo
-        if sku in stock.keys():
+        if sku == '1013':
+            continue
+        elif sku in stock.keys():
             if stock[sku] < delta_stock_minimo * stock_minimo[sku]:
                 if fabricable(sku, stock):
                     preparar_despacho(recetas[sku])
