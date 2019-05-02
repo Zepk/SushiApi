@@ -133,6 +133,8 @@ def vaciar_despacho():
                             sku = sku['_id']
                             productos = json.loads(obtener_productos_en_almacen(almacen['_id'], sku))
                             for producto in productos:
-                                mover_productos_entre_almacenes(producto['_id'], almacen2['_id'])
-
+                                if almacen2['totalSpace'] > almacen2['usedSpace']:
+                                    mover_productos_entre_almacenes(producto['_id'], almacen2['_id'])
+                                else:
+                                    break
 
