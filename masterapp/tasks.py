@@ -85,6 +85,7 @@ def fabricar_productos_propios():
             if stock[sku] < delta_stock_minimo * stock_minimo[sku]:
                 if fabricable(sku, stock):
                     preparar_despacho(recetas[sku])
+                    print("Fabricando {}".format(nombres[sku]))
                     fabricar_producto(sku, unidades_por_lote[sku])
                 else:
                     continue
@@ -92,6 +93,7 @@ def fabricar_productos_propios():
         else:
             if fabricable(sku, stock):
                 preparar_despacho(recetas[sku])
+                print("Fabricando {}".format(nombres[sku]))
                 fabricar_producto(sku, unidades_por_lote[sku])
             else:
                 continue
