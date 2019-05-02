@@ -21,9 +21,10 @@ cocina = '5cc7b139a823b10004d8e6f0'
 
 
 
-lotes_minimos_materia_prima_propia = 20
-lotes_minimos_materia_prima_ajena = 10
-delta_stock_minimo = 2
+lotes_minimos_materia_prima_propia = 8
+lotes_minimos_materia_prima_ajena = 3
+lotes_minimos_despacho = 3
+delta_stock_minimo = 1.5
 
 almacenes_nuestro = [recepcion, despacho, almacen_general2, almacen_general1, pulmon, cocina]
 
