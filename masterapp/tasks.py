@@ -38,7 +38,7 @@ def pedir_productos_ajenos():
     diccionario = contar_productos()
     for sku, grupos in produccion_otros.items():
         print('El sku {}'.format(sku))
-        if sku == '1013' and diccionario[sku] < 2 * stock_minimo[sku]:
+        if sku == '1013' and diccionario[sku] < delta_stock_minimo * stock_minimo[sku]:
             for g in grupos:
                 print('El grupo {}'.format(g))
                 try:
