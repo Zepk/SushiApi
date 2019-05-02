@@ -69,7 +69,7 @@ def index(request):
                 lista = [nombres[sku], sku, productos[sku], stock_minimo[sku], porcentaje]
             else:
                 porcentaje = round(0*100, 2)
-                lista = [nombres[sku], sku, int(0) , stock_minimo[sku], porcentaje]
+                lista = [nombres[sku], sku, int(0), stock_minimo[sku], porcentaje]
             cuenta_stock.append(lista)
     template = loader.get_template('masterapp/index.html')
     context = {
