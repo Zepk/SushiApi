@@ -37,15 +37,29 @@ def pedir_productos_propios():
 def pedir_productos_ajenos():
     diccionario = contar_productos()
     for sku, grupos in produccion_otros.items():
+        print('El sku {}'.format(sku))
         if sku not in diccionario.keys():
             for g in grupos:
-                if pedir_orden_producto2(sku, str(unidades_por_lote[sku]), recepcion, g).status_code != 200:
-                    pedir_orden_producto(sku, str(unidades_por_lote[sku]), recepcion, g)
+                print('El grupo {}'.format(g))
+                try:
+                    pedir_orden_producto(sku, '3', recepcion, g)
+                except:
+                    pass
+                try:
+                    pedir_orden_producto2(sku, '3', recepcion, g)
+                except:
+                    pass
         elif diccionario[sku] < lotes_minimos_materia_prima_ajena * unidades_por_lote[sku]:
             for g in grupos:
-                if pedir_orden_producto2(sku, str(unidades_por_lote[sku]), recepcion, g).status_code != 200:
-                    pedir_orden_producto(sku, str(unidades_por_lote[sku]), recepcion, g)
-            print('pidiendo productos')
+                print('El grupo {}'.format(g))
+                try:
+                    pedir_orden_producto(sku, '3', recepcion, g)
+                except:
+                    pass
+                try:
+                    pedir_orden_producto2(sku, '3', recepcion, g)
+                except:
+                    pass
 
 
 # La funcion se encarga de producir los productos que podemos producir con las materias primas que podemos producir
