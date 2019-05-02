@@ -26,6 +26,8 @@ lotes_minimos_materia_prima_ajena = 3
 lotes_minimos_despacho = 3
 delta_stock_minimo = 1.5
 
+despacho_maximo = 30
+
 almacenes_nuestro = [recepcion, despacho, almacen_general2, almacen_general1, pulmon, cocina]
 
 
