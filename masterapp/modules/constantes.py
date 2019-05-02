@@ -63,7 +63,7 @@ stock_minimo= {
 
 stock_deseado_productos_intermedios= {
                                         '1101': 200,
-                                        '1211': 50,
+                                        '1111': 50,
                                      }
 
 
