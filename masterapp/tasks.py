@@ -77,6 +77,7 @@ def pedir_productos_ajenos():
 
 
 # La funcion se encarga de producir los productos que podemos producir con las materias primas que podemos producir
+# Cambio de propopsito, hace todo lo de la fabrica
 @shared_task
 def fabricar_productos_propios():
     stock = contar_productos()
@@ -138,3 +139,27 @@ def vaciar_despacho():
                                 else:
                                     break
 
+
+@shared_task
+def fabricar_productos_intermedios():
+    stock = contar_productos()
+    for sku in stock_deseado_productos_intermedios.keys():
+        # Si ya tenemos del producto, revisamos si tenemos menos que lo que queremos, en ese caso poducimos, si no, noo
+        if sku == '1013':
+            continue
+        elif sku in stock.keys():
+            if stock[sku] < delta_stock_minimo * stock_deseado_productos_intermedios[sku]:
+                if fabricable(sku, stock):
+                    preparar_despacho(recetas[sku])
+                    print("Fabricando {}".format(nombres[sku]))
+                    fabricar_producto(sku, unidades_por_lote[sku])
+                else:
+                    continue
+        # Si no tenemos del producto, lo producimos
+        else:
+            if fabricable(sku, stock):
+                preparar_despacho(recetas[sku])
+                print("Fabricando {}".format(nombres[sku]))
+                fabricar_producto(sku, unidades_por_lote[sku])
+            else:
+                continue

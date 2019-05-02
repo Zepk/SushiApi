@@ -61,6 +61,11 @@ stock_minimo= {
                 '1211' :60
                 }
 
+stock_deseado_productos_intermedios= {
+                                        '1101': 200,
+                                        ' 1211': 50,
+                                     }
+
 
 produccion_otros = {
                     '1004' :[ '3','4','10'],

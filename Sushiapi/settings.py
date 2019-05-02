@@ -103,17 +103,18 @@ CELERY_BEAT_SCHEDULE = {
     },
     'pedir_productos_ajenos': {
         'task': 'masterapp.tasks.pedir_productos_ajenos',
-        'schedule': crontab(minute='*/6')  # execute every minute
+        'schedule': crontab(minute='*/4')  # execute every minute
     },
     'fabricar_productos_propios': {
         'task': 'masterapp.tasks.fabricar_productos_propios',
-        'schedule': crontab(minute='*/10')  # execute every minute
+        'schedule': crontab(minute='*/4')  # execute every minute
     },
-    'vaciar_despacho': {
-        'task': 'masterapp.tasks.vaciar_despacho',
-        'schedule': crontab(minute='*/9')  # execute every minute
+    'fabricar_productos_intermedios': {
+        'task': 'masterapp.tasks.fabricar_productos_intermedios',
+        'schedule': crontab(minute='*/2')  # execute every minute
     }
 }
+
 
 
 # Password validation
