@@ -108,6 +108,10 @@ CELERY_BEAT_SCHEDULE = {
     'fabricar_productos_propios': {
         'task': 'masterapp.tasks.fabricar_productos_propios',
         'schedule': crontab(minute='*/10')  # execute every minute
+    },
+    'vaciar_despacho': {
+        'task': 'masterapp.tasks.vaciar_despacho',
+        'schedule': crontab(minute='*/58')  # execute every minute
     }
 }
 
