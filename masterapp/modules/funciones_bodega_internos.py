@@ -31,7 +31,7 @@ def contar_productos():
 def stock_disponible_sku(sku, cantidad):
     respuesta = stock_disponible()
     for r in respuesta:
-        if sku == r["sku"] and 5*unidades_por_lote[sku] >= r["total"] - cantidad:
+        if sku == r["sku"] and 5*unidades_por_lote[sku] <= r["total"] - cantidad:
             return True
     return False
 
