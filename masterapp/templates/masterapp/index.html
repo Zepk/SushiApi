@@ -5,3 +5,22 @@
 {% else %}
     <p>Error.</p>
 {% endif %}
+
+<table style="width:70%">
+  <tr>
+    <th>Nombre</th>
+    <th>Sku</th>
+    <th>Stock Actual</th>
+    <th>Stock minimo</th>
+    <th>Porcentaje Cumplimiento</th>
+  </tr>
+  {% for sku in cuenta_stock %}
+    <tr>
+      <td>{{sku.0}}</td>
+      <td>{{sku.1}}</td>
+      <td>{{sku.2}}</td>
+      <td>{{sku.3}}</td>
+      <td>{{sku.4}} %</td>
+    </tr>
+  {% endfor %}
+</table>

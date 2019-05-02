@@ -27,7 +27,7 @@ SECRET_KEY = 'u4bp7^p&0=7$jinz_gekgxp=00nks3_4wueyyn3!h+f80+e5kj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["tuerca6.ing.puc.cl"]
+ALLOWED_HOSTS = ['tuerca6.ing.puc.cl']
 
 
 # Application definition
@@ -93,11 +93,28 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 CELERY_BEAT_SCHEDULE = {
-    'vaciar_recepcion_y_pulmon': {
-        'task': 'masterapp.tasks.vaciar_recepcion_y_pulmon',
-        'schedule': 300  # execute every minute
+    'pedir_productos_propios': {
+        'task': 'masterapp.tasks.pedir_productos_propios',
+        'schedule': crontab(minute='*/9')  # execute every minute
+    },
+    'pedir_productos_ajenos': {
+        'task': 'masterapp.tasks.pedir_productos_ajenos',
+        'schedule': crontab(minute='*/4')  # execute every minute
+    },
+    'fabricar_productos_propios': {
+        'task': 'masterapp.tasks.fabricar_productos_propios',
+        'schedule': crontab(minute='*/6')  # execute every minute
+    },
+    'fabricar_productos_intermedios': {
+        'task': 'masterapp.tasks.fabricar_productos_intermedios',
+        'schedule': crontab(minute='*/5')  # execute every minute
+    },
+    'vaciar_despacho': {
+        'task': 'masterapp.tasks.vaciar_despacho',
+        'schedule': crontab(minute='*/50')  # execute every minute
     }
 }
+
 
 
 # Password validation

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from .modules.funciones_bodega import *
 from .modules.funciones_bodega_internos import *
+from .tasks import *
 from django.http.response import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -32,9 +33,10 @@ def orders(request):
             almacenId = body["almacenId"]
         except:
             JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
-        if stock_disponible_sku(sku, cantidad):
+        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
             # Falta esta funcion
-            aceptado = despachar_pedido_bodega(sku, cantidad, almacenId)
+            despachar_pedido_bodega.delay(sku, cantidad, almacenId)
+            aceptado = True
             if aceptado:
                 respuesta = {}
                 respuesta["sku"] = sku
@@ -58,9 +60,21 @@ def orders(request):
 
 def index(request):
     almacenes = obtener_almacenes()
+    productos = contar_productos()
+    cuenta_stock = []
+    for sku in unidades_por_lote:
+        if sku in stock_minimo.keys():
+            if sku in productos.keys():
+                porcentaje = round(int(productos[sku]) / int(stock_minimo[sku]), 2) *100
+                lista = [nombres[sku], sku, productos[sku], stock_minimo[sku], porcentaje]
+            else:
+                porcentaje = round(0*100, 2)
+                lista = [nombres[sku], sku, int(0), stock_minimo[sku], porcentaje]
+            cuenta_stock.append(lista)
     template = loader.get_template('masterapp/index.html')
     context = {
         'almacenes': almacenes,
+        'cuenta_stock': cuenta_stock,
     }
     return HttpResponse(template.render(context, request))
 
