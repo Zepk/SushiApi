@@ -66,20 +66,20 @@ def pedir_productos_ajenos():
 @shared_task
 def fabricar_productos_propios():
     stock = contar_productos()
-    for sku in skus_produccion_propia:
+    for sku in stock_minimo.keys():
         # Si ya tenemos del producto, revisamos si tenemos menos que lo que queremos, en ese caso poducimos, si no, noo
         if sku in stock.keys():
             if stock[sku] < delta_stock_minimo * stock_minimo[sku]:
                 if fabricable(sku, stock):
                     preparar_despacho(recetas[sku])
-                    print(fabricar_producto(sku, unidades_por_lote[sku]))
+                    fabricar_producto(sku, unidades_por_lote[sku])
                 else:
                     continue
         # Si no tenemos del producto, lo producimos
         else:
             if fabricable(sku, stock):
                 preparar_despacho(recetas[sku])
-                print(fabricar_producto(sku, unidades_por_lote[sku]))
+                fabricar_producto(sku, unidades_por_lote[sku])
             else:
                 continue
 
