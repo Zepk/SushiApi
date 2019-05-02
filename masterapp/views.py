@@ -60,9 +60,21 @@ def orders(request):
 
 def index(request):
     almacenes = obtener_almacenes()
+    productos = contar_productos()
+    cuenta_stock = []
+    for sku in unidades_por_lote:
+        if sku in stock_minimo.keys():
+            if sku in productos.keys():
+                porcentaje = round(int(productos[sku]) / int(stock_minimo[sku]), 2) *100
+                lista = [nombres[sku], sku, productos[sku], stock_minimo[sku], porcentaje]
+            else:
+                porcentaje = round(0*100, 2)
+                lista = [nombres[sku], sku, int(0) , stock_minimo[sku], porcentaje]
+            cuenta_stock.append(lista)
     template = loader.get_template('masterapp/index.html')
     context = {
         'almacenes': almacenes,
+        'cuenta_stock': cuenta_stock,
     }
     return HttpResponse(template.render(context, request))
 
