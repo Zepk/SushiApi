@@ -7,7 +7,6 @@ from .tasks import *
 from django.http.response import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .modules.constantes import despachando
 
 grupo = 6
 
@@ -32,8 +31,7 @@ def orders(request):
             almacenId = body["almacenId"]
         except:
             return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
-        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios) and not despachando:
-            despachando = True
+        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
             despachar_pedido_bodega_smart.delay(sku, cantidad, almacenId)
             aceptado = True
             if aceptado:
