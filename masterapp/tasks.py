@@ -3,6 +3,7 @@ import json
 from .modules.funciones_bodega import *
 from .modules.funciones_bodega_internos import *
 import random
+from time import sleep
 
 # mueve periodicamente los productos de pulmon y recepcion a almacenes de proposito general
 # Falta tomar en cuenta que no todos los productos son de tamano 1
@@ -148,7 +149,10 @@ def despachar_pedido_bodega_smart(sku, cantidad, almacenId):
 def despachar_pedido_bodega_smarter(sku, cantidad, almacenId):
     despachados = 0
     for i in range(2*int(cantidad)):
+        sleep(1)
         producto = elegir_producto_a_despachar(sku)
+        if not producto:
+            continue
         print('moviendo producto entre almacenes')
         mover_productos_entre_almacenes(producto["_id"], despacho)
         if despachar_un_producto(producto["_id"], almacenId, 10):
@@ -163,10 +167,14 @@ def elegir_producto_a_despachar(sku):
     almacenes = obtener_almacenes_con_sku(sku)
     for almacen in almacenes.keys():
         if not almacenes[almacen]["despacho"]:
-            productos = json.loads(obtener_productos_en_almacen(almacen, sku))
+            try:
+                productos = json.loads(obtener_productos_en_almacen(almacen, sku))
+            except TypeError:
+                continue
             producto = random.choice(productos)
             print('elegimoos un producto para despachar')
             return producto
+    return False
 
 
 
