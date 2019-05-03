@@ -120,6 +120,30 @@ def despachar_pedido_bodega(sku, cantidad, almacenId):
                 return True
     return False
 
+
+#Usar este en lugar del de arriba
+@shared_task
+def despachar_pedido_bodega_smart(sku, cantidad, almacenId):
+    despachados = 0
+    productos = json.loads(obtener_productos_en_almacen(despacho, sku))
+    for producto in productos:
+        if despachar_un_producto(producto["_id"], almacenId, 10):
+            despachados += 1
+        if despachados == cantidad:
+            return True
+    almacenes = obtener_almacenes_con_sku(sku)
+    for almacen in almacenes.keys():
+        if not almacenes[almacen]["despacho"]:
+            productos = json.loads(obtener_productos_en_almacen(almacen, sku))
+            for producto in productos:
+                mover_productos_entre_almacenes(producto["_id"], despacho)
+                if despachar_un_producto(producto["_id"], almacenId, 10):
+                    despachados += 1
+                if despachados == cantidad:
+                    return True
+    return False
+
+
 @shared_task
 def vaciar_despacho():
     almacenes = json.loads(obtener_almacenes())
