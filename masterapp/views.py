@@ -7,10 +7,9 @@ from .tasks import *
 from django.http.response import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
-
+from constantes import despachando
 
 grupo = 6
-
 
 # ENDPOINTS NECESARIOS, los que se entregaron todos los grupos
 # DAr lista de productos que teneos
@@ -33,8 +32,8 @@ def orders(request):
             almacenId = body["almacenId"]
         except:
             return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
-        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
-            # Falta esta funcion
+        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios) and not despachando:
+            despachando = True
             despachar_pedido_bodega_smart.delay(sku, cantidad, almacenId)
             aceptado = True
             if aceptado:

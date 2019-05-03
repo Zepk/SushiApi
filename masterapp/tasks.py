@@ -130,6 +130,7 @@ def despachar_pedido_bodega_smart(sku, cantidad, almacenId):
         if despachar_un_producto(producto["_id"], almacenId, 10):
             despachados += 1
         if despachados == cantidad:
+            despachando = False
             return True
     almacenes = obtener_almacenes_con_sku(sku)
     for almacen in almacenes.keys():
@@ -140,7 +141,9 @@ def despachar_pedido_bodega_smart(sku, cantidad, almacenId):
                 if despachar_un_producto(producto["_id"], almacenId, 10):
                     despachados += 1
                 if despachados == cantidad:
+                    despachando = False
                     return True
+    despachando = False
     return False
 
 

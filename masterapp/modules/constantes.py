@@ -1,5 +1,6 @@
 key = 'l.akT6fMzi5gG'
 grupo = 6
+despachando = False
 '''
 #desarrollo
 recepcion = "5cbd3ce444f67600049431d1"
