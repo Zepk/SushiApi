@@ -52,6 +52,7 @@ def despachar_un_producto(productoId, almacenId, precio):
     print(productoId)
     r = mover_productos_entre_bodegas(productoId, almacenId)
     if r.status_code == 200:
+        print("Producto enviado")
         return True
     else:
         return False
