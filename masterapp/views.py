@@ -7,7 +7,7 @@ from .tasks import *
 from django.http.response import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
-from constantes import despachando
+from .modules.constantes import despachando
 
 grupo = 6
 

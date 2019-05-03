@@ -124,6 +124,7 @@ def despachar_pedido_bodega(sku, cantidad, almacenId):
 #Usar este en lugar del de arriba
 @shared_task
 def despachar_pedido_bodega_smart(sku, cantidad, almacenId):
+    despachando = True
     despachados = 0
     productos = json.loads(obtener_productos_en_almacen(despacho, sku))
     for producto in productos:
