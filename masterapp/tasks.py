@@ -104,7 +104,6 @@ def fabricar_productos_propios():
 
 @shared_task
 def despachar_pedido_bodega(sku, cantidad, almacenId):
-    almacen_despachoId = '5cc7b139a823b10004d8e6ec'
     almacenes = obtener_almacenes_con_sku(sku)
     despachados = 0
     for almacen in almacenes.keys():
@@ -114,7 +113,7 @@ def despachar_pedido_bodega(sku, cantidad, almacenId):
                 if despachar_un_producto(producto["_id"], almacenId, 10):
                     despachados += 1
             else:
-                mover_productos_entre_almacenes(producto["_id"], almacen_despachoId)
+                mover_productos_entre_almacenes(producto["_id"], despacho)
                 if despachar_un_producto(producto["_id"], almacenId, 10):
                     despachados += 1
             if despachados == cantidad:
