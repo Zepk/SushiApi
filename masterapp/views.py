@@ -32,7 +32,7 @@ def orders(request):
             cantidad = body["cantidad"]
             almacenId = body["almacenId"]
         except:
-            JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
+            return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
         if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
             # Falta esta funcion
             despachar_pedido_bodega.delay(sku, cantidad, almacenId)
