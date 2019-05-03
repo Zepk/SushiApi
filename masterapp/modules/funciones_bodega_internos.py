@@ -49,10 +49,10 @@ def obtener_almacenes_con_sku(sku):
 
 
 def despachar_un_producto(productoId, almacenId, precio):
-    print(productoId)
     r = mover_productos_entre_bodegas(productoId, almacenId)
     if r.status_code == 200:
         print("Producto enviado")
+        print(productoId)
         return True
     else:
         return False

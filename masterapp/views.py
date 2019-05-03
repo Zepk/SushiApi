@@ -32,7 +32,7 @@ def orders(request):
         except:
             return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
         if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
-            despachar_pedido_bodega_smart.delay(sku, cantidad, almacenId)
+            despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId)
             aceptado = True
             if aceptado:
                 respuesta = {}

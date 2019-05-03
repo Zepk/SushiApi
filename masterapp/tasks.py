@@ -2,6 +2,7 @@ from celery import shared_task
 import json
 from .modules.funciones_bodega import *
 from .modules.funciones_bodega_internos import *
+import random
 
 # mueve periodicamente los productos de pulmon y recepcion a almacenes de proposito general
 # Falta tomar en cuenta que no todos los productos son de tamano 1
@@ -143,6 +144,31 @@ def despachar_pedido_bodega_smart(sku, cantidad, almacenId):
                     return True
     return False
 
+@shared_task
+def despachar_pedido_bodega_smarter(sku, cantidad, almacenId):
+    despachados = 0
+    for i in range(2*int(cantidad)):
+        producto = elegir_producto_a_despachar(sku)
+        print('moviendo producto entre almacenes')
+        mover_productos_entre_almacenes(producto["_id"], despacho)
+        if despachar_un_producto(producto["_id"], almacenId, 10):
+
+            despachados += 1
+        if despachados == cantidad:
+            return True
+    return False
+
+
+def elegir_producto_a_despachar(sku):
+    almacenes = obtener_almacenes_con_sku(sku)
+    for almacen in almacenes.keys():
+        if not almacenes[almacen]["despacho"]:
+            productos = json.loads(obtener_productos_en_almacen(almacen, sku))
+            producto = random.choice(productos)
+            print('elegimoos un producto para despachar')
+            return producto
+
+
 
 @shared_task
 def vaciar_despacho():
@@ -186,3 +212,5 @@ def fabricar_productos_intermedios():
                 fabricar_producto(sku, unidades_por_lote[sku])
             else:
                 continue
+
+
