@@ -152,6 +152,7 @@ def despachar_pedido_bodega_smarter(sku, cantidad, almacenId):
         sleep(1)
         producto = elegir_producto_a_despachar(sku)
         if not producto[0]:
+            print("no hay producto")
             continue
         if not producto[1]:
             print('moviendo producto entre almacenes')
@@ -161,6 +162,7 @@ def despachar_pedido_bodega_smarter(sku, cantidad, almacenId):
             if despachados == cantidad:
                 return True
         else:
+            print("intentando despachar")
             if despachar_un_producto(producto[0]["_id"], almacenId, 10):
                 despachados += 1
             if despachados == cantidad:
