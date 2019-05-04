@@ -151,25 +151,32 @@ def despachar_pedido_bodega_smarter(sku, cantidad, almacenId):
     for i in range(2*int(cantidad)):
         sleep(1)
         producto = elegir_producto_a_despachar(sku)
-        if not producto:
+        if not producto[0]:
             continue
-        print('moviendo producto entre almacenes')
-        mover_productos_entre_almacenes(producto["_id"], despacho)
-        if despachar_un_producto(producto["_id"], almacenId, 10):
-
-            despachados += 1
-        if despachados == cantidad:
-            return True
+        if not producto[1]:
+            print('moviendo producto entre almacenes')
+            mover_productos_entre_almacenes(producto[0]["_id"], despacho)
+            if despachar_un_producto(producto[0]["_id"], almacenId, 10):
+                despachados += 1
+            if despachados == cantidad:
+                return True
+        else:
+            if despachar_un_producto(producto[0]["_id"], almacenId, 10):
+                despachados += 1
+            if despachados == cantidad:
+                return True
     return False
 
 
 def elegir_producto_a_despachar(sku):
+    #primer elemento de la respuesta es el producto, el segundo es un boleand que es true si el producto esta en despahco, y false en caso contrario
     almacenes = obtener_almacenes_con_sku(sku)
     try:
         productos = json.loads(obtener_productos_en_almacen(despacho, sku))
         producto = random.choice(productos)
-        print('elegimoos un producto para despachar')
-        return producto
+        respuesta = (producto, True)
+        print('elegimos un producto para despachar')
+        return respuesta
     except TypeError:
         pass
 
@@ -180,9 +187,10 @@ def elegir_producto_a_despachar(sku):
             except TypeError:
                 continue
             producto = random.choice(productos)
+            respuesta = (producto, False)
             print('elegimoos un producto para despachar')
-            return producto
-    return False
+            return respuesta
+    return (False, False)
 
 
 
