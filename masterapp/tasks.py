@@ -179,7 +179,7 @@ def elegir_producto_a_despachar(sku):
         respuesta = (producto, True)
         print('elegimos un producto para despachar')
         return respuesta
-    except TypeError:
+    except:
         pass
 
     for almacen in almacenes.keys():
