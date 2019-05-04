@@ -55,6 +55,9 @@ def despachar_un_producto(productoId, almacenId, precio):
         print(productoId)
         return True
     else:
+        print("fallo el despacho")
+        print(r.text)
+        print(r.status_code)
         return False
 
 
