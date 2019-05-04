@@ -2,6 +2,8 @@ from celery import shared_task
 import json
 from .modules.funciones_bodega import *
 from .modules.funciones_bodega_internos import *
+import random
+from time import sleep
 
 # mueve periodicamente los productos de pulmon y recepcion a almacenes de proposito general
 # Falta tomar en cuenta que no todos los productos son de tamano 1
@@ -104,7 +106,6 @@ def fabricar_productos_propios():
 
 @shared_task
 def despachar_pedido_bodega(sku, cantidad, almacenId):
-    almacen_despachoId = '5cc7b139a823b10004d8e6ec'
     almacenes = obtener_almacenes_con_sku(sku)
     despachados = 0
     for almacen in almacenes.keys():
@@ -114,12 +115,88 @@ def despachar_pedido_bodega(sku, cantidad, almacenId):
                 if despachar_un_producto(producto["_id"], almacenId, 10):
                     despachados += 1
             else:
-                mover_productos_entre_almacenes(producto["_id"], almacen_despachoId)
+                mover_productos_entre_almacenes(producto["_id"], despacho)
                 if despachar_un_producto(producto["_id"], almacenId, 10):
                     despachados += 1
             if despachados == cantidad:
                 return True
     return False
+
+
+#Usar este en lugar del de arriba
+@shared_task
+def despachar_pedido_bodega_smart(sku, cantidad, almacenId):
+    despachados = 0
+    productos = json.loads(obtener_productos_en_almacen(despacho, sku))
+    for producto in productos:
+        if despachar_un_producto(producto["_id"], almacenId, 10):
+            despachados += 1
+        if despachados == cantidad:
+            return True
+    almacenes = obtener_almacenes_con_sku(sku)
+    for almacen in almacenes.keys():
+        if not almacenes[almacen]["despacho"]:
+            productos = json.loads(obtener_productos_en_almacen(almacen, sku))
+            for producto in productos:
+                mover_productos_entre_almacenes(producto["_id"], despacho)
+                if despachar_un_producto(producto["_id"], almacenId, 10):
+                    despachados += 1
+                if despachados == cantidad:
+                    return True
+    return False
+
+@shared_task
+def despachar_pedido_bodega_smarter(sku, cantidad, almacenId):
+    despachados = 0
+    for i in range(2*int(cantidad)):
+        sleep(1)
+        producto = elegir_producto_a_despachar(sku)
+        if not producto[0]:
+            print("no hay producto")
+            continue
+        if not producto[1]:
+            print('moviendo producto entre almacenes')
+            mover_productos_entre_almacenes(producto[0]["_id"], despacho)
+            if despachar_un_producto(producto[0]["_id"], almacenId, 10):
+                despachados += 1
+            if despachados == cantidad:
+                return True
+        else:
+            print("intentando despachar")
+            if despachar_un_producto(producto[0]["_id"], almacenId, 10):
+                despachados += 1
+            if despachados == cantidad:
+                return True
+    return False
+
+
+def elegir_producto_a_despachar(sku):
+    #primer elemento de la respuesta es el producto, el segundo es un boleand que es true si el producto esta en despahco, y false en caso contrario
+    almacenes = obtener_almacenes_con_sku(sku)
+    try:
+        productos = json.loads(obtener_productos_en_almacen(despacho, sku))
+        producto = random.choice(productos)
+        respuesta = (producto, True)
+        print('elegimos un producto para despachar')
+        return respuesta
+    except TypeError:
+        pass
+    except IndexError:
+        pass
+
+    for almacen in almacenes.keys():
+        if not almacenes[almacen]["despacho"]:
+            try:
+                productos = json.loads(obtener_productos_en_almacen(almacen, sku))
+            except TypeError:
+                continue
+            producto = random.choice(productos)
+            respuesta = (producto, False)
+            print('elegimoos un producto para despachar')
+            return respuesta
+    return (False, False)
+
+
 
 @shared_task
 def vaciar_despacho():
@@ -163,3 +240,5 @@ def fabricar_productos_intermedios():
                 fabricar_producto(sku, unidades_por_lote[sku])
             else:
                 continue
+
+

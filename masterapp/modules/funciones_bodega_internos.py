@@ -31,7 +31,7 @@ def contar_productos():
 def stock_disponible_sku(sku, cantidad):
     respuesta = stock_disponible()
     for r in respuesta:
-        if sku == r["sku"] and lotes_minimos_despacho * unidades_por_lote[sku] <= r["total"] - cantidad and cantidad <= despacho_maximo:
+        if sku == r["sku"] and lotes_minimos_despacho * unidades_por_lote[sku] <= int(r["total"]) - int(cantidad) and int(cantidad) <= 2 * int(unidades_por_lote[sku]):
             return True
     return False
 
@@ -49,11 +49,15 @@ def obtener_almacenes_con_sku(sku):
 
 
 def despachar_un_producto(productoId, almacenId, precio):
-    print(productoId)
     r = mover_productos_entre_bodegas(productoId, almacenId)
     if r.status_code == 200:
+        print("Producto enviado")
+        print(productoId)
         return True
     else:
+        print("fallo el despacho")
+        print(r.text)
+        print(r.status_code)
         return False
 
 

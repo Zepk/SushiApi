@@ -8,9 +8,7 @@ from django.http.response import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
 
-
 grupo = 6
-
 
 # ENDPOINTS NECESARIOS, los que se entregaron todos los grupos
 # DAr lista de productos que teneos
@@ -32,10 +30,9 @@ def orders(request):
             cantidad = body["cantidad"]
             almacenId = body["almacenId"]
         except:
-            JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
+            return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
         if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
-            # Falta esta funcion
-            despachar_pedido_bodega.delay(sku, cantidad, almacenId)
+            despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId)
             aceptado = True
             if aceptado:
                 respuesta = {}

@@ -112,7 +112,7 @@ CELERY_BEAT_SCHEDULE = {
     'vaciar_despacho': {
         'task': 'masterapp.tasks.vaciar_despacho',
         'schedule': crontab(minute='*/50')  # execute every minute
-    }
+    },
 }
 
 
