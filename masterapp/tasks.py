@@ -165,6 +165,14 @@ def despachar_pedido_bodega_smarter(sku, cantidad, almacenId):
 
 def elegir_producto_a_despachar(sku):
     almacenes = obtener_almacenes_con_sku(sku)
+    try:
+        productos = json.loads(obtener_productos_en_almacen(despacho, sku))
+        producto = random.choice(productos)
+        print('elegimoos un producto para despachar')
+        return producto
+    except TypeError:
+        pass
+
     for almacen in almacenes.keys():
         if not almacenes[almacen]["despacho"]:
             try:
