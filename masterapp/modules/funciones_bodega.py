@@ -7,8 +7,8 @@ import json
 def obtener_almacenes():
     mensaje = "GET"
     aut = security_hash(mensaje, key)
-    url = 'https://integracion-2019-prod.herokuapp.com/bodega/almacenes'
-    headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/almacenes'.format(ambiente)
+    headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
     r = requests.get(url, headers=headers)
     if r.status_code == 200:
         return r.text
@@ -22,7 +22,7 @@ def obtener_almacenes():
 def obtener_productos_en_almacen(almacenId, sku):
     mensaje = "GET{}{}".format(almacenId, sku)
     aut = security_hash(mensaje, key)
-    url = 'https://integracion-2019-prod.herokuapp.com/bodega/stock?almacenId={}&sku={}'.format(almacenId, sku)
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/stock?almacenId={}&sku={}'.format(ambiente, almacenId, sku)
     headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
     r = requests.get(url, headers=headers)
     if r.status_code == 200:
@@ -35,7 +35,7 @@ def obtener_productos_en_almacen(almacenId, sku):
 def obtener_skus_con_stock(id_almacen):
     mensaje = "GET{}".format(id_almacen)
     aut = security_hash(mensaje, key)
-    url = 'https://integracion-2019-prod.herokuapp.com/bodega/skusWithStock?almacenId={}'.format(id_almacen)
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/skusWithStock?almacenId={}'.format(ambiente, id_almacen)
     headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
     r = requests.get(url, headers=headers)
     if r.status_code == 200:
@@ -50,7 +50,7 @@ def obtener_skus_con_stock(id_almacen):
 def mover_productos_entre_almacenes(id_producto, id_almacen):
     mensaje = "POST{}{}".format(id_producto, id_almacen)
     aut = security_hash(mensaje, key)
-    url = 'https://integracion-2019-prod.herokuapp.com/bodega/moveStock'
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/moveStock'.format(ambiente)
     headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
     payload = {"productoId": id_producto, "almacenId": id_almacen}
     r = requests.post(url, headers=headers, data=json.dumps(payload))
@@ -67,7 +67,7 @@ def mover_productos_entre_almacenes(id_producto, id_almacen):
 def mover_productos_entre_bodegas(id_producto, id_almacen):
     mensaje = "POST{}{}".format(id_producto, id_almacen)
     aut = security_hash(mensaje, key)
-    url = 'https://integracion-2019-prod.herokuapp.com/bodega/moveStockBodega'
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/moveStockBodega'.format(ambiente)
     headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
     payload = {"productoId": id_producto, "almacenId": id_almacen, "precio": 10}
     r = requests.post(url, headers=headers, data=json.dumps(payload))
@@ -83,7 +83,7 @@ def mover_productos_entre_bodegas(id_producto, id_almacen):
 def fabricar_producto(sku, cantidad):
     mensaje = "PUT{}{}".format(sku, cantidad)
     aut = security_hash(mensaje, key)
-    url = 'https://integracion-2019-prod.herokuapp.com/bodega/fabrica/fabricarSinPago'
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/fabrica/fabricarSinPago'.format(ambiente)
     headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
     payload = {"sku": sku, "cantidad": int(cantidad)}
     r = requests.put(url, headers=headers, data=json.dumps(payload))
@@ -97,7 +97,7 @@ def fabricar_producto(sku, cantidad):
 def fabrica_obtener_cuenta():
     mensaje = "GET"
     aut = security_hash(mensaje, key)
-    url = 'https://integracion-2019-prod.herokuapp.com/bodega/fabrica/getCuenta'
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/fabrica/getCuenta'.format(ambiente)
     headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
     r = requests.get(url, headers=headers)
     print(r.text)
@@ -111,7 +111,7 @@ def fabrica_obtener_cuenta():
 def eliminar_hook():
     mensaje = "DELETE"
     aut = security_hash(mensaje, key)
-    url = 'https://integracion-2019-prod.herokuapp.com/bodega/hook'
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/hook'.format(ambiente)
     headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
     r = requests.delete(url, headers=headers)
     print(r.text)
@@ -125,7 +125,7 @@ def eliminar_hook():
 def obtener_hook():
     mensaje = "GET"
     aut = security_hash(mensaje, key)
-    url = 'https://integracion-2019-prod.herokuapp.com/bodega/hook'
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/hook'.format(ambiente)
     headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
     r = requests.get(url, headers=headers)
     print(r.text)
@@ -139,7 +139,7 @@ def obtener_hook():
 def setear_hook(url):
     mensaje = "PUT{}".format(url)
     aut = security_hash(mensaje, key)
-    url = 'https://integracion-2019-prod.herokuapp.com/bodega/hook'
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/hook'.format(ambiente)
     headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
     payload = {"url": url}
     r = requests.put(url, headers=headers, data=json.dumps(payload))

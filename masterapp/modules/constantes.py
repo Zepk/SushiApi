@@ -19,7 +19,7 @@ pulmon = '5cc7b139a823b10004d8e6ef'
 cocina = '5cc7b139a823b10004d8e6f0'
 
 
-
+ambiente = 'dev'
 
 lotes_minimos_materia_prima_propia = 10
 lotes_minimos_materia_prima_ajena = 3
@@ -228,5 +228,4 @@ nombres = {
             '1309': 'Atún cortado para sashimi',
             '1310': 'Palta cortada para nigiri',
             '1407': 'Salmón cortado para envoltura',
-
             }
