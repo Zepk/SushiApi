@@ -44,7 +44,8 @@ def pedir_productos_ajenos():
     diccionario = contar_productos()
     for sku, grupos in produccion_otros.items():
         print('El sku {}'.format(sku))
-        if sku == '1013' and diccionario[sku] < delta_stock_minimo * stock_minimo[sku]:
+
+        if sku not in diccionario.keys():
             for g in grupos:
                 print('El grupo {}'.format(g))
                 try:
@@ -55,7 +56,7 @@ def pedir_productos_ajenos():
                     pedir_orden_producto2(sku, '3', recepcion, g)
                 except:
                     pass
-        elif sku not in diccionario.keys():
+        elif sku == '1013' and diccionario[sku] < delta_stock_minimo * stock_minimo[sku]:
             for g in grupos:
                 print('El grupo {}'.format(g))
                 try:
