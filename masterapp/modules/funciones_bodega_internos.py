@@ -26,10 +26,12 @@ def stock_disponible():
 # Retorna un diccionario que contiene todas las claves sku: cantidad_disponible
 def contar_productos():
     diccionario = {}
-    for producto in stock_disponible():
-        diccionario.update({producto['sku']: producto['total']})
-    return diccionario
-
+    try:
+        for producto in stock_disponible():
+            diccionario.update({producto['sku']: producto['total']})
+        return diccionario
+    except TypeError:
+        pass
 
 def stock_disponible_sku(sku, cantidad):
     respuesta = stock_disponible()
