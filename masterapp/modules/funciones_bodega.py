@@ -20,7 +20,7 @@ def obtener_almacenes():
 
 
 def obtener_productos_en_almacen(almacenId, sku):
-    mensaje = "GET"+almacenId+sku
+    mensaje = "GET{}{}".format(almacenId, sku)
     aut = security_hash(mensaje, key)
     url = 'https://integracion-2019-prod.herokuapp.com/bodega/stock?almacenId={}&sku={}'.format(almacenId, sku)
     headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
