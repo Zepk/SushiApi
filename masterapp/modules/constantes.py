@@ -1,6 +1,6 @@
 key = 'l.akT6fMzi5gG'
 grupo = 6
-'''
+
 #desarrollo
 recepcion = "5cbd3ce444f67600049431d1"
 despacho = '5cbd3ce444f67600049431d2'
@@ -8,8 +8,8 @@ almacen_general1 = '5cbd3ce444f67600049431d3'
 almacen_general2 = '5cbd3ce444f67600049431d4'
 pulmon = '5cbd3ce444f67600049431d5'
 cocina = '5cbd3ce444f67600049431d6'
-'''
 
+'''
 #Produccion
 recepcion = '5cc7b139a823b10004d8e6eb'
 despacho = '5cc7b139a823b10004d8e6ec'
@@ -17,11 +17,11 @@ almacen_general1 = '5cc7b139a823b10004d8e6ed'
 almacen_general2 = '5cc7b139a823b10004d8e6ee'
 pulmon = '5cc7b139a823b10004d8e6ef'
 cocina = '5cc7b139a823b10004d8e6f0'
-
+'''
 
 ambiente = 'dev'
 
-lotes_minimos_materia_prima_propia = 10
+lotes_minimos_materia_prima_propia = 7
 lotes_minimos_materia_prima_ajena = 3
 lotes_minimos_despacho = 3
 delta_stock_minimo = 1.5
