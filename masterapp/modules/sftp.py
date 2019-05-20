@@ -6,6 +6,7 @@ myPassword = "hhqC9wWbKyIMjPX"
 
 
 def printear():
+
     with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
         print("Connection succesfully stablished ... ")
 

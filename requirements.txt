@@ -4,4 +4,4 @@ requests==2.21.0
 celery>=4.3
 redis>=3.2
 paramiko >= 1.15.2
-pysftp >= 0.2.9
+pysftp == 0.2.9
