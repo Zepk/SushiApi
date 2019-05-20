@@ -4,6 +4,7 @@ from .modules.funciones_bodega import *
 from .modules.funciones_bodega_internos import *
 import random
 from time import sleep
+from .modules.sftp import *
 
 # mueve periodicamente los productos de pulmon y recepcion a almacenes de proposito general
 # Falta tomar en cuenta que no todos los productos son de tamano 1
@@ -208,4 +209,3 @@ def fabricar_productos_intermedios():
                 fabricar_producto(sku, unidades_por_lote[sku])
             else:
                 continue
-
