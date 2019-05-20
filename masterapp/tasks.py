@@ -4,26 +4,32 @@ from .modules.funciones_bodega import *
 from .modules.funciones_bodega_internos import *
 import random
 from time import sleep
+from .modules.sftp import *
 
 # mueve periodicamente los productos de pulmon y recepcion a almacenes de proposito general
 # Falta tomar en cuenta que no todos los productos son de tamano 1
 @shared_task
 def vaciar_recepcion_y_pulmon():
-    almacenes = json.loads(obtener_almacenes())
-    for almacen in almacenes:
-        if (almacen['_id'] == pulmon or almacen['_id'] == recepcion ) and almacen['usedSpace'] != 0:
-            for almacen2 in almacenes:
-                if almacen2['_id'] == almacen_general1 or almacen2['_id'] == almacen_general2:
-                    if int(almacen2['totalSpace']) > int(almacen2['usedSpace']) + 3:
-                        skus = json.loads(obtener_skus_con_stock(almacen['_id']))
-                        for sku in skus:
-                            sku = sku['_id']
-                            productos = json.loads(obtener_productos_en_almacen(almacen['_id'], sku))
-                            for producto in productos:
-                                if int(almacen2['totalSpace']) > int(almacen2['usedSpace']) + 3:
-                                    mover_productos_entre_almacenes(producto['_id'], almacen2['_id'])
-                                else:
-                                    break
+    try:
+        almacenes = json.loads(obtener_almacenes())
+        for almacen in almacenes:
+            if (almacen['_id'] == pulmon or almacen['_id'] == recepcion ) and almacen['usedSpace'] != 0:
+                for almacen2 in almacenes:
+                    if almacen2['_id'] == almacen_general1 or almacen2['_id'] == almacen_general2:
+                        if int(almacen2['totalSpace']) > int(almacen2['usedSpace']) + 3:
+                            skus = json.loads(obtener_skus_con_stock(almacen['_id']))
+                            for sku in skus:
+                                sku = sku['_id']
+                                productos = json.loads(obtener_productos_en_almacen(almacen['_id'], sku))
+                                for producto in productos:
+                                    if int(almacen2['totalSpace']) > int(almacen2['usedSpace']) + 3:
+                                        mover_productos_entre_almacenes(producto['_id'], almacen2['_id'])
+                                    else:
+                                        break
+    except TypeError:
+        pass
+
+
 
 # De momento pide 1 lote de cada una de las materias primas que podemos producir, siempre que tengamos menos de 10 lotes
 @shared_task
@@ -161,22 +167,24 @@ def elegir_producto_a_despachar(sku):
 
 @shared_task
 def vaciar_despacho():
-    almacenes = json.loads(obtener_almacenes())
-    for almacen in almacenes:
-        if (almacen['_id'] == despacho) and almacen['usedSpace'] != 0:
-            for almacen2 in almacenes:
-                if almacen2['_id'] == almacen_general1 or almacen2['_id'] == almacen_general2:
-                    if almacen2['totalSpace'] > almacen2['usedSpace'] + 3:
-                        skus = json.loads(obtener_skus_con_stock(almacen['_id']))
-                        for sku in skus:
-                            sku = sku['_id']
-                            productos = json.loads(obtener_productos_en_almacen(almacen['_id'], sku))
-                            for producto in productos:
-                                if almacen2['totalSpace'] > almacen2['usedSpace']:
-                                    mover_productos_entre_almacenes(producto['_id'], almacen2['_id'])
-                                else:
-                                    break
-
+    try:
+        almacenes = json.loads(obtener_almacenes())
+        for almacen in almacenes:
+            if (almacen['_id'] == despacho) and almacen['usedSpace'] != 0:
+                for almacen2 in almacenes:
+                    if almacen2['_id'] == almacen_general1 or almacen2['_id'] == almacen_general2:
+                        if almacen2['totalSpace'] > almacen2['usedSpace'] + 3:
+                            skus = json.loads(obtener_skus_con_stock(almacen['_id']))
+                            for sku in skus:
+                                sku = sku['_id']
+                                productos = json.loads(obtener_productos_en_almacen(almacen['_id'], sku))
+                                for producto in productos:
+                                    if almacen2['totalSpace'] > almacen2['usedSpace']:
+                                        mover_productos_entre_almacenes(producto['_id'], almacen2['_id'])
+                                    else:
+                                        break
+    except TypeError:
+        pass
 
 @shared_task
 def fabricar_productos_intermedios():
@@ -201,4 +209,3 @@ def fabricar_productos_intermedios():
                 fabricar_producto(sku, unidades_por_lote[sku])
             else:
                 continue
-
