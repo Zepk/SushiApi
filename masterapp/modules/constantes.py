@@ -229,3 +229,21 @@ nombres = {
             '1310': 'Palta cortada para nigiri',
             '1407': 'Salmón cortado para envoltura',
             }
+
+# Desarollo
+id_grupos = {
+            1: '5cbd31b7c445af0004739be3',
+            2: '5cbd31b7c445af0004739be4',
+            3: '5cbd31b7c445af0004739be5',
+            4: '5cbd31b7c445af0004739be6',
+            5: '5cbd31b7c445af0004739be7',
+            6: '5cbd31b7c445af0004739be8',
+            7: '5cbd31b7c445af0004739be9',
+            8: '5cbd31b7c445af0004739bea',
+            9: '5cbd31b7c445af0004739beb',
+            10: '5cbd31b7c445af0004739bec',
+            11: '5cbd31b7c445af0004739bed',
+            12: '5cbd31b7c445af0004739bee',
+            13: '5cbd31b7c445af0004739bef',
+            14: '5cbd31b7c445af0004739bf0',
+            }
