@@ -30,7 +30,7 @@ def crear_oc(proveedor, sku, minutos, cantidad, precio, canal):
 
 
 def obtener_oc(id):
-    url = 'https://integracion-2019-{}.herokuapp.com/oc/obtener/:{}'.format(ambiente, id)
+    url = 'https://integracion-2019-{}.herokuapp.com/oc/obtener/{}'.format(ambiente, id)
 
     headers = {'content-type': 'application/json'}
 
@@ -44,7 +44,7 @@ def obtener_oc(id):
         return False
 
 def aceptar_oc(id):
-    url = 'https://integracion-2019-{}.herokuapp.com/oc/recepcionar/:{}'.format(ambiente, id)
+    url = 'https://integracion-2019-{}.herokuapp.com/oc/recepcionar/{}'.format(ambiente, id)
 
     headers = {'content-type': 'application/json'}
 
@@ -58,7 +58,7 @@ def aceptar_oc(id):
         return False
 
 def rechazar_oc(id, motivo):
-    url = 'https://integracion-2019-{}.herokuapp.com/oc/rechazar/:{}'.format(ambiente, id)
+    url = 'https://integracion-2019-{}.herokuapp.com/oc/rechazar/{}'.format(ambiente, id)
 
     headers = {'content-type': 'application/json'}
 
@@ -72,7 +72,7 @@ def rechazar_oc(id, motivo):
         return False
 
 def anular_oc(id, motivo):
-    url = 'https://integracion-2019-{}.herokuapp.com/oc/anular/:{}'.format(ambiente, id)
+    url = 'https://integracion-2019-{}.herokuapp.com/oc/anular/{}'.format(ambiente, id)
 
     headers = {'content-type': 'application/json'}
 
