@@ -82,6 +82,23 @@ def fabricable(sku, stock):
             return False
     return True
 
+
+def fabricable_multiplo(sku, multiplo):
+    stock = contar_productos()
+    receta = recetas[sku]
+    for clave in receta.keys():
+        if clave in stock.keys():
+            if int(stock[clave]) >= int(receta[clave]) * multiplo:
+                continue
+
+            else:
+                return False
+        else:
+            return False
+    return True
+
+
+
 # Dada una receta, mueve los ingredientes necesarios al almacen de despacho
 # Puede faltar que retorne algo cuando este listo
 def preparar_despacho(receta):

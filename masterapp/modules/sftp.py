@@ -1,6 +1,10 @@
 import pysftp
 from xml.dom import minidom
 import os
+from dateutil import parser
+import datetime
+from .ordenes_compra import *
+from .funciones_bodega_internos import *
 
 myHostname = "fierro.ing.puc.cl"
 myUsername = "grupo6_dev"
@@ -41,3 +45,33 @@ def leer_pedidos_ftp():
             ordenes.append(orden)
 
     return ordenes
+
+
+# retorna cuanto tiempo falta para el deadline de una entrega
+def obtener_tiempo_restante(id):
+    orden = obtener_oc(id)
+    dt = parser.parse(orden[0]['fechaEntrega']).replace(tzinfo=None)
+    hora = datetime.datetime.now() - datetime.timedelta(hours=4)
+    return dt-hora
+
+
+# Retorna True si es posibe completar la entrega, False en caso contrario
+def revisar_posibilidad_entrega(id):
+    orden = obtener_oc(id)[0]
+    sku = orden['sku']
+    cantidad = orden['cantidad']
+    tiempo = obtener_tiempo_restante(id)
+    if tiempo > datetime.timedelta(minutes=10):
+        stock = contar_productos()
+        if sku in stock.keys():
+            if stock[sku] >= cantidad:
+                return True
+
+    # tiempo > datetime.timedelta(hours=1, minutes=30)
+    if tiempo > datetime.timedelta(hours=1, minutes=30):
+        if fabricable_multiplo(sku, cantidad):
+            print(sku)
+            return True
+
+    if tiempo < datetime.timedelta(minutes=10):
+        return False

@@ -213,4 +213,9 @@ def fabricar_productos_intermedios():
 
 @shared_task
 def copiar_ordenes():
-    copiar_pedidos()
+    pedidos = leer_pedidos_ftp()
+    for pedido in pedidos:
+        if revisar_posibilidad_entrega(pedido['id']):
+            print("HOOOOOOOOOOOOOLA")
+        else:
+            print('no se puede enviar producto')
