@@ -209,3 +209,8 @@ def fabricar_productos_intermedios():
                 fabricar_producto(sku, unidades_por_lote[sku])
             else:
                 continue
+
+
+@shared_task
+def copiar_ordenes():
+    copiar_pedidos()
