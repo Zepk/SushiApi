@@ -25,10 +25,11 @@ def copiar_pedidos():
 
 # Retorna una lista que contiene diccionarios, donde cada diccionario corresponde a una orden de compra ftp,
 # El diccionario contiene la id, sku, y cantidad de la orden
-
 def leer_pedidos_ftp():
+    ordenes = []
+
     for root, dirs, files in os.walk("./pedidos"):
-        ordenes = []
+
         for filename in files:
             doc = minidom.parse('./pedidos/{}'.format(filename))
             id = doc.getElementsByTagName("id")[0].firstChild.data
@@ -39,4 +40,4 @@ def leer_pedidos_ftp():
 
             ordenes.append(orden)
 
-            return ordenes
+    return ordenes
