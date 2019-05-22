@@ -23,6 +23,15 @@ def stock_disponible():
     except TypeError:
         pass
 
+# retorna cantidad de stock en despacho de sku
+def stock_disponible_despacho(sku):
+    almacen = despacho
+    for skus in json.loads(obtener_skus_con_stock(almacen["_id"])):
+        if  [skus["_id"]] == sku:
+            return skus["total"]
+    return 0
+
+
 # Retorna un diccionario que contiene todas las claves sku: cantidad_disponible
 def contar_productos():
     diccionario = {}

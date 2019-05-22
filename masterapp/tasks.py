@@ -2,6 +2,7 @@ from celery import shared_task
 import json
 from .modules.funciones_bodega import *
 from .modules.funciones_bodega_internos import *
+from .modules.constantes import *
 import random
 from time import sleep
 from .modules.sftp import *
@@ -49,6 +50,7 @@ def pedir_productos_propios():
 def pedir_productos_ajenos():
     diccionario = contar_productos()
     for sku, grupos in produccion_otros.items():
+        print('PRODUCTO AJENOS {}'.format(sku))
         print('El sku {}'.format(sku))
 
         if sku not in diccionario.keys():
@@ -216,6 +218,31 @@ def copiar_ordenes():
     pedidos = leer_pedidos_ftp()
     for pedido in pedidos:
         if revisar_posibilidad_entrega(pedido['id']):
+            ##  Agregar orden a diccionario de ordenes vigentes ftp.keys
+            if pedido['id'] in ordenes_vigentes_FTP.keys():
+                pass
+            else:
+                orden["estado"] = "activo"
+                ordenes_vigentes_FTP[pedido['id']] = orden
+                ## falta empezar a producir el producto y enviarlo a despacho
             print("HOOOOOOOOOOOOOLA")
         else:
             print('no se puede enviar producto')
+
+@shared_task
+def despachar_ordenes_FTP():
+    for orden in ordenes_vigentes_FTP.values():
+        if revisar_posibilidad_entrega_ahora(orden["id"]):
+                despachar_producto(orden["id"]) #falta crear funcion despachar producto.
+                orden["estado"] = "realizada"
+
+
+
+
+
+
+
+
+
+
+

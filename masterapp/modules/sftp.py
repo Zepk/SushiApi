@@ -1,4 +1,4 @@
-import pysftp
+feimport pysftp
 from xml.dom import minidom
 import os
 from dateutil import parser
@@ -67,7 +67,7 @@ def revisar_posibilidad_entrega(id):
             if stock[sku] >= cantidad:
                 return True
 
-    # tiempo > datetime.timedelta(hours=1, minutes=30)
+    # tiempo > datetime.timedelta(hours=1, minutes=30), determinar tiempo para fabricar
     if tiempo > datetime.timedelta(hours=1, minutes=30):
         if fabricable_multiplo(sku, cantidad):
             print(sku)
@@ -75,3 +75,23 @@ def revisar_posibilidad_entrega(id):
 
     if tiempo < datetime.timedelta(minutes=10):
         return False
+
+# Retorna True si es posibe completar la entrega Ahora
+def revisar_posibilidad_entrega_ahora(id):
+    orden = obtener_oc(id)[0]
+    if stock_disponible_despacho(orden["sku"]) <= orden["cantidad"]:
+        return True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
