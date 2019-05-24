@@ -115,3 +115,35 @@ def preparar_despacho(receta):
                         break
             if sku_ready:
                 break
+
+# Dada una receta, mueve los ingredientes necesarios al almacen de cocina
+# Puede faltar que retorne algo cuando este listo
+def preparar_cocina(receta, cantidad):
+    for clave in receta.keys():
+        sku_ready = False
+        for almacen in almacenes_nuestro:
+            if almacen != cocina:
+                for producto in json.loads(obtener_productos_en_almacen(almacen, clave)):
+                    if len(json.loads(obtener_productos_en_almacen(cocina, clave))) < receta[clave] * cantidad:
+                        mover_productos_entre_almacenes(producto['_id'], cocina)
+
+                    else:
+                        sku_ready = True
+                        break
+            if sku_ready:
+                break
+
+def preparar_despacho_cliente(sku, cantidad):
+    sku_ready = False
+    for almacen in almacenes_nuestro:
+        if almacen != despacho:
+            for producto in json.loads(obtener_productos_en_almacen(almacen, sku)):
+                if len(json.loads(obtener_productos_en_almacen(despacho, sku))) < cantidad:
+                    mover_productos_entre_almacenes(producto['_id'], despacho)
+                else:
+                    sku_ready = True
+                    break
+
+        if sku_ready:
+            break
+

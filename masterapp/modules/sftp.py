@@ -40,7 +40,7 @@ def leer_pedidos_ftp():
             sku = doc.getElementsByTagName("sku")[0].firstChild.data
             qty = doc.getElementsByTagName("qty")[0].firstChild.data
 
-            orden = {'id': id, 'sku': sku, 'qty': qty}
+            orden = {'id': id, 'sku': sku, 'qty': qty, 'archivo': filename}
 
             ordenes.append(orden)
 
@@ -65,13 +65,17 @@ def revisar_posibilidad_entrega(id):
         stock = contar_productos()
         if sku in stock.keys():
             if stock[sku] >= cantidad:
-                return True
+                return 0
 
     # tiempo > datetime.timedelta(hours=1, minutes=30)
     if tiempo > datetime.timedelta(hours=1, minutes=30):
         if fabricable_multiplo(sku, cantidad):
             print(sku)
-            return True
+            return 1
 
     if tiempo < datetime.timedelta(minutes=10):
-        return False
+        return 2
+
+# Funcion que elimina archivo en el servidor
+def borrar_archivo(archivo):
+    pass

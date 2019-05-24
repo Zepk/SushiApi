@@ -212,10 +212,43 @@ def fabricar_productos_intermedios():
 
 
 @shared_task
-def copiar_ordenes():
+def cocinar(sku, cantidad):
+    preparar_cocina(recetas[sku], cantidad)
+    fabricar_producto(sku, cantidad)
+
+@shared_task
+def despachar_a_cliente(sku, cantidad, direccion, precio, oc):
+    preparar_despacho_cliente(sku, cantidad)
+    productos = json.loads(obtener_productos_en_almacen(despacho, sku))
+    counter = 0
+    for producto in productos:
+        if producto['sku'] == sku:
+            despachar_producto(producto['_id'], oc, direccion, precio)
+            counter += 1
+            if counter == cantidad:
+                break
+
+
+@shared_task
+def manejar_pedidos_cliente():
     pedidos = leer_pedidos_ftp()
     for pedido in pedidos:
-        if revisar_posibilidad_entrega(pedido['id']):
-            print("HOOOOOOOOOOOOOLA")
-        else:
-            print('no se puede enviar producto')
+        posibilidad = revisar_posibilidad_entrega(pedido['id'])
+        orden_compra = obtener_oc(pedido['sku'])
+        delta = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
+        if posibilidad == 2:
+            rechazar_oc(pedido['id'], 'Poco tiempo')
+            borrar_archivo(pedido['archivo'])
+        elif posibilidad == 1:
+            cocinar(pedido['sku'], delta)
+        elif posibilidad == 0:
+            aceptar_oc(pedido['id'])
+            despachar_a_cliente(pedido['sku'], delta, 'string', 1000, pedido['_id'])
+            orden_compra = obtener_oc(pedido['sku'])
+            delta_final = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
+            if delta_final <= 0:
+                borrar_archivo(pedido['archivo'])
+
+
+
+
