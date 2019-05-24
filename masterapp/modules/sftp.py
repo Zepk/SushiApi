@@ -61,21 +61,32 @@ def revisar_posibilidad_entrega(id):
     sku = orden['sku']
     cantidad = orden['cantidad']
     tiempo = obtener_tiempo_restante(id)
+    # Si tengo productos necesarios y margen de 10 min de despacho
     if tiempo > datetime.timedelta(minutes=10):
         stock = contar_productos()
         if sku in stock.keys():
             if stock[sku] >= cantidad:
                 return 0
 
-    # tiempo > datetime.timedelta(hours=1, minutes=30)
+    # Si tengo ventana de 1:30 para conicar productos
     if tiempo > datetime.timedelta(hours=1, minutes=30):
-        if fabricable_multiplo(sku, cantidad):
-            print(sku)
-            return 1
+        return 1
 
-    if tiempo < datetime.timedelta(minutes=10):
-        return 2
+    # No tendre tiempo para entregar
+    return 2
 
-# Funcion que elimina archivo en el servidor
+# Funcion que elimina archivo en el servidor y local
 def borrar_archivo(archivo):
-    pass
+    # Elimina del servidor
+    with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
+        print("Connection succesfully stablished ... ")
+        # Switch to a remote directory
+        sftp.cwd('/pedidos')
+        sftp.remove(archivo)
+
+    # Si el archivo existe lo elimina localmente
+    if os.path.isfile(os.getcwd()+'\\pedidos\\'+archivo):
+        os.remove(os.getcwd()+'\\pedidos\\'+archivo)
+    #si no, print error
+    else:    ## Show an error ##
+        print("Error: {} file not found".format(archivo))
