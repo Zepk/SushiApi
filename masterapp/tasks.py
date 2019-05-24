@@ -234,21 +234,22 @@ def manejar_pedidos_cliente():
     pedidos = leer_pedidos_ftp()
     for pedido in pedidos:
         posibilidad = revisar_posibilidad_entrega(pedido['id'])
-        orden_compra = obtener_oc(pedido['sku'])
+        orden_compra = obtener_oc(pedido['id'])[0]
         delta = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
+        # Rechazo
         if posibilidad == 2:
             rechazar_oc(pedido['id'], 'Poco tiempo')
             borrar_archivo(pedido['archivo'])
+        # Busco cocinar
         elif posibilidad == 1:
-            cocinar(pedido['sku'], delta)
+            #cocinar(pedido['sku'], delta)
+            pass
+        # Acepto
         elif posibilidad == 0:
-            aceptar_oc(pedido['id'])
-            despachar_a_cliente(pedido['sku'], delta, 'string', 1000, pedido['_id'])
-            orden_compra = obtener_oc(pedido['sku'])
-            delta_final = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
-            if delta_final <= 0:
-                borrar_archivo(pedido['archivo'])
-
-
-
-
+            pass
+            #aceptar_oc(pedido['id'])
+            #despachar_a_cliente(pedido['sku'], delta, 'string', 1000, pedido['_id'])
+            #orden_compra = obtener_oc(pedido['sku'])
+            #delta_final = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
+            #if delta_final <= 0:
+            #    borrar_archivo(pedido['archivo'])
