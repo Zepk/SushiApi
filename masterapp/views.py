@@ -26,29 +26,58 @@ def orders(request):
     if request.method == "POST":
         try:
             body = json.loads(request.body)
-            sku = body["sku"]
-            cantidad = body["cantidad"]
-            almacenId = body["almacenId"]
+            # Este sera ahora el canal para recibir la orden y luego se buscaran en el sistema los parametros
+            #sku = body["sku"]
+            #cantidad = body["cantidad"]
+            #almacenId = body["almacenId"]
+            id_orden = body["OrderId"]  # dependiendo el parametro que se se establezca entre los grupos
         except:
             return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
-        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
-            despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId)
-            aceptado = True
-            if aceptado:
-                respuesta = {}
-                respuesta["sku"] = sku
-                respuesta["cantidad"] = True
-                respuesta["almacenId"] = almacenId
-                respuesta["grupo"] = grupo
-                respuesta["aceptado"] = aceptado
-                respuesta["despachado"] = aceptado
-                return JsonResponse(respuesta, status=200)
-            else:
-                return JsonResponse({'status_text': 'No pudimos despachar el pedido'.format(request.method)}, status=400)
+
+     #Ahora se tiene que obtener orden de compra en Sistema de orden y los parametros que interesan para aceptar o rechazar la orden
+     
+     orden = obtener_oc(id_orden)[0]
+     sku = orden['sku']
+     cantidad = orden['cantidad'] 
+     id_cliente = orden['cliente']   
+     fecha_entrega = orden['fechaEntrega'] 
+
+     # se revisa si se puede despachar orden cliente
+     # en caso de que se pueda, se envia notificacion de que se pudo:
+     if revisar_posibilidad_entrega(id_cliente):
+        notificar_cliente(url,"accept")
+        #si se puede realizar pedido ahora, se despacha
+        if revisar_posibilidad_entrega_ahora(id_orden):
+            despachar_producto(sku, id_orden)     # o despachar smarter
+        # si no se puede despachar se guarda en pedidos u otra carpeta, y se debe fabricar lo que falta
         else:
-            return JsonResponse({'status_text': 'No tenemos Stock'.format(request.method)}, status=404)
-    else:
-        return JsonResponse({'status_text': 'method /{}/ not valid'.format(request.method)}, status=405)
+            # falta: 
+            # -agregar pedido a pedidos clientes
+            # -empezar a fabricar cantidad indicada
+            pass
+
+    #si  no se envia notificacion de rechazo
+     else:
+        notificar_cliente(url,"reject")
+
+    #    if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
+    #        despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId)
+    #        aceptado = True
+    #        if aceptado:
+    #            respuesta = {}
+    #            respuesta["sku"] = sku
+    #            respuesta["cantidad"] = True
+    #            respuesta["almacenId"] = almacenId 
+    #            respuesta["grupo"] = grupo
+    #            respuesta["aceptado"] = aceptado
+    #            respuesta["despachado"] = aceptado
+    #            return JsonResponse(respuesta, status=200)
+    #        else:
+    #            return JsonResponse({'status_text': 'No pudimos despachar el pedido'.format(request.method)}, status=400)
+    #    else:
+    #        return JsonResponse({'status_text': 'No tenemos Stock'.format(request.method)}, status=404)
+   # else:
+   #     return JsonResponse({'status_text': 'method /{}/ not valid'.format(request.method)}, status=405)
 
 
 # ELIMINAR ESTAS VIEWS, estan solo de apoyo para probar las funciones_bodega

@@ -247,3 +247,9 @@ id_grupos = {
             13: '5cbd31b7c445af0004739bef',
             14: '5cbd31b7c445af0004739bf0',
             }
+
+# Diccionario Ordenes vigentes FTP
+
+#ordenes_vigentes_FTP =  { 
+ #                     'id': {'sku':0,'qty':0,'estado':"vacio"},
+     #               }

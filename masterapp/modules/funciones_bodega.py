@@ -3,6 +3,22 @@ from .hashing import *
 import requests
 import json
 
+
+#despachar producto de order
+
+def despachar_producto(productoId, ordenId):
+    direccion = "cualquier string"
+    precio = 10
+    mensaje = "DELETE{}{}{}{}".format(productoId, direccion, precio, ordenId)
+    aut = security_hash(mensaje, key)
+    headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
+    payload = {"productoId": id_producto, "oc": ordenId, "direccion": direccion, "precio": precio}
+    r = requests.delete(url, headers=headers, data=json.dumps(payload))   # o DELETE
+     if r.status_code == 200:
+        return r.text
+    else:
+        return r.status_code   
+
 # Consultar por almacenes del grupo
 def obtener_almacenes():
     mensaje = "GET"

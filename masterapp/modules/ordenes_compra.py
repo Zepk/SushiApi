@@ -84,3 +84,14 @@ def anular_oc(id, motivo):
         return lista
     else:
         return False
+
+def notificar_cliente(url_grupo, status):
+    url = url_grupo
+    headers = {'content-type': 'application/json'}
+    payload = {"status": str(status)}
+    r = requests.post(url, headers=headers, data=json.dumps(payload))
+    if r.status_code == 204:
+        return r.text
+    else:
+        print(r.text)
+        return r.status_code
