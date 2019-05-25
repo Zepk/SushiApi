@@ -84,15 +84,17 @@ def revisar_posibilidad_entrega(id):
 # Funcion que elimina archivo en el servidor y local
 def borrar_archivo(archivo):
     # Elimina del servidor #, cnopts=cnopts
-    with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
-        print("Connection succesfully stablished ... ")
-        # Switch to a remote directory
-        sftp.cwd('/pedidos')
-        sftp.remove(archivo)
+    try:
+        with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
+            print("Connection succesfully stablished ... ")
+            # Switch to a remote directory
+            sftp.cwd('/pedidos')
+            sftp.remove(archivo)
 
     # Si el archivo existe lo elimina localmente
-    if os.path.isfile(os.getcwd()+'\\pedidos\\'+archivo):
-        os.remove(os.getcwd()+'\\pedidos\\'+archivo)
-    #si no, print error
-    else:    ## Show an error ##
-        print("Error: {} file not found".format(archivo))
+    try:
+        if os.path.isfile(os.getcwd()+'\\pedidos\\'+archivo):
+            os.remove(os.getcwd()+'\\pedidos\\'+archivo)
+        #si no, print error
+        else:    ## Show an error ##
+            print("Error: {} file not found".format(archivo))
