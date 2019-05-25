@@ -25,7 +25,7 @@ def copiar_pedidos():
         # Obtain structure of the remote directory '/var/www/vhosts'
         directory_structure = sftp.listdir_attr()
 
-        sftp.get_r('/pedidos', './', preserve_mtime=True)
+        sftp.get_r('/', './')
 
 
 # Retorna una lista que contiene diccionarios, donde cada diccionario corresponde a una orden de compra ftp,
