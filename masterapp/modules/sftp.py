@@ -95,8 +95,7 @@ def borrar_archivo(archivo):
 
     # Si el archivo existe lo elimina localmente
     try:
-        print('Correctly remove {}'.format(archivo))
-        os.cwd('/pedidos')
+        print('Directory{}'.format(os.getcwd()))
         if os.path.isfile(archivo):
             print('Correctly remove {}'.format(archivo))
             os.remove(archivo)
