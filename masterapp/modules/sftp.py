@@ -10,13 +10,13 @@ myHostname = "fierro.ing.puc.cl"
 myUsername = "grupo6_dev"
 myPassword = "hhqC9wWbKyIMjPX"
 
-#cnopts = pysftp.CnOpts()
-#cnopts.hostkeys = None
+cnopts = pysftp.CnOpts()
+cnopts.hostkeys = None
 
 #Copia todos los archivos de los pedidos, desde el servidor a la carpeta pedidos
 def copiar_pedidos():
 
-    with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
+    with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword, cnopts=cnopts) as sftp:
         #print("Connection succesfully stablished ... ")
 
         # Switch to a remote directory
@@ -85,7 +85,7 @@ def revisar_posibilidad_entrega(id):
 def borrar_archivo(archivo):
     # Elimina del servidor #, cnopts=cnopts
     try:
-        with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
+        with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword, cnopts=cnopts) as sftp:
             #print("Connection succesfully stablished ... ")
             # Switch to a remote directory
             sftp.cwd('/pedidos')
@@ -95,8 +95,7 @@ def borrar_archivo(archivo):
 
     # Si el archivo existe lo elimina localmente
     try:
-        print('Directory{}'.format(os.getcwd()))
-        if os.path.isfile(archivo):
+        if os.path.isfile(os.getcwd()+'/pedidos/'+archivo):
             print('Correctly remove {}'.format(archivo))
             os.remove(archivo)
         #si no, print error
