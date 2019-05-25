@@ -89,19 +89,21 @@ def borrar_archivo(archivo):
             print("Connection succesfully stablished ... ")
             # Switch to a remote directory
             sftp.cwd('/pedidos')
-            sftp.remove(archivo)
+            for file in archivo:
+                sftp.remove(file)
     except:
         pass
 
     # Si el archivo existe lo elimina localmente
-    try:
-        if os.path.isfile(os.getcwd()+'\\pedidos\\'+archivo):
-            os.remove(os.getcwd()+'\\pedidos\\'+archivo)
-        #si no, print error
-        else:    ## Show an error ##
-            print(os.getcwd()+'\\pedidos\\'+archivo)
-            print("Error: {} file not found".format(archivo))
+    for file in archivo:
+        try:
+            print(os.getcwd()+'\\pedidos\\'+file)
             os.cwd('/pedidos')
-            print(os.getcwd()+'/'+archivo)
-    except:
-        pass
+            print(os.getcwd()+'/'+file)
+            if os.path.isfile(os.getcwd()+'\\pedidos\\'+file):
+                os.remove(os.getcwd()+'\\pedidos\\'+file)
+            #si no, print error
+            else:    ## Show an error ##
+                print("Error: {} file not found".format(file))
+        except:
+            pass

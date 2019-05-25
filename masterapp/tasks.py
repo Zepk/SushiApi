@@ -235,6 +235,7 @@ def manejar_pedidos_cliente():
     copiar_pedidos()
     # Reviso los pedidos en localmente
     pedidos = leer_pedidos_ftp()
+    archivos_a_borrar = []
     for pedido in pedidos:
         posibilidad = revisar_posibilidad_entrega(pedido['id'])
         orden_compra = obtener_oc(pedido['id'])[0]
@@ -255,4 +256,5 @@ def manejar_pedidos_cliente():
             orden_compra = obtener_oc(pedido['id'])[0]
             delta_final = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
             if delta_final <= 0:
-                borrar_archivo(pedido['archivo'])
+                archivos_a_borrar.append(pedido['archivo'])
+        borrar_archivo(archivos_a_borrar)

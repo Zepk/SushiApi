@@ -27,7 +27,7 @@ SECRET_KEY = 'u4bp7^p&0=7$jinz_gekgxp=00nks3_4wueyyn3!h+f80+e5kj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tuerca6.ing.puc.cl']
+ALLOWED_HOSTS = ['tuerca6.ing.puc.cl','localhost']
 
 
 # Application definition
@@ -75,14 +75,19 @@ WSGI_APPLICATION = 'Sushiapi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
+'''
+        'USER': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'PASSWORD': 'asdasdasd',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -93,28 +98,6 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 CELERY_BEAT_SCHEDULE = {
-'''
-    'pedir_productos_propios': {
-        'task': 'masterapp.tasks.pedir_productos_propios',
-        'schedule': crontab(minute='*/9')  # execute every minute
-    },
-    'pedir_productos_ajenos': {
-        'task': 'masterapp.tasks.pedir_productos_ajenos',
-        'schedule': crontab(minute='*/4')  # execute every minute
-    },
-    'fabricar_productos_propios': {
-        'task': 'masterapp.tasks.fabricar_productos_propios',
-        'schedule': crontab(minute='*/6')  # execute every minute
-    },
-    'fabricar_productos_intermedios': {
-        'task': 'masterapp.tasks.fabricar_productos_intermedios',
-        'schedule': crontab(minute='*/5')  # execute every minute
-    },
-    'vaciar_despacho': {
-        'task': 'masterapp.tasks.vaciar_despacho',
-        'schedule': crontab(minute='*/50')  # execute every minute
-    },
-'''
     'manejar_pedidos_cliente': {
         'task': 'masterapp.tasks.manejar_pedidos_cliente',
         'schedule': crontab(minute='*/2')  # execute every minute
