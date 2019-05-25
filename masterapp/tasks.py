@@ -253,3 +253,4 @@ def manejar_pedidos_cliente():
             delta_final = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
             if delta_final <= 0:
                 borrar_archivo(pedido['archivo'])
+        copiar_pedidos()
