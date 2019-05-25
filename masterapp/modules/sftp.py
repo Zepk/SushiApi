@@ -61,15 +61,15 @@ def revisar_posibilidad_entrega(orden_compra):
     sku = orden['sku']
     cantidad = orden['cantidad']
     tiempo = obtener_tiempo_restante(orden)
-    # Si tengo productos necesarios y margen de 10 min de despacho
-    if tiempo > datetime.timedelta(minutes=10):
+    # Si tengo productos necesarios y margen de 3 min de despacho
+    if tiempo > datetime.timedelta(minutes=3):
         stock = contar_productos()
         if sku in stock.keys():
             if stock[sku] >= cantidad:
                 return 0
 
-    # Si tengo ventana de 1:30 para conicar productos
-    if tiempo > datetime.timedelta(hours=1, minutes=30):
+    # Si tengo ventana de 30 para conicar productos
+    if tiempo > datetime.timedelta(minutes=10):
         # Tengo para fabricar inmediatamente
         if fabricable_multiplo(sku, cantidad):
             return 1
