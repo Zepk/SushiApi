@@ -237,19 +237,19 @@ def manejar_pedidos_cliente():
         orden_compra = obtener_oc(pedido['id'])[0]
         delta = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
         # Rechazo
-        if posibilidad == 2:
+        if posibilidad == 3:
             rechazar_oc(pedido['id'], 'Poco tiempo')
             borrar_archivo(pedido['archivo'])
         # Busco cocinar
+        elif posibilidad == 2:
+            cocinar(pedido['sku'], delta)
+        # Busco crear sub
         elif posibilidad == 1:
-            #cocinar(pedido['sku'], delta)
             pass
-        # Acepto
         elif posibilidad == 0:
-            pass
-            #aceptar_oc(pedido['id'])
-            #despachar_a_cliente(pedido['sku'], delta, 'string', 1000, pedido['_id'])
-            #orden_compra = obtener_oc(pedido['sku'])
-            #delta_final = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
-            #if delta_final <= 0:
-            #    borrar_archivo(pedido['archivo'])
+            aceptar_oc(pedido['id'])
+            despachar_a_cliente(pedido['sku'], delta, 'b2c', 1000, pedido['id'])
+            orden_compra = obtener_oc(pedido['id'])[0]
+            delta_final = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
+            if delta_final <= 0:
+                borrar_archivo(pedido['archivo'])
