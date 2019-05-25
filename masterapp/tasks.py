@@ -256,5 +256,4 @@ def manejar_pedidos_cliente():
             orden_compra = obtener_oc(pedido['id'])[0]
             delta_final = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
             if delta_final <= 0:
-                archivos_a_borrar.append(pedido['archivo'])
-        borrar_archivo(archivos_a_borrar)
+                borrar_archivo(pedido['archivo'])

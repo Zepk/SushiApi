@@ -17,7 +17,7 @@ myPassword = "hhqC9wWbKyIMjPX"
 def copiar_pedidos():
 
     with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
-        print("Connection succesfully stablished ... ")
+        #print("Connection succesfully stablished ... ")
 
         # Switch to a remote directory
         sftp.cwd('/pedidos')
@@ -86,23 +86,22 @@ def borrar_archivo(archivo):
     # Elimina del servidor #, cnopts=cnopts
     try:
         with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
-            print("Connection succesfully stablished ... ")
+            #print("Connection succesfully stablished ... ")
             # Switch to a remote directory
             sftp.cwd('/pedidos')
-            for file in archivo:
-                sftp.remove(file)
+            sftp.remove(archivo)
     except:
         pass
 
     # Si el archivo existe lo elimina localmente
-    for file in archivo:
-        try:
-            os.cwd('/pedidos')
-            if os.path.isfile(file):
-                print('Correctly remove {}'.format(file))
-                os.remove(file)
-            #si no, print error
-            else:    ## Show an error ##
-                print("Error: {} file not found".format(file))
-        except:
-            pass
+    try:
+        print('Correctly remove {}'.format(archivo))
+        os.cwd('/pedidos')
+        if os.path.isfile(archivo):
+            print('Correctly remove {}'.format(archivo))
+            os.remove(archivo)
+        #si no, print error
+        else:    ## Show an error ##
+            print("Error: {} file not found".format(archivo))
+    except:
+        pass

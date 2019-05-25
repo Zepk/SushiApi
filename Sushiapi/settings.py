@@ -122,7 +122,7 @@ CELERY_BEAT_SCHEDULE = {
 
     'manejar_pedidos_cliente': {
         'task': 'masterapp.tasks.manejar_pedidos_cliente',
-        'schedule': crontab(minute='*/2')  # execute every minute
+        'schedule': crontab(minute='*/5')  # execute every minute
     },
 }
 
