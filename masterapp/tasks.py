@@ -237,23 +237,24 @@ def manejar_pedidos_cliente():
     pedidos = leer_pedidos_ftp()
     archivos_a_borrar = []
     for pedido in pedidos:
-        posibilidad = revisar_posibilidad_entrega(pedido['id'])
-        orden_compra = obtener_oc(pedido['id'])[0]
-        delta = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
+        orden_compra = obtener_oc(pedido['id'])
+        posibilidad = revisar_posibilidad_entrega(orden_compra)
+        delta = orden_compra[0]['cantidad'] - orden_compra[0]['cantidadDespachada']
         # Rechazo
         if posibilidad == 3:
             rechazar_oc(pedido['id'], 'Poco tiempo')
-            borrar_archivo(pedido['archivo'])
+            archivos_a_borrar.append(pedido['archivo'])
         # Busco cocinar
         elif posibilidad == 2:
-            cocinar(pedido['sku'], delta)
+            pass
         # Busco crear sub
         elif posibilidad == 1:
-            pass
+            cocinar(pedido['sku'], delta)
         elif posibilidad == 0:
             aceptar_oc(pedido['id'])
             despachar_a_cliente(pedido['sku'], delta, 'b2c', 1000, pedido['id'])
-            orden_compra = obtener_oc(pedido['id'])[0]
-            delta_final = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
+            orden_compra = obtener_oc(pedido['id'])
+            delta_final = orden_compra[0]['cantidad'] - orden_compra[0]['cantidadDespachada']
             if delta_final <= 0:
-                borrar_archivo(pedido['archivo'])
+                archivos_a_borrar.append(pedido['archivo'])
+    borrar_archivo(archivos_a_borrar)

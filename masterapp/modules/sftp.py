@@ -10,13 +10,13 @@ myHostname = "fierro.ing.puc.cl"
 myUsername = "grupo6_dev"
 myPassword = "hhqC9wWbKyIMjPX"
 
-cnopts = pysftp.CnOpts()
-cnopts.hostkeys = None
+#cnopts = pysftp.CnOpts()
+#cnopts.hostkeys = None
 
 #Copia todos los archivos de los pedidos, desde el servidor a la carpeta pedidos
 def copiar_pedidos():
 
-    with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword, cnopts=cnopts) as sftp:
+    with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
         #print("Connection succesfully stablished ... ")
 
         # Switch to a remote directory
@@ -49,19 +49,18 @@ def leer_pedidos_ftp():
 
 
 # retorna cuanto tiempo falta para el deadline de una entrega
-def obtener_tiempo_restante(id):
-    orden = obtener_oc(id)
-    dt = parser.parse(orden[0]['fechaEntrega']).replace(tzinfo=None)
+def obtener_tiempo_restante(orden):
+    dt = parser.parse(orden['fechaEntrega']).replace(tzinfo=None)
     hora = datetime.datetime.now() - datetime.timedelta(hours=4)
     return dt-hora
 
 
 # Retorna True si es posibe completar la entrega, False en caso contrario
-def revisar_posibilidad_entrega(id):
-    orden = obtener_oc(id)[0]
+def revisar_posibilidad_entrega(orden_compra):
+    orden = orden_compra[0]
     sku = orden['sku']
     cantidad = orden['cantidad']
-    tiempo = obtener_tiempo_restante(id)
+    tiempo = obtener_tiempo_restante(orden)
     # Si tengo productos necesarios y margen de 10 min de despacho
     if tiempo > datetime.timedelta(minutes=10):
         stock = contar_productos()
@@ -84,22 +83,24 @@ def revisar_posibilidad_entrega(id):
 # Funcion que elimina archivo en el servidor y local
 def borrar_archivo(archivo):
     # Elimina del servidor #, cnopts=cnopts
-    try:
-        with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword, cnopts=cnopts) as sftp:
-            #print("Connection succesfully stablished ... ")
-            # Switch to a remote directory
-            sftp.cwd('/pedidos')
-            sftp.remove(archivo)
-    except:
-        pass
+    with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
+        #print("Connection succesfully stablished ... ")
+        # Switch to a remote directory
+        sftp.cwd('/pedidos')
+        for file in archivo:
+            try:
+                sftp.remove(file)
+            except:
+                pass
 
     # Si el archivo existe lo elimina localmente
-    try:
-        if os.path.isfile(os.getcwd()+'/pedidos/'+archivo):
-            print('Correctly remove {}'.format(archivo))
-            os.remove(archivo)
-        #si no, print error
-        else:    ## Show an error ##
-            print("Error: {} file not found".format(archivo))
-    except:
-        pass
+    for file in archivo:
+        try:
+            if os.path.isfile(os.getcwd()+'/pedidos/'+file):
+                os.remove(os.getcwd()+'/pedidos/'+file)
+                print('Correctly remove {}'.format(file))
+            #si no, print error
+            else:    ## Show an error ##
+                print("Error: {} file not found".format(file))
+        except:
+            pass
