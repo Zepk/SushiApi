@@ -99,6 +99,10 @@ def borrar_archivo(archivo):
             os.remove(os.getcwd()+'\\pedidos\\'+archivo)
         #si no, print error
         else:    ## Show an error ##
+            print(os.getcwd()+'\\pedidos\\'+archivo)
             print("Error: {} file not found".format(archivo))
+            print(os.getcwd()+'\\pedidos\\'+archivo)
+            os.cwd('/pedidos')
+            print(os.getcwd()+'/'+archivo)
     except:
         pass
