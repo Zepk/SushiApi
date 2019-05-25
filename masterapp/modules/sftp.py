@@ -90,6 +90,8 @@ def borrar_archivo(archivo):
             # Switch to a remote directory
             sftp.cwd('/pedidos')
             sftp.remove(archivo)
+    except:
+        pass
 
     # Si el archivo existe lo elimina localmente
     try:
@@ -98,3 +100,5 @@ def borrar_archivo(archivo):
         #si no, print error
         else:    ## Show an error ##
             print("Error: {} file not found".format(archivo))
+    except:
+        pass
