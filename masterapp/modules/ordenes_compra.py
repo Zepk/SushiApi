@@ -76,7 +76,7 @@ def anular_oc(id, motivo):
 
     headers = {'content-type': 'application/json'}
 
-    payload = {'id': str(id), 'rechazo': str(motivo)}
+    payload = {'id': str(id), 'anulacion': str(motivo)}
 
     r = requests.delete(url, headers=headers, data=json.dumps(payload))
     if r.status_code == 200:
