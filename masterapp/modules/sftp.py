@@ -10,7 +10,8 @@ myHostname = "fierro.ing.puc.cl"
 myUsername = "grupo6_dev"
 myPassword = "hhqC9wWbKyIMjPX"
 
-
+#cnopts = pysftp.CnOpts()
+#cnopts.hostkeys = None
 
 #Copia todos los archivos de los pedidos, desde el servidor a la carpeta pedidos
 def copiar_pedidos():
@@ -70,14 +71,19 @@ def revisar_posibilidad_entrega(id):
 
     # Si tengo ventana de 1:30 para conicar productos
     if tiempo > datetime.timedelta(hours=1, minutes=30):
-        return 1
+        # Tengo para fabricar inmediatamente
+        if fabricable_multiplo(sku, cantidad):
+            return 1
+        # Debo fabricar subproductos
+        else:
+            return 2
 
     # No tendre tiempo para entregar
-    return 2
+    return 3
 
 # Funcion que elimina archivo en el servidor y local
 def borrar_archivo(archivo):
-    # Elimina del servidor
+    # Elimina del servidor #, cnopts=cnopts
     with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
         print("Connection succesfully stablished ... ")
         # Switch to a remote directory
