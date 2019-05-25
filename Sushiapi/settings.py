@@ -98,7 +98,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'pedir_productos_ajenos': {
         'task': 'masterapp.tasks.pedir_productos_ajenos',
-        'schedule': crontab(minute='*/4')  # execute every minute
+        'schedule': crontab(minute='*/5')  # execute every minute
     },
     'fabricar_productos_propios': {
         'task': 'masterapp.tasks.fabricar_productos_propios',
