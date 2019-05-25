@@ -231,6 +231,9 @@ def despachar_a_cliente(sku, cantidad, direccion, precio, oc):
 
 @shared_task
 def manejar_pedidos_cliente():
+    # Copia lo del servidor ftp a local
+    copiar_pedidos()
+    # Reviso los pedidos en localmente
     pedidos = leer_pedidos_ftp()
     for pedido in pedidos:
         posibilidad = revisar_posibilidad_entrega(pedido['id'])
@@ -253,4 +256,3 @@ def manejar_pedidos_cliente():
             delta_final = orden_compra['cantidad'] - orden_compra['cantidadDespachada']
             if delta_final <= 0:
                 borrar_archivo(pedido['archivo'])
-        copiar_pedidos()
