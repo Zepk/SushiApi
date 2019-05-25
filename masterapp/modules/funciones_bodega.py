@@ -193,7 +193,7 @@ def despachar_producto(id, oc, direccion, precio):
     aut = security_hash(mensaje, key)
     url = 'https://integracion-2019-{}.herokuapp.com/bodega/stock'.format(ambiente)
     headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
-    payload = {'productoID': str(id), 'oc': str(oc), 'direccion': str(direccion), 'precio': int(precio)}
+    payload = {'productoId': str(id), 'oc': str(oc), 'direccion': str(direccion), 'precio': int(precio)}
     r = requests.delete(url, headers=headers, data=json.dumps(payload))
     print(r.text)
     print(r.status_code)
