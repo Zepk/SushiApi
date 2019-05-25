@@ -97,11 +97,10 @@ def borrar_archivo(archivo):
     # Si el archivo existe lo elimina localmente
     for file in archivo:
         try:
-            print(os.getcwd()+'\\pedidos\\'+file)
             os.cwd('/pedidos')
-            print(os.getcwd()+'/'+file)
-            if os.path.isfile(os.getcwd()+'\\pedidos\\'+file):
-                os.remove(os.getcwd()+'\\pedidos\\'+file)
+            if os.path.isfile(file):
+                print('Correctly remove {}'.format(file))
+                os.remove(file)
             #si no, print error
             else:    ## Show an error ##
                 print("Error: {} file not found".format(file))
