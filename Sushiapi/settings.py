@@ -75,11 +75,6 @@ WSGI_APPLICATION = 'Sushiapi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-'''
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
-'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -96,7 +91,7 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
-'''
+CELERY_BEAT_SCHEDULE = {
     'pedir_productos_propios': {
         'task': 'masterapp.tasks.pedir_productos_propios',
         'schedule': crontab(minute='*/9')  # execute every minute
@@ -117,9 +112,6 @@ CELERY_RESULT_SERIALIZER = 'json'
         'task': 'masterapp.tasks.vaciar_despacho',
         'schedule': crontab(minute='*/50')  # execute every minute
     },
-'''
-CELERY_BEAT_SCHEDULE = {
-
     'manejar_pedidos_cliente': {
         'task': 'masterapp.tasks.manejar_pedidos_cliente',
         'schedule': crontab(minute='*/5')  # execute every minute
