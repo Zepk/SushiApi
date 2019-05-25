@@ -165,28 +165,27 @@ def obtener_inventario_otro_grupo(grupo):
 
 # Todavia no sabemos si esta OK, retorna {sku: hola} por mientras
 # Puede que el header este malo
-def pedir_orden_producto(sku, cantidad, almacenId, grupo):
+def pedir_orden_producto(sku, cantidad, almacenId, grupo, id_oc):
     url = 'http://tuerca{}.ing.puc.cl/orders/'.format(grupo)
     headers = {'content-type': 'application/json', 'group': '6'}
-    payload = {'sku': sku, 'cantidad': cantidad, 'almacenId': almacenId}
+    payload = {'sku': str(sku), 'cantidad': cantidad, 'almacenId': str(almacenId), 'oc': id_oc}
     r = requests.post(url, headers=headers, data=json.dumps(payload))
-    if r.status_code == 200 or r.status_code == 201:
-        print(r.text)
-        return r.text
-    else:
-        return r.status_code
+    return r
 
 
-def pedir_orden_producto2(sku, cantidad, almacenId, grupo):
+def pedir_orden_producto2(sku, cantidad, almacenId, grupo, id_oc):
     url = 'http://tuerca{}.ing.puc.cl/orders'.format(grupo)
     headers = {'content-type': 'application/json', 'group': '6'}
-    payload = {'sku': str(sku), 'cantidad': cantidad, 'almacenId': str(almacenId)}
+    payload = {'sku': str(sku), 'cantidad': cantidad, 'almacenId': str(almacenId), 'oc': id_oc}
     r = requests.post(url, headers=headers, data=json.dumps(payload))
-    if r.status_code == 200 or r.status_code == 201:
-        print(r.text)
-        return r
-    else:
-        return r
+    return r
+
+# PAra nuevos pedidos otros pedir_a_grupos
+def obtener_inventario_grupo(grupo):
+    url = 'http://tuerca{}.ing.puc.cl/inventories'.format(grupo)
+    headers = {'content-type': 'application/json', 'group': '6'}
+    r = requests.get(url, headers=headers)
+    return r
 
 def despachar_producto(id, oc, direccion, precio):
     mensaje = "DELETE{}{}{}{}".format(id, direccion, precio, oc)
