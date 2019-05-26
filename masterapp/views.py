@@ -14,7 +14,7 @@ grupo = 6
 # DAr lista de productos que teneos
 def inventories(request):
     if request.method == "GET":
-        respuesta = stock_disponible()
+        respuesta = stock_disponible_venta()
         return JsonResponse(respuesta, status=200, safe=False)
     else:
         return JsonResponse({'status_text': 'method /{}/ not valid'.format(request.method)}, status=405)
@@ -29,24 +29,25 @@ def orders(request):
             sku = body["sku"]
             cantidad = body["cantidad"]
             almacenId = body["almacenId"]
+            id_orden = body["oc"]
         except:
             return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
         if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
-            despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId)
-            aceptado = True
-            if aceptado:
-                respuesta = {}
-                respuesta["sku"] = sku
-                respuesta["cantidad"] = True
-                respuesta["almacenId"] = almacenId
-                respuesta["grupo"] = grupo
-                respuesta["aceptado"] = aceptado
-                respuesta["despachado"] = aceptado
-                return JsonResponse(respuesta, status=200)
-            else:
-                return JsonResponse({'status_text': 'No pudimos despachar el pedido'.format(request.method)}, status=400)
+            #notificar_cliente(url,"accept")
+            aceptar_oc(id_orden)
+            despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId, id_orden)
+            respuesta = {}
+            respuesta["sku"] = sku
+            respuesta["cantidad"] = cantidad
+            respuesta["almacenId"] = almacenId
+            respuesta["grupo"] = grupo
+            respuesta["aceptado"] = True
+            respuesta["despachado"] = False
+            return JsonResponse(respuesta, status=201)
         else:
-            return JsonResponse({'status_text': 'No tenemos Stock'.format(request.method)}, status=404)
+            #notificar_cliente(url,"reject")
+            rechazar_oc(id_orden, 'No tenemos Stock o pedido muy grande')
+            return JsonResponse({'status_text': 'No tenemos Stock o pedido muy grande'.format(request.method)}, status=404)
     else:
         return JsonResponse({'status_text': 'method /{}/ not valid'.format(request.method)}, status=405)
 
