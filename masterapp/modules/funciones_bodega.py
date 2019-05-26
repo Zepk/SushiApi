@@ -64,12 +64,12 @@ def mover_productos_entre_almacenes(id_producto, id_almacen):
         return r.status_code
 
 
-def mover_productos_entre_bodegas(id_producto, id_almacen):
+def mover_productos_entre_bodegas(id_producto, id_almacen, id_orden):
     mensaje = "POST{}{}".format(id_producto, id_almacen)
     aut = security_hash(mensaje, key)
     url = 'https://integracion-2019-{}.herokuapp.com/bodega/moveStockBodega'.format(ambiente)
     headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
-    payload = {"productoId": id_producto, "almacenId": id_almacen, "precio": 10}
+    payload = {"productoId": id_producto, "almacenId": id_almacen, "precio": 10, "oc":  id_orden}
     r = requests.post(url, headers=headers, data=json.dumps(payload))
     if r.status_code == 200:
         return r
