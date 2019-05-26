@@ -66,25 +66,28 @@ def pedir_productos_ajenos():
                 except:
                     pass
                 if inventario:
-                    for producto in inventario:
-                        if sku == producto['sku'] and producto['total'] >= 3:
-                            # print(inventario)
-                            # print('Tienen inventario ')
-                            oc = crear_oc(int(g), sku, 10, 3, 1, 'b2b')
-                            # print(oc['_id'])
-                            r1 = pedir_orden_producto2(sku, '3', recepcion, g, oc['_id'])
-                            if r1.status_code == 200 or r1.status_code == 201:
-                                print(r1.text)
-                                # print('Request exitosa')
-                                break
-                            r2 = pedir_orden_producto(sku, '3', recepcion, g, oc['_id'])
-                            if r2.status_code == 200 or r2.status_code == 201:
-                                print(r2.text)
-                                # print('Request exitosa')
-                                break
-                            # print('Anular request {}  {}'.format(r1, r2))
-                            r_oc = anular_oc(oc['_id'], 'Grupo no responde a request  con 200 o 201')
-                            # print(r_oc)
+                    try:
+                        for producto in inventario:
+                            if sku == producto['sku'] and producto['total'] >= 3:
+                                # print(inventario)
+                                # print('Tienen inventario ')
+                                oc = crear_oc(int(g), sku, 10, 3, 1, 'b2b')
+                                # print(oc['_id'])
+                                r1 = pedir_orden_producto2(sku, '3', recepcion, g, oc['_id'])
+                                if r1.status_code == 200 or r1.status_code == 201:
+                                    print(r1.text)
+                                    # print('Request exitosa')
+                                    break
+                                r2 = pedir_orden_producto(sku, '3', recepcion, g, oc['_id'])
+                                if r2.status_code == 200 or r2.status_code == 201:
+                                    print(r2.text)
+                                    print('Request exitosa')
+                                    break
+                                # print('Anular request {}  {}'.format(r1, r2))
+                                r_oc = anular_oc(oc['_id'], 'Grupo no responde a request  con 200 o 201')
+                                # print(r_oc)
+                    except:
+                        pass
         elif diccionario[sku] < lotes_minimos_materia_prima_ajena * unidades_por_lote[sku]:
             # print('SKU bajo stock minimo')
             for g in grupos:
@@ -101,25 +104,28 @@ def pedir_productos_ajenos():
                 except:
                     pass
                 if inventario:
-                    for producto in inventario:
-                        if sku == producto['sku'] and producto['total'] >= 3:
-                            # print(inventario)
-                            # print('Tienen inventario ')
-                            oc = crear_oc(int(g), sku, 10, 3, 1, 'b2b')
-                            # print(oc['_id'])
-                            r1 = pedir_orden_producto2(sku, '3', recepcion, g, oc['_id'])
-                            if r1.status_code == 200 or r1.status_code == 201:
-                                print(r1.text)
-                                # print('Request exitosa')
-                                break
-                            r2 = pedir_orden_producto(sku, '3', recepcion, g, oc['_id'])
-                            if r2.status_code == 200 or r2.status_code == 201:
-                                print(r2.text)
-                                # print('Request exitosa')
-                                break
-                            # print('Anular request {}  {}'.format(r1, r2))
-                            r_oc = anular_oc(oc['_id'], 'Grupo no responde a request  con 200 o 201')
-                            # print(r_oc)
+                    try:
+                        for producto in inventario:
+                            if sku == producto['sku'] and producto['total'] >= 3:
+                                # print(inventario)
+                                # print('Tienen inventario ')
+                                oc = crear_oc(int(g), sku, 10, 3, 1, 'b2b')
+                                # print(oc['_id'])
+                                r1 = pedir_orden_producto2(sku, '3', recepcion, g, oc['_id'])
+                                if r1.status_code == 200 or r1.status_code == 201:
+                                    print(r1.text)
+                                    # print('Request exitosa')
+                                    break
+                                r2 = pedir_orden_producto(sku, '3', recepcion, g, oc['_id'])
+                                if r2.status_code == 200 or r2.status_code == 201:
+                                    print(r2.text)
+                                    print('Request exitosa')
+                                    break
+                                # print('Anular request {}  {}'.format(r1, r2))
+                                r_oc = anular_oc(oc['_id'], 'Grupo no responde a request  con 200 o 201')
+                                # print(r_oc)
+                    except:
+                        pass
         # print('\n')
 
 
