@@ -150,7 +150,7 @@ def fabricar_productos_propios():
                 continue
 
 @shared_task
-def despachar_pedido_bodega_smarter(sku, cantidad, almacenId):
+def despachar_pedido_bodega_smarter(sku, cantidad, almacenId, id_orden):
     despachados = 0
     for i in range(2*int(cantidad)):
         sleep(1)
@@ -161,13 +161,13 @@ def despachar_pedido_bodega_smarter(sku, cantidad, almacenId):
         if not producto[1]:
             print('moviendo producto entre almacenes')
             mover_productos_entre_almacenes(producto[0]["_id"], despacho)
-            if despachar_un_producto(producto[0]["_id"], almacenId, 10):
+            if despachar_un_producto(producto[0]["_id"], almacenId, 10, id_orden):
                 despachados += 1
             if despachados == cantidad:
                 return True
         else:
             print("intentando despachar")
-            if despachar_un_producto(producto[0]["_id"], almacenId, 10):
+            if despachar_un_producto(producto[0]["_id"], almacenId, 10, id_orden):
                 despachados += 1
             if despachados == cantidad:
                 return True

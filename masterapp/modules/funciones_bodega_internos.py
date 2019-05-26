@@ -40,6 +40,19 @@ def stock_disponible_sku(sku, cantidad):
             return True
     return False
 
+def stock_disponible_venta():
+    respuesta = stock_disponible()
+    disponible = []
+    for r in respuesta:
+        if r["sku"] in skus_propios:
+            if r["total"] - lotes_minimos_despacho * unidades_por_lote[r["sku"]] > 0:
+                cantidad_venta = r["total"] - lotes_minimos_despacho * unidades_por_lote[r["sku"]]
+                if cantidad_venta <=  2 * int(unidades_por_lote[r["sku"]]):
+                    disponible.append({"sku": r["sku"], "total": cantidad_venta})
+                else:
+                    disponible.append({"sku": r["sku"], "total": 2 * int(unidades_por_lote[r["sku"]])})
+    return disponible
+
 
 def obtener_almacenes_con_sku(sku):
     almacenes = obtener_almacenes()
@@ -55,8 +68,8 @@ def obtener_almacenes_con_sku(sku):
     except TypeError:
         pass
 
-def despachar_un_producto(productoId, almacenId, precio):
-    r = mover_productos_entre_bodegas(productoId, almacenId)
+def despachar_un_producto(productoId, almacenId, precio, id_orden):
+    r = mover_productos_entre_bodegas(productoId, almacenId, id_orden)
     if r.status_code == 200:
         print("Producto enviado")
         print(productoId)
@@ -146,4 +159,3 @@ def preparar_despacho_cliente(sku, cantidad):
 
         if sku_ready:
             break
-
