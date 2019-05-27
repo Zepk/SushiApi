@@ -33,6 +33,8 @@ almacenes_nuestro = [recepcion, despacho, almacen_general2, almacen_general1, pu
 
 skus_propios = ['1001', '1002', '1003', '1005', '1007', '1012', '1015', '1016']
 
+# restriccion sal
+sal_restriccion = 0
 stock_minimo = {
                 '1301': 50,
                 '1013': 300,
@@ -247,3 +249,21 @@ id_grupos = {
             13: '5cbd31b7c445af0004739bef',
             14: '5cbd31b7c445af0004739bf0',
             }
+'''
+id_grupos = {
+            1: '5cc66e378820160004a4c3bc',
+            2: '5cc66e378820160004a4c3bd',
+            3: '5cc66e378820160004a4c3be',
+            4: '5cc66e378820160004a4c3bf',
+            5: '5cc66e378820160004a4c3c0',
+            6: '5cc66e378820160004a4c3c1',
+            7: '5cc66e378820160004a4c3c2',
+            8: '5cc66e378820160004a4c3c3',
+            9: '5cc66e378820160004a4c3c4',
+            10: '5cc66e378820160004a4c3c5',
+            11: '5cc66e378820160004a4c3c6',
+            12: '5cc66e378820160004a4c3c7',
+            13: '5cc66e378820160004a4c3c8',
+            14: '5cc66e378820160004a4c3c9',
+            }
+'''
