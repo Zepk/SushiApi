@@ -41,18 +41,8 @@ def pedir_productos_propios():
             #print('pidiendo productos {}'.format(sku))
         #elif diccionario[sku] < lotes_minimos_materia_prima_propia * unidades_por_lote[sku] and
         elif diccionario[sku] < 300:
-            if sku == '1003':
-                if sal_restriccion < 2:
-                    fabricar_producto(sku, str(unidades_por_lote[sku]))
-                    #print('pidiendo productos {}'.format(sku))
-                    sal_restriccion +=1
-                else:
-                    pass
-            else:
-                fabricar_producto(sku, str(unidades_por_lote[sku]))
-                #print('pidiendo productos {}'.format(sku))
-        elif sku == "1003" and diccionario[sku] > 300:
-            sal_restriccion = 0
+            fabricar_producto(sku, str(unidades_por_lote[sku]))
+            #print('pidiendo productos {}'.format(sku))
 
 
 # De momento pide 1 lote de cada una de las materias primas que podemos producir, siempre que tengamos menos de 10 lotes

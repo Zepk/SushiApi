@@ -33,8 +33,6 @@ almacenes_nuestro = [recepcion, despacho, almacen_general2, almacen_general1, pu
 
 skus_propios = ['1001', '1002', '1003', '1005', '1007', '1012', '1015', '1016']
 
-# restriccion sal
-sal_restriccion = 0
 stock_minimo = {
                 '1301': 50,
                 '1013': 300,
