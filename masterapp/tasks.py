@@ -40,14 +40,14 @@ def pedir_productos_propios():
             fabricar_producto(sku, str(unidades_por_lote[sku]))
             print('pidiendo productos {}'.format(sku))
         elif diccionario[sku] < lotes_minimos_materia_prima_propia * unidades_por_lote[sku] or diccionario[sku] < 200:
-            if sku = '1003':
+            if sku == '1003':
                 if sal_restriccion < 1:
                     fabricar_producto(sku, str(unidades_por_lote[sku]))
                     sal_restriccion = 1
             else:
                 fabricar_producto(sku, str(unidades_por_lote[sku]))
             print('pidiendo productos {}'.format(sku))
-        elif sku = '1003' and diccionario[sku] > 200:
+        elif sku == '1003' and diccionario[sku] > 200:
             sal_restriccion = 0
 
 
