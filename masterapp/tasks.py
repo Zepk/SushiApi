@@ -288,23 +288,24 @@ def manejar_pedidos_cliente():
     archivos_a_borrar = []
     for pedido in pedidos:
         orden_compra = obtener_oc(pedido['id'])
-        posibilidad = revisar_posibilidad_entrega(orden_compra)
-        delta = orden_compra[0]['cantidad'] - orden_compra[0]['cantidadDespachada']
-        # Rechazo
-        if posibilidad == 3:
-            rechazar_oc(pedido['id'], 'Poco tiempo')
-            archivos_a_borrar.append(pedido['archivo'])
-        # Faltan ingredientes intermedios
-        elif posibilidad == 2:
-            pass
-        # Busco cocinar
-        elif posibilidad == 1:
-            cocinar(pedido['sku'], delta)
-        elif posibilidad == 0:
-            aceptar_oc(pedido['id'])
-            despachar_a_cliente(pedido['sku'], delta, 'b2c', 1000, pedido['id'])
-            orden_compra = obtener_oc(pedido['id'])
-            delta_final = orden_compra[0]['cantidad'] - orden_compra[0]['cantidadDespachada']
-            if delta_final <= 0:
+        if orden_compra:
+            posibilidad = revisar_posibilidad_entrega(orden_compra)
+            delta = orden_compra[0]['cantidad'] - orden_compra[0]['cantidadDespachada']
+            # Rechazo
+            if posibilidad == 3:
+                rechazar_oc(pedido['id'], 'Poco tiempo')
                 archivos_a_borrar.append(pedido['archivo'])
+            # Faltan ingredientes intermedios
+            elif posibilidad == 2:
+                pass
+            # Busco cocinar
+            elif posibilidad == 1:
+                cocinar(pedido['sku'], delta)
+            elif posibilidad == 0:
+                aceptar_oc(pedido['id'])
+                despachar_a_cliente(pedido['sku'], delta, 'b2c', 1000, pedido['id'])
+                orden_compra = obtener_oc(pedido['id'])
+                delta_final = orden_compra[0]['cantidad'] - orden_compra[0]['cantidadDespachada']
+                if delta_final <= 0:
+                    archivos_a_borrar.append(pedido['archivo'])
     borrar_archivo(archivos_a_borrar)
