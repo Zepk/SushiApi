@@ -31,23 +31,27 @@ def vaciar_recepcion_y_pulmon():
 
 
 
-# De momento pide 1 lote de cada una de las materias primas que podemos producir, siempre que tengamos menos de 10 lotes
+# De momento pide 1 lote de cada una de las materias primas que podemos producir, siempre que tengamos menos de 10 lotes o 300 unidades
 @shared_task
 def pedir_productos_propios():
     diccionario = contar_productos()
     for sku in skus_propios:
         if sku not in diccionario.keys():
             fabricar_producto(sku, str(unidades_por_lote[sku]))
-            print('pidiendo productos {}'.format(sku))
-        elif diccionario[sku] < lotes_minimos_materia_prima_propia * unidades_por_lote[sku] or diccionario[sku] < 200:
+            #print('pidiendo productos {}'.format(sku))
+        #elif diccionario[sku] < lotes_minimos_materia_prima_propia * unidades_por_lote[sku] and
+        elif diccionario[sku] < 300:
             if sku == '1003':
-                if sal_restriccion < 1:
+                if sal_restriccion < 2:
                     fabricar_producto(sku, str(unidades_por_lote[sku]))
-                    sal_restriccion = 1
+                    #print('pidiendo productos {}'.format(sku))
+                    sal_restriccion +=1
+                else:
+                    pass
             else:
                 fabricar_producto(sku, str(unidades_por_lote[sku]))
-            print('pidiendo productos {}'.format(sku))
-        elif sku == '1003' and diccionario[sku] > 200:
+                #print('pidiendo productos {}'.format(sku))
+        elif sku == "1003" and diccionario[sku] > 300:
             sal_restriccion = 0
 
 
@@ -66,7 +70,7 @@ def pedir_productos_ajenos():
                     r = obtener_inventario_grupo(g)
                     if r.status_code == 200:
                         inventario = json.loads(r.text)
-                        print(inventario)
+                        #print(inventario)
                     else:
                         # print('No da inventario')
                         pass
@@ -76,31 +80,36 @@ def pedir_productos_ajenos():
                     try:
                         for producto in inventario:
                             if sku == producto['sku'] and producto['total'] >= 3:
-                                # print(inventario)
-                                # print('Tienen inventario ')
+                                #print(inventario)
+                                #print('Tienen inventario ')
                                 oc = crear_oc(int(g), sku, 10, 3, 1, 'b2b')
                                 # print(oc['_id'])
-                                r1 = pedir_orden_producto2(sku, '3', recepcion, g, oc['_id'])
-                                r2 = pedir_orden_producto(sku, '3', recepcion, g, oc['_id'])
-                                if r1.status_code == 200 or r1.status_code == 201 or r2.status_code == 200 or r2.status_code == 201:
-                                    # print(r1.text)
-                                    print('Request exitosa')
+                                r1 = pedir_orden_producto2(sku, 3, recepcion, g, oc['_id'])
+                                r2 = pedir_orden_producto(sku, 3, recepcion, g, oc['_id'])
+                                if r1.status_code == 200 or r1.status_code == 201:
+                                    #print(r1.text)
+                                    #print('Request exitosa 1')
                                     break
-                                # print('Anular request {}  {}'.format(r1, r2))
+                                if r2.status_code == 200 or r2.status_code == 201:
+                                    #print(r1.text)
+                                    #print('Request exitosa 2')
+                                    break
+                                #print('Anular request {}  {}'.format(r1, r2))
                                 r_oc = anular_oc(oc['_id'], 'Grupo no responde a request  con 200 o 201')
                                 # print(r_oc)
                     except:
                         pass
-        elif diccionario[sku] < lotes_minimos_materia_prima_ajena * unidades_por_lote[sku] or diccionario[sku] < 200:
+        #elif diccionario[sku] < lotes_minimos_materia_prima_ajena * unidades_por_lote[sku]:
+        elif diccionario[sku] < 300:
             # print('SKU bajo stock minimo')
             for g in grupos:
-                # print(' 2 Se pide {} al grupo {}'.format(sku, g))
+                #print(' 2 Se pide {} al grupo {}'.format(sku, g))
                 inventario = False
                 try:
                     r = obtener_inventario_grupo(g)
                     if r.status_code == 200:
                         inventario = json.loads(r.text)
-                        print(inventario)
+                        #print(inventario)
                     else:
                         # print('No da inventario')
                         pass
@@ -110,17 +119,21 @@ def pedir_productos_ajenos():
                     try:
                         for producto in inventario:
                             if sku == producto['sku'] and producto['total'] >= 3:
-                                # print(inventario)
-                                # print('Tienen inventario ')
+                                #print(inventario)
+                                #print('Tienen inventario ')
                                 oc = crear_oc(int(g), sku, 10, 3, 1, 'b2b')
                                 # print(oc['_id'])
-                                r1 = pedir_orden_producto2(sku, '3', recepcion, g, oc['_id'])
-                                r2 = pedir_orden_producto(sku, '3', recepcion, g, oc['_id'])
-                                if r1.status_code == 200 or r1.status_code == 201 or r2.status_code == 200 or r2.status_code == 201:
-                                    # print(r1.text)
-                                    print('Request exitosa')
+                                r1 = pedir_orden_producto2(sku, 3, recepcion, g, oc['_id'])
+                                r2 = pedir_orden_producto(sku, 3, recepcion, g, oc['_id'])
+                                if r1.status_code == 200 or r1.status_code == 201:
+                                    #print(r1.text)
+                                    #print('Request exitosa 1')
                                     break
-                                # print('Anular request {}  {}'.format(r1, r2))
+                                if r2.status_code == 200 or r2.status_code == 201:
+                                    #print(r1.text)
+                                    #print('Request exitosa 2')
+                                    break
+                                #print('Anular request {}  {}'.format(r1, r2))
                                 r_oc = anular_oc(oc['_id'], 'Grupo no responde a request  con 200 o 201')
                                 # print(r_oc)
                     except:
@@ -138,20 +151,21 @@ def fabricar_productos_propios():
         if sku == '1013':
             continue
         elif sku in stock.keys():
-            print(sku, stock[sku], delta_stock_minimo * stock_minimo[sku])
-            if stock[sku] < delta_stock_minimo * stock_minimo[sku] or stock[sku] < 150:
+            #print(sku, stock[sku], delta_stock_minimo * stock_minimo[sku])
+            #if stock[sku] < delta_stock_minimo * stock_minimo[sku] or
+            if stock[sku] < 200:
                 if fabricable(sku, stock):
                     preparar_despacho(recetas[sku])
-                    print("Fabricando {}".format(nombres[sku]))
+                    #print("Fabricando {}".format(nombres[sku]))
                     fabricar_producto(sku, unidades_por_lote[sku])
                 else:
                     continue
         # Si no tenemos del producto, lo producimos
         else:
-            print(sku)
+            #print(sku)
             if fabricable(sku, stock):
                 preparar_despacho(recetas[sku])
-                print("Fabricando {}".format(nombres[sku]))
+                #print("Fabricando {}".format(nombres[sku]))
                 fabricar_producto(sku, unidades_por_lote[sku])
             else:
                 continue
@@ -238,19 +252,20 @@ def fabricar_productos_intermedios():
         if sku == '1013':
             continue
         elif sku in stock.keys():
-            if stock[sku] < delta_stock_minimo * stock_deseado_productos_intermedios[sku] or stock[sku] < 150:
+            #if stock[sku] < delta_stock_minimo * stock_deseado_productos_intermedios[sku] or
+            if stock[sku] < 200:
                 if fabricable(sku, stock):
                     preparar_despacho(recetas[sku])
-                    print("Fabricando {}".format(nombres[sku]))
+                    #print("Fabricando {}".format(nombres[sku]))
                     fabricar_producto(sku, unidades_por_lote[sku])
                 else:
                     continue
         # Si no tenemos del producto, lo producimos
         else:
-            print(sku)
+            #print(sku)
             if fabricable(sku, stock):
                 preparar_despacho(recetas[sku])
-                print("Fabricando {}".format(nombres[sku]))
+                #print("Fabricando {}".format(nombres[sku]))
                 fabricar_producto(sku, unidades_por_lote[sku])
             else:
                 continue
