@@ -63,12 +63,19 @@ def index(request):
     for sku in unidades_por_lote:
         if sku in stock_minimo.keys():
             if sku in productos.keys():
-                porcentaje = round(int(productos[sku]) / int(stock_minimo[sku]), 2) *100
-                lista = [nombres[sku], sku, productos[sku], stock_minimo[sku], porcentaje]
+                porcentaje = round(int(productos[sku]) / 200, 2) *100
+                lista = [nombres[sku], sku, productos[sku], 200, porcentaje]
             else:
                 porcentaje = round(0*100, 2)
-                lista = [nombres[sku], sku, int(0), stock_minimo[sku], porcentaje]
-            cuenta_stock.append(lista)
+                lista = [nombres[sku], sku, int(0), 200, porcentaje]
+        else:
+            if sku in productos.keys():
+                porcentaje = round(int(productos[sku]) / 300, 2) *100
+                lista = [nombres[sku], sku, productos[sku], 300, porcentaje]
+            else:
+                porcentaje = round(0*100, 2)
+                lista = [nombres[sku], sku, int(0), 300, porcentaje]
+        cuenta_stock.append(lista)
     template = loader.get_template('masterapp/index.html')
     context = {
         'almacenes': almacenes,
