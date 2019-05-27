@@ -153,7 +153,7 @@ def setear_hook(url):
 # Funcion OK
 def obtener_inventario_otro_grupo(grupo):
     url = 'http://tuerca{}.ing.puc.cl/inventories'.format(grupo)
-    r = requests.get(url)
+    r = requests.get(url, timeout=8)
     if r.status_code == 200:
         return r.text
         #si queremos retornar la lista de diccionarios
@@ -169,7 +169,7 @@ def pedir_orden_producto(sku, cantidad, almacenId, grupo, id_oc):
     url = 'http://tuerca{}.ing.puc.cl/orders/'.format(grupo)
     headers = {'content-type': 'application/json', 'group': '6'}
     payload = {'sku': str(sku), 'cantidad': cantidad, 'almacenId': str(almacenId), 'oc': id_oc}
-    r = requests.post(url, headers=headers, data=json.dumps(payload))
+    r = requests.post(url, headers=headers, data=json.dumps(payload), timeout=20)
     return r
 
 
@@ -177,14 +177,14 @@ def pedir_orden_producto2(sku, cantidad, almacenId, grupo, id_oc):
     url = 'http://tuerca{}.ing.puc.cl/orders'.format(grupo)
     headers = {'content-type': 'application/json', 'group': '6'}
     payload = {'sku': str(sku), 'cantidad': cantidad, 'almacenId': str(almacenId), 'oc': id_oc}
-    r = requests.post(url, headers=headers, data=json.dumps(payload))
+    r = requests.post(url, headers=headers, data=json.dumps(payload), timeout=20)
     return r
 
 # PAra nuevos pedidos otros pedir_a_grupos
 def obtener_inventario_grupo(grupo):
     url = 'http://tuerca{}.ing.puc.cl/inventories'.format(grupo)
     headers = {'content-type': 'application/json', 'group': '6'}
-    r = requests.get(url, headers=headers)
+    r = requests.get(url, headers=headers, timeout=8)
     return r
 
 def despachar_producto(id, oc, direccion, precio):
