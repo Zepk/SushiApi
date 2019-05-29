@@ -7,8 +7,8 @@ from .ordenes_compra import *
 from .funciones_bodega_internos import *
 
 myHostname = "fierro.ing.puc.cl"
-myUsername = "grupo6_dev"
-myPassword = "hhqC9wWbKyIMjPX"
+myUsername = "grupo6"
+myPassword = "jWTyw7cGzq3enuS48"
 
 #cnopts = pysftp.CnOpts()
 #cnopts.hostkeys = None
