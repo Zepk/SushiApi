@@ -163,7 +163,7 @@ def fabricar_productos_propios():
 @shared_task
 def despachar_pedido_bodega_smarter(sku, cantidad, almacenId, id_orden):
     despachados = 0
-    for i in range(2*int(cantidad)):
+    while True:
         #sleep(1)
         producto = elegir_producto_a_despachar(sku)
         if not producto[0]:
