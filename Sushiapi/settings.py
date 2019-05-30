@@ -94,11 +94,11 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
     'pedir_productos_propios': {
         'task': 'masterapp.tasks.pedir_productos_propios',
-        'schedule': crontab(minute='*/8')  # execute every minute
+        'schedule': crontab(minute='*/2')  # execute every minute
     },
     'pedir_productos_ajenos': {
         'task': 'masterapp.tasks.pedir_productos_ajenos',
-        'schedule': crontab(minute='*/8')  # execute every minute
+        'schedule': crontab(minute='*/3')  # execute every minute
     },
     'fabricar_productos_propios': {
         'task': 'masterapp.tasks.fabricar_productos_propios',
