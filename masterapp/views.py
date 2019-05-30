@@ -26,13 +26,17 @@ def orders(request):
     if request.method == "POST":
         try:
             body = json.loads(request.body)
-            sku = body["sku"]
-            cantidad = body["cantidad"]
             almacenId = body["almacenId"]
             id_orden = body["oc"]
+            orden_compra = obtener_oc(id_orden)
+            posibilidad = revisar_posibilidad_entrega(orden_compra)
+            orden = orden_compra[0]
+            sku = orden['sku']
+            cantidad = orden['cantidad']
         except:
             return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
-        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
+
+        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios) and posibilidad == 0:
             #notificar_cliente(url,"accept")
             aceptar_oc(id_orden)
             despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId, id_orden)
@@ -47,7 +51,7 @@ def orders(request):
         else:
             #notificar_cliente(url,"reject")
             rechazar_oc(id_orden, 'No tenemos Stock o pedido muy grande')
-            return JsonResponse({'status_text': 'No tenemos Stock o pedido muy grande'.format(request.method)}, status=404)
+            return JsonResponse({'status_text': 'No tenemos Stock o pedido muy grande, o muy poco tiempo para el despacho'.format(request.method)}, status=404)
     else:
         return JsonResponse({'status_text': 'method /{}/ not valid'.format(request.method)}, status=405)
 
