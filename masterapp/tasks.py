@@ -302,10 +302,10 @@ def manejar_pedidos_cliente():
             elif posibilidad == 1:
                 cocinar(pedido['sku'], delta)
             elif posibilidad == 0:
-                aceptar_oc(pedido['id'])
                 despachar_a_cliente(pedido['sku'], delta, 'b2c', 1000, pedido['id'])
                 orden_compra = obtener_oc(pedido['id'])
                 delta_final = orden_compra[0]['cantidad'] - orden_compra[0]['cantidadDespachada']
                 if delta_final <= 0:
+                    aceptar_oc(pedido['id'])
                     archivos_a_borrar.append(pedido['archivo'])
     borrar_archivo(archivos_a_borrar)
