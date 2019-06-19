@@ -72,7 +72,7 @@ def pedir_productos_ajenos():
                             if sku == producto['sku'] and producto['total'] >= 3:
                                 #print(inventario)
                                 #print('Tienen inventario ')
-                                oc = crear_oc(int(g), sku, 10, 3, 1, 'b2b')
+                                oc = crear_oc(int(g), sku, 80, 3, 1, 'b2b')
                                 # print(oc['_id'])
                                 r1 = pedir_orden_producto2(sku, 3, recepcion, g, oc['_id'])
                                 r2 = pedir_orden_producto(sku, 3, recepcion, g, oc['_id'])
@@ -111,7 +111,7 @@ def pedir_productos_ajenos():
                             if sku == producto['sku'] and producto['total'] >= 3:
                                 #print(inventario)
                                 #print('Tienen inventario ')
-                                oc = crear_oc(int(g), sku, 10, 3, 1, 'b2b')
+                                oc = crear_oc(int(g), sku, 80, 3, 1, 'b2b')
                                 # print(oc['_id'])
                                 r1 = pedir_orden_producto2(sku, 3, recepcion, g, oc['_id'])
                                 r2 = pedir_orden_producto(sku, 3, recepcion, g, oc['_id'])
