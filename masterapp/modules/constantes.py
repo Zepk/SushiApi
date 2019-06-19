@@ -267,3 +267,50 @@ id_grupos = {
             14: '5cc66e378820160004a4c3c9',
             }
 '''
+
+
+
+
+
+stock_minimal = {
+                '1001': 10*lotes_minimos_materia_prima_propia,
+                '1002': 10*lotes_minimos_materia_prima_propia,
+                '1003': 100*lotes_minimos_materia_prima_propia,
+                '1004': 100*lotes_minimos_materia_prima_ajena,
+                '1005': 5*lotes_minimos_materia_prima_propia,
+                '1006': 1*lotes_minimos_materia_prima_ajena,
+                '1007': 8*lotes_minimos_materia_prima_propia,
+                '1008': 10*lotes_minimos_materia_prima_ajena,
+                '1009': 3*lotes_minimos_materia_prima_ajena,
+                '1010': 5*lotes_minimos_materia_prima_ajena,
+                '1011': 4*lotes_minimos_materia_prima_ajena,
+                '1012': 7*lotes_minimos_materia_prima_propia,
+                '1014': 5*lotes_minimos_materia_prima_ajena,
+                '1015': 4*lotes_minimos_materia_prima_propia,
+                '1016': 8*lotes_minimos_materia_prima_propia,
+                '1101': 150,
+                '1111': 50,
+                '1301': 50*0.7,
+                '1013': 300*0.7,
+                '1310': 20*0.7,
+                '1201': 250*0.7,
+                '1209': 20*0.7,
+                '1109': 50*0.7,
+                '1309': 170*0.7,
+                '1106': 400*0.7,
+                '1114': 50*0.7,
+                '1215': 20*0.7,
+                '1115': 30*0.7,
+                '1105': 50*0.7,
+                '1216': 50*0.7,
+                '1116': 250*0.7,
+                '1110': 80*0.7,
+                '1210': 150*0.7,
+                '1112': 130*0.7,
+                '1108': 10*0.7,
+                '1407': 40*0.7,
+                '1207': 20*0.7,
+                '1107': 50*0.7,
+                '1307': 170*0.7,
+                '1211': 60*0.7,
+                }
