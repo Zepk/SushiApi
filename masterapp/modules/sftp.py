@@ -75,15 +75,18 @@ def revisar_posibilidad_entrega(orden_compra):
         stock = contar_productos()
         if sku in stock.keys():
             if stock[sku] >= cantidad:
+                print('tengo {} y me piden {}'.format(stock[sku], cantidad))
                 return 0
 
     # Si tengo ventana de 30 para conicar productos
     if tiempo > datetime.timedelta(minutes=10):
         # Tengo para fabricar inmediatamente
         if fabricable_multiplo(sku, cantidad):
+            print('puedo fabricar lo que me piden')
             return 1
         # Debo fabricar subproductos
         else:
+            print('no puedo fabricar lo que me piden')
             return 2
 
     # No tendre tiempo para entregar
