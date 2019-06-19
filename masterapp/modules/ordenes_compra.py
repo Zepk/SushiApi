@@ -29,6 +29,7 @@ def crear_oc(proveedor, sku, minutos, cantidad, precio, canal):
         return lista
     else:
         print('Error creando orden de compra')
+        print(r.text)
         return False
 
 
