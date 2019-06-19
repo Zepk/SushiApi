@@ -176,6 +176,7 @@ def despachar_pedido_bodega_smarter(sku, cantidad, almacenId, id_orden):
                 despachados += 1
             if despachados >= cantidad:
                 aceptar_oc(id_orden)
+                print('Orden B2B Completada exitosamente')
                 return True
         else:
             #print("intentando despachar")
@@ -183,6 +184,7 @@ def despachar_pedido_bodega_smarter(sku, cantidad, almacenId, id_orden):
                 despachados += 1
             if despachados >= cantidad:
                 aceptar_oc(id_orden)
+                print('Orden B2B Completada exitosamente')
                 return True
     return False
 
@@ -309,5 +311,8 @@ def manejar_pedidos_cliente():
                 delta_final = orden_compra[0]['cantidad'] - orden_compra[0]['cantidadDespachada']
                 if delta_final <= 0:
                     aceptar_oc(pedido['id'])
+                    print('********')
+                    print('Orden FTP Completada exitosamente')
+                    print('********')
                     archivos_a_borrar.append(pedido['archivo'])
     borrar_archivo(archivos_a_borrar)
