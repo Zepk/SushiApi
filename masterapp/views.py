@@ -38,7 +38,7 @@ def orders(request):
 
         if stock_disponible_sku(sku, cantidad) and (sku in skus_propios) and posibilidad == 0:
             #notificar_cliente(url,"accept")
-            aceptar_oc(id_orden)
+            #aceptar_oc(id_orden)
             despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId, id_orden)
             respuesta = {}
             respuesta["sku"] = sku

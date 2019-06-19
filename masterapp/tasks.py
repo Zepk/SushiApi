@@ -175,12 +175,14 @@ def despachar_pedido_bodega_smarter(sku, cantidad, almacenId, id_orden):
             if despachar_un_producto(producto[0]["_id"], almacenId, 10, id_orden):
                 despachados += 1
             if despachados >= cantidad:
+                aceptar_oc(id_orden)
                 return True
         else:
             #print("intentando despachar")
             if despachar_un_producto(producto[0]["_id"], almacenId, 10, id_orden):
                 despachados += 1
             if despachados >= cantidad:
+                aceptar_oc(id_orden)
                 return True
     return False
 

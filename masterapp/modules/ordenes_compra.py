@@ -25,11 +25,11 @@ def crear_oc(proveedor, sku, minutos, cantidad, precio, canal):
     if r.status_code == 200:
         lista = json.loads(r.text)
         print('Orden de compra creada exitosamente')
-        print(lista)
+        #print(lista)
         return lista
     else:
         print('Error creando orden de compra')
-        print(r.text)
+        #print(r.text)
         return False
 
 
