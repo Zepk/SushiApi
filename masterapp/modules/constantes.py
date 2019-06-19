@@ -273,23 +273,30 @@ id_grupos = {
 
 
 stock_minimal = {
-                '1001': 10*lotes_minimos_materia_prima_propia,
-                '1002': 10*lotes_minimos_materia_prima_propia,
-                '1003': 100*lotes_minimos_materia_prima_propia,
-                '1004': 100*lotes_minimos_materia_prima_ajena,
-                '1005': 5*lotes_minimos_materia_prima_propia,
-                '1006': 1*lotes_minimos_materia_prima_ajena,
-                '1007': 8*lotes_minimos_materia_prima_propia,
-                '1008': 10*lotes_minimos_materia_prima_ajena,
-                '1009': 3*lotes_minimos_materia_prima_ajena,
-                '1010': 5*lotes_minimos_materia_prima_ajena,
-                '1011': 4*lotes_minimos_materia_prima_ajena,
-                '1012': 7*lotes_minimos_materia_prima_propia,
-                '1014': 5*lotes_minimos_materia_prima_ajena,
-                '1015': 4*lotes_minimos_materia_prima_propia,
-                '1016': 8*lotes_minimos_materia_prima_propia,
-                '1101': 150,
-                '1111': 50,
+                '1001': 8*20,
+                '1002': 4*20,
+                '1003': 3*20,
+                '1004': 2*20,
+
+                '1005': 1*30,
+
+                '1006': 1*30,
+
+                '1007': 1*30*4,
+
+
+                '1008': 1*30,
+                '1009': 1*30*3,
+                '1010': 1*30*3,
+                '1011': 1*30,
+                '1012': 1*30+20,
+                '1014': 1*30,
+                '1015': 2**30*2+20,
+                '1016': 11*30*2,
+
+
+                '1101': 100,
+                '1111': 30,
                 '1301': 50*0.7,
                 '1013': 300*0.7,
                 '1310': 20*0.7,
