@@ -3,7 +3,7 @@ from .hashing import *
 import requests
 import json
 from .funciones_bodega import *
-
+from .ordenes_compra import obtener_oc
 
 def stock_disponible():
     almacenes = obtener_almacenes()
@@ -73,6 +73,7 @@ def despachar_un_producto(productoId, almacenId, precio, id_orden):
     if r.status_code == 200:
         print("Producto enviado")
         print(productoId)
+        print('he despachado {} de un total de {}'.format(obtener_oc(id_orden)['cantidadDespachada'], obtener_oc(id_orden)['cantidad']))
         return True
     else:
         print("fallo el despacho")
