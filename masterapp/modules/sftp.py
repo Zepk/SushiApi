@@ -5,10 +5,19 @@ from dateutil import parser
 import datetime
 from .ordenes_compra import *
 from .funciones_bodega_internos import *
-
+'''
+# Produccion
 myHostname = "fierro.ing.puc.cl"
 myUsername = "grupo6"
 myPassword = "jWTyw7cGzq3enuS48"
+'''
+
+# Desarollo
+myHostname = "fierro.ing.puc.cl"
+myUsername = "grupo6_dev"
+myPassword = "hhqC9wWbKyIMjPX"
+
+
 
 #cnopts = pysftp.CnOpts()
 #cnopts.hostkeys = None
