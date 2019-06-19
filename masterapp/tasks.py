@@ -16,13 +16,13 @@ def vaciar_recepcion_y_pulmon():
             if (almacen['_id'] == pulmon or almacen['_id'] == recepcion ) and almacen['usedSpace'] != 0:
                 for almacen2 in almacenes:
                     if almacen2['_id'] == almacen_general1 or almacen2['_id'] == almacen_general2:
-                        if int(almacen2['totalSpace']) > int(almacen2['usedSpace']) + 3:
+                        if int(almacen2['totalSpace']) > int(almacen2['usedSpace']) + 30:
                             skus = json.loads(obtener_skus_con_stock(almacen['_id']))
                             for sku in skus:
                                 sku = sku['_id']
                                 productos = json.loads(obtener_productos_en_almacen(almacen['_id'], sku))
                                 for producto in productos:
-                                    if int(almacen2['totalSpace']) > int(almacen2['usedSpace']) + 3:
+                                    if int(almacen2['totalSpace']) > int(almacen2['usedSpace']) + 30:
                                         mover_productos_entre_almacenes(producto['_id'], almacen2['_id'])
                                     else:
                                         break

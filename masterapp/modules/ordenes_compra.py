@@ -24,8 +24,11 @@ def crear_oc(proveedor, sku, minutos, cantidad, precio, canal):
     r = requests.put(url, headers=headers, data=json.dumps(payload))
     if r.status_code == 200:
         lista = json.loads(r.text)
+        print('Orden de compra creada exitosamente')
+        print(lista)
         return lista
     else:
+        print('Error creando orden de compra')
         return False
 
 
