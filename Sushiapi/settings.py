@@ -116,8 +116,8 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'masterapp.tasks.manejar_pedidos_cliente',
         'schedule': crontab(minute='*/5')  # execute every minute
     },
-    'vaciar_recepcion_y_pulmon': {
-        'task': 'masterapp.tasks.vaciar_recepcion_y_pulmon',
+    'vaciar_pulmon': {
+        'task': 'masterapp.tasks.vaciar_pulmon',
         'schedule': crontab(minute='*/10')  # execute every minute
     },
 }

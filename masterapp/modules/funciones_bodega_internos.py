@@ -159,3 +159,9 @@ def preparar_despacho_cliente(sku, cantidad):
 
         if sku_ready:
             break
+
+def obtener_espacio_almacen(id):
+    almacenes = json.loads(obtener_almacenes())
+    for almacen in almacenes:
+        if almacen['_id'] == id:
+            return almacen['totalSpace'] - almacen['usedSpace']

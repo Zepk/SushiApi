@@ -13,7 +13,7 @@ def vaciar_recepcion_y_pulmon():
     try:
         almacenes = json.loads(obtener_almacenes())
         for almacen in almacenes:
-            if (almacen['_id'] == pulmon or almacen['_id'] == recepcion ) and almacen['usedSpace'] != 0:
+            if (almacen['_id'] == pulmon or almacen['_id'] == recepcion) and almacen['usedSpace'] != 0:
                 for almacen2 in almacenes:
                     if almacen2['_id'] == almacen_general1 or almacen2['_id'] == almacen_general2:
                         if int(almacen2['totalSpace']) > int(almacen2['usedSpace']) + 30:
@@ -28,6 +28,26 @@ def vaciar_recepcion_y_pulmon():
                                         break
     except TypeError:
         pass
+@shared_task
+def vaciar_pulmon():
+    almacenes = json.loads(obtener_almacenes())
+    for almacen in almacenes:
+        if almacen['_id'] == pulmon and almacen['usedSpace'] != 0:
+            skus = json.loads(obtener_skus_con_stock(almacen['_id']))
+            for sku in skus:
+                sku = sku['_id']
+                productos = json.loads(obtener_productos_en_almacen(almacen['_id'], sku))
+                for producto in productos:
+                    if obtener_espacio_almacen(almacen_general1) > 20:
+                        mover_productos_entre_almacenes(producto['_id'], almacen_general1)
+                    elif obtener_espacio_almacen(almacen_general2) > 20:
+                        mover_productos_entre_almacenes(producto['_id'], almacen_general2)
+                    else:
+                        return False
+
+
+
+
 
 
 
