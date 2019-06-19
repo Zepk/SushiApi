@@ -40,7 +40,7 @@ def pedir_productos_propios():
             fabricar_producto(sku, str(unidades_por_lote[sku]))
             #print('pidiendo productos {}'.format(sku))
         #elif diccionario[sku] < lotes_minimos_materia_prima_propia * unidades_por_lote[sku] and
-        elif diccionario[sku] < 300:
+        elif diccionario[sku] < unidades_por_lote[sku] * lotes_minimos_materia_prima_propia:
             fabricar_producto(sku, str(unidades_por_lote[sku]))
             #print('pidiendo productos {}'.format(sku))
 
@@ -90,7 +90,7 @@ def pedir_productos_ajenos():
                     except:
                         pass
         #elif diccionario[sku] < lotes_minimos_materia_prima_ajena * unidades_por_lote[sku]:
-        elif diccionario[sku] < 300:
+        elif diccionario[sku] < lotes_minimos_materia_prima_ajena * unidades_por_lote[sku]:
             # print('SKU bajo stock minimo')
             for g in grupos:
                 #print(' 2 Se pide {} al grupo {}'.format(sku, g))
@@ -143,7 +143,7 @@ def fabricar_productos_propios():
         elif sku in stock.keys():
             #print(sku, stock[sku], delta_stock_minimo * stock_minimo[sku])
             #if stock[sku] < delta_stock_minimo * stock_minimo[sku] or
-            if stock[sku] < 200:
+            if stock[sku] < stock_minimo[sku]*0.7:
                 if fabricable(sku, stock):
                     preparar_despacho(recetas[sku])
                     #print("Fabricando {}".format(nombres[sku]))
@@ -245,7 +245,7 @@ def fabricar_productos_intermedios():
             continue
         elif sku in stock.keys():
             #if stock[sku] < delta_stock_minimo * stock_deseado_productos_intermedios[sku] or
-            if stock[sku] < 200:
+            if stock[sku] < stock_deseado_productos_intermedios[sku]:
                 if fabricable(sku, stock):
                     preparar_despacho(recetas[sku])
                     #print("Fabricando {}".format(nombres[sku]))
