@@ -73,7 +73,7 @@ def despachar_un_producto(productoId, almacenId, precio, id_orden):
     if r.status_code == 200:
         print("Producto enviado")
         print(productoId)
-        print('he despachado {} de un total de {}'.format(obtener_oc(id_orden)[0]['cantidadDespachada'], obtener_oc(id_orden)[0]['cantidad']))
+        print('Para otro grupo he despachado {} de un total de {}'.format(obtener_oc(id_orden)[0]['cantidadDespachada'], obtener_oc(id_orden)[0]['cantidad']))
         return True
     else:
         print("fallo el despacho")

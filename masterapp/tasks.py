@@ -30,21 +30,23 @@ def vaciar_recepcion_y_pulmon():
         pass
 @shared_task
 def vaciar_pulmon():
-    almacenes = json.loads(obtener_almacenes())
-    for almacen in almacenes:
-        if almacen['_id'] == pulmon and almacen['usedSpace'] != 0:
-            skus = json.loads(obtener_skus_con_stock(almacen['_id']))
-            for sku in skus:
-                sku = sku['_id']
-                productos = json.loads(obtener_productos_en_almacen(almacen['_id'], sku))
-                for producto in productos:
-                    if obtener_espacio_almacen(almacen_general1) > 20:
-                        mover_productos_entre_almacenes(producto['_id'], almacen_general1)
-                    elif obtener_espacio_almacen(almacen_general2) > 20:
-                        mover_productos_entre_almacenes(producto['_id'], almacen_general2)
-                    else:
-                        return False
-
+    try:
+        almacenes = json.loads(obtener_almacenes())
+        for almacen in almacenes:
+            if almacen['_id'] == pulmon and almacen['usedSpace'] != 0:
+                skus = json.loads(obtener_skus_con_stock(almacen['_id']))
+                for sku in skus:
+                    sku = sku['_id']
+                    productos = json.loads(obtener_productos_en_almacen(almacen['_id'], sku))
+                    for producto in productos:
+                        if obtener_espacio_almacen(almacen_general1) > 20:
+                            mover_productos_entre_almacenes(producto['_id'], almacen_general1)
+                        elif obtener_espacio_almacen(almacen_general2) > 20:
+                            mover_productos_entre_almacenes(producto['_id'], almacen_general2)
+                        else:
+                            return False
+    except TypeError:
+        pass
 
 
 
@@ -297,10 +299,11 @@ def despachar_a_cliente(sku, cantidad, direccion, precio, oc):
     counter = 0
     for producto in productos:
         if producto['sku'] == sku:
-            despachar_producto(producto['_id'], oc, direccion, precio)
-            counter += 1
-            if counter == cantidad:
-                break
+            if despachar_producto(producto['_id'], oc, direccion, precio):
+                counter += 1
+                print('he despachado {} de {}'.format(oc, oc))
+                if counter == cantidad:
+                    break
 
 
 @shared_task
