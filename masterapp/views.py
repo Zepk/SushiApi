@@ -36,7 +36,7 @@ def orders(request):
         except:
             return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
 
-        if stock_disponible_sku(sku, cantidad + (stock_minimal[sku]*0.2)) and (sku in skus_propios) and posibilidad == 0:
+        if stock_disponible_sku(sku, cantidad + (stock_minimal[sku]*0.2)) and (sku in skus_propios) and posibilidad == 0 and cantidad < 30:
             #notificar_cliente(url,"accept")
             #aceptar_oc(id_orden)
             despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId, id_orden)
