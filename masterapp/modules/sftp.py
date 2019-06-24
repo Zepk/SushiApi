@@ -67,12 +67,13 @@ def obtener_tiempo_restante(orden):
 
 # Retorna True si es posibe completar la entrega, False en caso contrario
 def revisar_posibilidad_entrega(orden_compra):
+    print('revisando posibilidad de entrega')
     orden = orden_compra[0]
     sku = orden['sku']
     cantidad = orden['cantidad']
     tiempo = obtener_tiempo_restante(orden)
-    # Si tengo productos necesarios y margen de 3 min de despacho
-    if tiempo > datetime.timedelta(minutes=3):
+    # Si tengo productos necesarios y margen de 5 min de despacho
+    if tiempo > datetime.timedelta(minutes=5):
         stock = contar_productos()
         if sku in stock.keys():
             if stock[sku] >= cantidad:
@@ -91,6 +92,7 @@ def revisar_posibilidad_entrega(orden_compra):
             return 2
 
     # No tendre tiempo para entregar
+    print('No hay suficiente tiempo para entregar')
     return 3
 
 # Funcion que elimina archivo en el servidor y local
