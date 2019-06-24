@@ -1,6 +1,8 @@
 key = 'l.akT6fMzi5gG'
 grupo = 6
 
+'''
+
 #desarrollo
 recepcion = "5cbd3ce444f67600049431d1"
 despacho = '5cbd3ce444f67600049431d2'
@@ -18,9 +20,8 @@ almacen_general1 = '5cc7b139a823b10004d8e6ed'
 almacen_general2 = '5cc7b139a823b10004d8e6ee'
 pulmon = '5cc7b139a823b10004d8e6ef'
 cocina = '5cc7b139a823b10004d8e6f0'
-'''
 
-ambiente = 'dev'
+ambiente = 'prod'
 
 lotes_minimos_materia_prima_propia = 4
 lotes_minimos_materia_prima_ajena = 2
@@ -230,7 +231,7 @@ nombres = {
             '1310': 'Palta cortada para nigiri',
             '1407': 'Salmón cortado para envoltura',
             }
-
+'''
 # Desarollo
 id_grupos = {
             1: '5cbd31b7c445af0004739be3',
@@ -266,7 +267,7 @@ id_grupos = {
             13: '5cc66e378820160004a4c3c8',
             14: '5cc66e378820160004a4c3c9',
             }
-'''
+
 
 
 
