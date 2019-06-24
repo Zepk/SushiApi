@@ -74,11 +74,15 @@ def revisar_posibilidad_entrega(orden_compra):
     tiempo = obtener_tiempo_restante(orden)
     # Si tengo productos necesarios y margen de 5 min de despacho
     if tiempo > datetime.timedelta(minutes=5):
+        print('quedan mas de 5 minutos para hacer la entrega, revisando stock')
         stock = contar_productos()
+        print('stock revisado')
         if sku in stock.keys():
             if stock[sku] >= cantidad:
                 print('tengo {} y me piden {}'.format(stock[sku], cantidad))
                 return 0
+            else:
+                print('el sku pedido no esta en mi inventario')
 
     # Si tengo ventana de 30 para conicar productos
     if tiempo > datetime.timedelta(minutes=10):
