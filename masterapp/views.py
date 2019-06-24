@@ -35,9 +35,11 @@ def orders(request):
             sku = orden['sku']
             cantidad = orden['cantidad']
         except:
+            print('Error en el post recibido')
             return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
 
         if stock_disponible_sku(sku, cantidad) and (sku in skus_propios) and posibilidad == 0:
+            print('intentaremos despachar la orden')
             #notificar_cliente(url,"accept")
             #aceptar_oc(id_orden)
             despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId, id_orden)
@@ -50,6 +52,7 @@ def orders(request):
             respuesta["despachado"] = False
             return JsonResponse(respuesta, status=201)
         else:
+            print('la orden sera rechazada')
             #notificar_cliente(url,"reject")
             rechazar_oc(id_orden, 'No tenemos Stock o pedido muy grande')
             return JsonResponse({'status_text': 'No tenemos Stock o pedido muy grande, o muy poco tiempo para el despacho'.format(request.method)}, status=404)
