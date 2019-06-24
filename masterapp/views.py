@@ -26,6 +26,7 @@ def orders(request):
     if request.method == "POST":
         try:
             body = json.loads(request.body)
+            print('body del request: {}'.format(body))
             almacenId = body["almacenId"]
             id_orden = body["oc"]
             orden_compra = obtener_oc(id_orden)
