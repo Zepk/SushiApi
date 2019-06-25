@@ -43,7 +43,6 @@ def obtener_oc(id):
     r = requests.get(url, headers=headers, data=json.dumps(payload))
     if r.status_code == 200:
         lista = json.loads(r.text)
-        print('la orden de compra retornada es: {}'.format(lista))
         return lista
     else:
         return False
