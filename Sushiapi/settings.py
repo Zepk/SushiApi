@@ -120,6 +120,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'masterapp.tasks.vaciar_pulmon',
         'schedule': crontab(minute='*/10')  # execute every minute
     },
+    'pedir_azucar': {
+        'task': 'masterapp.tasks.pedir_azucar',
+        'schedule': crontab(hour='*/1')  # execute every minute
+    },
 }
 
 
