@@ -114,11 +114,11 @@ CELERY_BEAT_SCHEDULE = {
     },
     'manejar_pedidos_cliente': {
         'task': 'masterapp.tasks.manejar_pedidos_cliente',
-        'schedule': crontab(minute='*/4')  # execute every minute
+        'schedule': crontab(minute='*/8')  # execute every minute
     },
     'vaciar_pulmon': {
         'task': 'masterapp.tasks.vaciar_pulmon',
-        'schedule': crontab(minute='*/10')  # execute every minute
+        'schedule': crontab(minute='*/4')  # execute every minute
     },
     'pedir_azucar': {
         'task': 'masterapp.tasks.pedir_azucar',
