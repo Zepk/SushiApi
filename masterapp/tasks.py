@@ -253,17 +253,19 @@ def elegir_producto_a_despachar(sku):
         pass
     except IndexError:
         pass
-
-    for almacen in almacenes.keys():
-        if not almacenes[almacen]["despacho"]:
-            try:
-                productos = json.loads(obtener_productos_en_almacen(almacen, sku))
-            except TypeError:
-                continue
-            producto = random.choice(productos)
-            respuesta = (producto, False)
-            #rint('elegimoos un producto para despachar')
-            return respuesta
+    try:
+        for almacen in almacenes.keys():
+            if not almacenes[almacen]["despacho"]:
+                try:
+                    productos = json.loads(obtener_productos_en_almacen(almacen, sku))
+                except TypeError:
+                    continue
+                producto = random.choice(productos)
+                respuesta = (producto, False)
+                #rint('elegimoos un producto para despachar')
+                return respuesta
+    except AttributeError:
+        return (False, False)
     return (False, False)
 
 
