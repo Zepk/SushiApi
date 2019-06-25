@@ -43,12 +43,32 @@ def vaciar_pulmon():
                             mover_productos_entre_almacenes(producto['_id'], almacen_general1)
                         elif obtener_espacio_almacen(almacen_general2) > 20:
                             mover_productos_entre_almacenes(producto['_id'], almacen_general2)
+                        elif obtener_espacio_almacen(recepcion) > 20:
+                            mover_productos_entre_almacenes(producto['_id'], recepcion)
                         else:
                             return False
     except TypeError:
         pass
 
-
+@shared_task
+def vaciar_recepcion():
+    try:
+        almacenes = json.loads(obtener_almacenes())
+        for almacen in almacenes:
+            if almacen['_id'] == recepcion and almacen['usedSpace'] >= 200:
+                skus = json.loads(obtener_skus_con_stock(almacen['_id']))
+                for sku in skus:
+                    sku = sku['_id']
+                    productos = json.loads(obtener_productos_en_almacen(almacen['_id'], sku))
+                    for producto in productos:
+                        if obtener_espacio_almacen(almacen_general1) > 20:
+                            mover_productos_entre_almacenes(producto['_id'], almacen_general1)
+                        elif obtener_espacio_almacen(almacen_general2) > 20:
+                            mover_productos_entre_almacenes(producto['_id'], almacen_general2)
+                        else:
+                            return False
+    except TypeError:
+        pass
 
 
 
