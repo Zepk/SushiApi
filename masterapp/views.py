@@ -30,7 +30,7 @@ def orders(request):
             almacenId = body["almacenId"]
             id_orden = body["oc"]
             orden_compra = obtener_oc(id_orden)
-            posibilidad = revisar_posibilidad_entrega(orden_compra)
+            posibilidad = revisar_posibilidad_entrega2(orden_compra)
             orden = orden_compra[0]
             sku = orden['sku']
             cantidad = orden['cantidad']

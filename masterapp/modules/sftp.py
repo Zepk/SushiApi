@@ -65,6 +65,28 @@ def obtener_tiempo_restante(orden):
     return dt-hora
 
 
+
+def revisar_posibilidad_entrega2(orden_compra):
+    print('revisando posibilidad de entrega')
+    orden = orden_compra[0]
+    sku = orden['sku']
+    cantidad = orden['cantidad']
+    tiempo = obtener_tiempo_restante(orden)
+    # Si tengo productos necesarios y margen de 5 min de despacho
+    if tiempo > datetime.timedelta(minutes=5):
+        stock = contar_productos()
+        if sku in stock.keys():
+            print('tengo {} y me piden {}'.format(stock[sku], cantidad))
+            if stock[sku] >= cantidad:
+                return 0
+        else:
+            print('el sku pedido no esta en mi inventario')
+            return 1
+    else:
+        print('No hay suficiente tiempo para entregar el producto')
+        return 2
+
+
 # Retorna True si es posibe completar la entrega, False en caso contrario
 def revisar_posibilidad_entrega(orden_compra):
     print('revisando posibilidad de entrega')
