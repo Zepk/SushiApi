@@ -79,8 +79,8 @@ def revisar_posibilidad_entrega(orden_compra):
             if stock[sku] >= cantidad:
                 print('tengo {} y me piden {}'.format(stock[sku], cantidad))
                 return 0
-            else:
-                print('el sku pedido no esta en mi inventario')
+        else:
+            print('el sku pedido no esta en mi inventario')
 
     # Si tengo ventana de 30 para conicar productos
     if tiempo > datetime.timedelta(minutes=10):
