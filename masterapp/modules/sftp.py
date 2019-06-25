@@ -68,7 +68,9 @@ def obtener_tiempo_restante(orden):
 
 def revisar_posibilidad_entrega2(orden_compra):
     print('revisando posibilidad de entrega')
+    print('la orden_compra es: {}'.format(orden_compra))
     orden = orden_compra[0]
+    print('la orden es: {}'.format(orden))
     sku = orden['sku']
     cantidad = orden['cantidad']
     print('obteniendo tiempo restante')
