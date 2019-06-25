@@ -71,7 +71,9 @@ def revisar_posibilidad_entrega2(orden_compra):
     orden = orden_compra[0]
     sku = orden['sku']
     cantidad = orden['cantidad']
+    print('obteniendo tiempo restante')
     tiempo = obtener_tiempo_restante(orden)
+    print('logramos obtener el tiempo restante: {}'.format(tiempo))
     # Si tengo productos necesarios y margen de 5 min de despacho
     if tiempo > datetime.timedelta(minutes=5):
         stock = contar_productos()
