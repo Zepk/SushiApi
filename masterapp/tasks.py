@@ -58,7 +58,7 @@ def vaciar_pulmon():
 def pedir_productos_propios():
     diccionario = contar_productos()
     for sku in skus_propios:
-        if sku == '1003' or sku == '1007':
+        if sku == '1003':
             continue
         if sku not in diccionario.keys():
             fabricar_producto(sku, str(unidades_por_lote[sku]))
