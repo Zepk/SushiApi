@@ -126,7 +126,11 @@ CELERY_BEAT_SCHEDULE = {
     },
     'vaciar_recepcion': {
         'task': 'masterapp.tasks.vaciar_recepcion',
-        'schedule': crontab(minute='*/20')  # execute every minute
+        'schedule': crontab(minute='*/7')  # execute every minute
+    },
+    'pedir_ciboulette': {
+        'task': 'masterapp.tasks.pedir_ciboulette',
+        'schedule': crontab(minute='*/7')  # execute every minute
     },
 }
 

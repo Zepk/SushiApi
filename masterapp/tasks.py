@@ -78,7 +78,7 @@ def vaciar_recepcion():
 def pedir_productos_propios():
     diccionario = contar_productos()
     for sku in skus_propios:
-        if sku == '1003':
+        if sku == '1003' or sku == '1015':
             continue
         if sku not in diccionario.keys():
             fabricar_producto(sku, str(unidades_por_lote[sku]))
@@ -102,9 +102,24 @@ def pedir_azucar():
         #print('pidiendo productos {}'.format(sku))
 
 @shared_task
+def pedir_ciboulette():
+    print('revisando si es necesario pedir azucar')
+    diccionario = contar_productos()
+    sku = '1015'
+    if sku not in diccionario.keys():
+        fabricar_producto(sku, str(unidades_por_lote[sku]))
+        #print('pidiendo productos {}'.format(sku))
+    #elif diccionario[sku] < lotes_minimos_materia_prima_propia * unidades_por_lote[sku] and
+    elif diccionario[sku] < stock_minimal[sku]:
+        fabricar_producto(sku, str(unidades_por_lote[sku]))
+        #print('pidiendo productos {}'.format(sku))
+
+
+
+@shared_task
 def pedir_salmon():
     diccionario = contar_productos()
-    sku = '1003'
+    sku = '1007'
     if sku not in diccionario.keys():
         fabricar_producto(sku, str(unidades_por_lote[sku]))
         #print('pidiendo productos {}'.format(sku))
