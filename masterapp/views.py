@@ -34,11 +34,12 @@ def orders(request):
             orden = orden_compra[0]
             sku = orden['sku']
             cantidad = orden['cantidad']
+            cliente = orden['cliente']
         except:
             print('Error en el post recibido')
             return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
 
-        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios) and posibilidad == 0:
+        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios) and posibilidad == 0 and cliente != id_grupos[5]:
             print('intentaremos despachar la orden')
             #notificar_cliente(url,"accept")
             #aceptar_oc(id_orden)
