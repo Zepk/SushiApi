@@ -64,12 +64,12 @@ def mover_productos_entre_almacenes(id_producto, id_almacen):
         return r.status_code
 
 
-def mover_productos_entre_bodegas(id_producto, id_almacen):
+def mover_productos_entre_bodegas(id_producto, id_almacen, id_orden):
     mensaje = "POST{}{}".format(id_producto, id_almacen)
     aut = security_hash(mensaje, key)
     url = 'https://integracion-2019-{}.herokuapp.com/bodega/moveStockBodega'.format(ambiente)
     headers = {'content-type': 'application/json', "Authorization": "INTEGRACION grupo{}:{}".format(grupo, aut)}
-    payload = {"productoId": id_producto, "almacenId": id_almacen, "precio": 10}
+    payload = {"productoId": id_producto, "almacenId": id_almacen, "precio": 10, "oc":  id_orden}
     r = requests.post(url, headers=headers, data=json.dumps(payload))
     if r.status_code == 200:
         return r
@@ -153,7 +153,7 @@ def setear_hook(url):
 # Funcion OK
 def obtener_inventario_otro_grupo(grupo):
     url = 'http://tuerca{}.ing.puc.cl/inventories'.format(grupo)
-    r = requests.get(url)
+    r = requests.get(url, timeout=8)
     if r.status_code == 200:
         return r.text
         #si queremos retornar la lista de diccionarios
@@ -165,25 +165,38 @@ def obtener_inventario_otro_grupo(grupo):
 
 # Todavia no sabemos si esta OK, retorna {sku: hola} por mientras
 # Puede que el header este malo
-def pedir_orden_producto(sku, cantidad, almacenId, grupo):
+def pedir_orden_producto(sku, cantidad, almacenId, grupo, id_oc):
     url = 'http://tuerca{}.ing.puc.cl/orders/'.format(grupo)
     headers = {'content-type': 'application/json', 'group': '6'}
-    payload = {'sku': sku, 'cantidad': cantidad, 'almacenId': almacenId}
-    r = requests.post(url, headers=headers, data=json.dumps(payload))
-    if r.status_code == 200 or r.status_code == 201:
-        print(r.text)
+    payload = {'sku': str(sku), 'cantidad': cantidad, 'almacenId': str(almacenId), 'oc': id_oc}
+    r = requests.post(url, headers=headers, data=json.dumps(payload), timeout=20)
+    return r
+
+
+def pedir_orden_producto2(sku, cantidad, almacenId, grupo, id_oc):
+    url = 'http://tuerca{}.ing.puc.cl/orders'.format(grupo)
+    headers = {'content-type': 'application/json', 'group': '6'}
+    payload = {'sku': str(sku), 'cantidad': cantidad, 'almacenId': str(almacenId), 'oc': id_oc}
+    r = requests.post(url, headers=headers, data=json.dumps(payload), timeout=20)
+    return r
+
+# PAra nuevos pedidos otros pedir_a_grupos
+def obtener_inventario_grupo(grupo):
+    url = 'http://tuerca{}.ing.puc.cl/inventories'.format(grupo)
+    headers = {'content-type': 'application/json', 'group': '6'}
+    r = requests.get(url, headers=headers, timeout=8)
+    return r
+
+def despachar_producto(id, oc, direccion, precio):
+    mensaje = "DELETE{}{}{}{}".format(id, direccion, precio, oc)
+    aut = security_hash(mensaje, key)
+    url = 'https://integracion-2019-{}.herokuapp.com/bodega/stock'.format(ambiente)
+    headers = {'content-type': 'application/json', "Authorization" : "INTEGRACION grupo{}:{}".format(grupo, aut)}
+    payload = {'productoId': str(id), 'oc': str(oc), 'direccion': str(direccion), 'precio': int(precio)}
+    r = requests.delete(url, headers=headers, data=json.dumps(payload))
+    print(r.text)
+    print(r.status_code)
+    if r.status_code == 200:
         return r.text
     else:
         return r.status_code
-
-
-def pedir_orden_producto2(sku, cantidad, almacenId, grupo):
-    url = 'http://tuerca{}.ing.puc.cl/orders'.format(grupo)
-    headers = {'content-type': 'application/json', 'group': '6'}
-    payload = {'sku': str(sku), 'cantidad': cantidad, 'almacenId': str(almacenId)}
-    r = requests.post(url, headers=headers, data=json.dumps(payload))
-    if r.status_code == 200 or r.status_code == 201:
-        print(r.text)
-        return r
-    else:
-        return r

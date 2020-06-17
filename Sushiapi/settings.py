@@ -75,7 +75,6 @@ WSGI_APPLICATION = 'Sushiapi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -95,15 +94,15 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
     'pedir_productos_propios': {
         'task': 'masterapp.tasks.pedir_productos_propios',
-        'schedule': crontab(minute='*/9')  # execute every minute
+        'schedule': crontab(minute='*/15')  # execute every minute
     },
     'pedir_productos_ajenos': {
         'task': 'masterapp.tasks.pedir_productos_ajenos',
-        'schedule': crontab(minute='*/4')  # execute every minute
+        'schedule': crontab(minute='*/3')  # execute every minute
     },
     'fabricar_productos_propios': {
         'task': 'masterapp.tasks.fabricar_productos_propios',
-        'schedule': crontab(minute='*/6')  # execute every minute
+        'schedule': crontab(minute='*/5')  # execute every minute
     },
     'fabricar_productos_intermedios': {
         'task': 'masterapp.tasks.fabricar_productos_intermedios',
@@ -111,7 +110,27 @@ CELERY_BEAT_SCHEDULE = {
     },
     'vaciar_despacho': {
         'task': 'masterapp.tasks.vaciar_despacho',
-        'schedule': crontab(minute='*/50')  # execute every minute
+        'schedule': crontab(minute=0, hour='*/6')  # execute every minute
+    },
+    'manejar_pedidos_cliente': {
+        'task': 'masterapp.tasks.manejar_pedidos_cliente',
+        'schedule': crontab(minute='*/8')  # execute every minute
+    },
+    'vaciar_pulmon': {
+        'task': 'masterapp.tasks.vaciar_pulmon',
+        'schedule': crontab(minute='*/6')  # execute every minute
+    },
+    'pedir_azucar': {
+        'task': 'masterapp.tasks.pedir_azucar',
+        'schedule': crontab(minute='*/60')  # execute every minute
+    },
+    'vaciar_recepcion': {
+        'task': 'masterapp.tasks.vaciar_recepcion',
+        'schedule': crontab(minute='*/7')  # execute every minute
+    },
+    'pedir_ciboulette': {
+        'task': 'masterapp.tasks.pedir_ciboulette',
+        'schedule': crontab(minute='*/7')  # execute every minute
     },
 }
 

@@ -14,7 +14,7 @@ grupo = 6
 # DAr lista de productos que teneos
 def inventories(request):
     if request.method == "GET":
-        respuesta = stock_disponible()
+        respuesta = stock_disponible_venta()
         return JsonResponse(respuesta, status=200, safe=False)
     else:
         return JsonResponse({'status_text': 'method /{}/ not valid'.format(request.method)}, status=405)
@@ -26,27 +26,37 @@ def orders(request):
     if request.method == "POST":
         try:
             body = json.loads(request.body)
-            sku = body["sku"]
-            cantidad = body["cantidad"]
+            print('body del request: {}'.format(body))
             almacenId = body["almacenId"]
+            id_orden = body["oc"]
+            orden_compra = obtener_oc(id_orden)
+            posibilidad = revisar_posibilidad_entrega2(orden_compra)
+            orden = orden_compra[0]
+            sku = orden['sku']
+            cantidad = orden['cantidad']
+            cliente = orden['cliente']
         except:
+            print('Error en el post recibido')
             return JsonResponse({'status_text': 'Parametros incorrectos'.format(request.method)}, status=400)
-        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios):
-            despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId)
-            aceptado = True
-            if aceptado:
-                respuesta = {}
-                respuesta["sku"] = sku
-                respuesta["cantidad"] = True
-                respuesta["almacenId"] = almacenId
-                respuesta["grupo"] = grupo
-                respuesta["aceptado"] = aceptado
-                respuesta["despachado"] = aceptado
-                return JsonResponse(respuesta, status=200)
-            else:
-                return JsonResponse({'status_text': 'No pudimos despachar el pedido'.format(request.method)}, status=400)
+
+        if stock_disponible_sku(sku, cantidad) and (sku in skus_propios) and posibilidad == 0 and cliente != id_grupos[5]:
+            print('intentaremos despachar la orden')
+            #notificar_cliente(url,"accept")
+            #aceptar_oc(id_orden)
+            despachar_pedido_bodega_smarter.delay(sku, cantidad, almacenId, id_orden)
+            respuesta = {}
+            respuesta["sku"] = sku
+            respuesta["cantidad"] = cantidad
+            respuesta["almacenId"] = almacenId
+            respuesta["grupo"] = grupo
+            respuesta["aceptado"] = True
+            respuesta["despachado"] = False
+            return JsonResponse(respuesta, status=201)
         else:
-            return JsonResponse({'status_text': 'No tenemos Stock'.format(request.method)}, status=404)
+            print('la orden sera rechazada')
+            #notificar_cliente(url,"reject")
+            rechazar_oc(id_orden, 'No tenemos Stock o pedido muy grande')
+            return JsonResponse({'status_text': 'No tenemos Stock o pedido muy grande, o muy poco tiempo para el despacho'.format(request.method)}, status=404)
     else:
         return JsonResponse({'status_text': 'method /{}/ not valid'.format(request.method)}, status=405)
 
@@ -62,12 +72,19 @@ def index(request):
     for sku in unidades_por_lote:
         if sku in stock_minimo.keys():
             if sku in productos.keys():
-                porcentaje = round(int(productos[sku]) / int(stock_minimo[sku]), 2) *100
-                lista = [nombres[sku], sku, productos[sku], stock_minimo[sku], porcentaje]
+                porcentaje = round(int(productos[sku]) / stock_minimal[sku], 2) *100
+                lista = [nombres[sku], sku, productos[sku], stock_minimal[sku], porcentaje]
             else:
                 porcentaje = round(0*100, 2)
-                lista = [nombres[sku], sku, int(0), stock_minimo[sku], porcentaje]
-            cuenta_stock.append(lista)
+                lista = [nombres[sku], sku, int(0), stock_minimal[sku], porcentaje]
+        else:
+            if sku in productos.keys():
+                porcentaje = round(int(productos[sku]) / stock_minimal[sku], 2) *100
+                lista = [nombres[sku], sku, productos[sku], stock_minimal[sku], porcentaje]
+            else:
+                porcentaje = round(0*100, 2)
+                lista = [nombres[sku], sku, int(0), stock_minimal[sku], porcentaje]
+        cuenta_stock.append(lista)
     template = loader.get_template('masterapp/index.html')
     context = {
         'almacenes': almacenes,

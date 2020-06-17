@@ -1,6 +1,8 @@
 key = 'l.akT6fMzi5gG'
 grupo = 6
 
+'''
+
 #desarrollo
 recepcion = "5cbd3ce444f67600049431d1"
 despacho = '5cbd3ce444f67600049431d2'
@@ -8,6 +10,7 @@ almacen_general1 = '5cbd3ce444f67600049431d3'
 almacen_general2 = '5cbd3ce444f67600049431d4'
 pulmon = '5cbd3ce444f67600049431d5'
 cocina = '5cbd3ce444f67600049431d6'
+
 
 '''
 #Produccion
@@ -17,12 +20,11 @@ almacen_general1 = '5cc7b139a823b10004d8e6ed'
 almacen_general2 = '5cc7b139a823b10004d8e6ee'
 pulmon = '5cc7b139a823b10004d8e6ef'
 cocina = '5cc7b139a823b10004d8e6f0'
-'''
 
-ambiente = 'dev'
+ambiente = 'prod'
 
-lotes_minimos_materia_prima_propia = 7
-lotes_minimos_materia_prima_ajena = 3
+lotes_minimos_materia_prima_propia = 4
+lotes_minimos_materia_prima_ajena = 2
 lotes_minimos_despacho = 3
 delta_stock_minimo = 1.5
 
@@ -60,7 +62,7 @@ stock_minimo = {
                 }
 
 stock_deseado_productos_intermedios = {
-                                        '1101': 200,
+                                        '1101': 150,
                                         '1111': 50,
                                      }
 
@@ -229,7 +231,7 @@ nombres = {
             '1310': 'Palta cortada para nigiri',
             '1407': 'Salmón cortado para envoltura',
             }
-
+'''
 # Desarollo
 id_grupos = {
             1: '5cbd31b7c445af0004739be3',
@@ -247,3 +249,76 @@ id_grupos = {
             13: '5cbd31b7c445af0004739bef',
             14: '5cbd31b7c445af0004739bf0',
             }
+'''
+# Produccion
+id_grupos = {
+            1: '5cc66e378820160004a4c3bc',
+            2: '5cc66e378820160004a4c3bd',
+            3: '5cc66e378820160004a4c3be',
+            4: '5cc66e378820160004a4c3bf',
+            5: '5cc66e378820160004a4c3c0',
+            6: '5cc66e378820160004a4c3c1',
+            7: '5cc66e378820160004a4c3c2',
+            8: '5cc66e378820160004a4c3c3',
+            9: '5cc66e378820160004a4c3c4',
+            10: '5cc66e378820160004a4c3c5',
+            11: '5cc66e378820160004a4c3c6',
+            12: '5cc66e378820160004a4c3c7',
+            13: '5cc66e378820160004a4c3c8',
+            14: '5cc66e378820160004a4c3c9',
+            }
+
+
+
+
+
+
+stock_minimal = {
+                '1001': 8*20+20,
+                '1002': 4*20+20,
+                '1003': 3*20+20+150,
+                '1004': 2*20,
+
+                '1005': 1*30+20,
+
+                '1006': 1*30,
+
+                '1007': 1*30*4+20,
+
+
+                '1008': 1*30,
+                '1009': 1*30*3,
+                '1010': 1*30*3,
+                '1011': 1*30,
+                '1012': 1*30+20,
+                '1014': 1*30,
+                '1015': 2*30*2+20,
+                '1016': 11*30+20,
+
+
+                '1101': 100,
+                '1111': 30,
+                '1301': 50*0.7,
+                '1013': 300*0.7,
+                '1310': 20*0.7,
+                '1201': 250*0.7,
+                '1209': 20*0.7,
+                '1109': 50*0.7,
+                '1309': 170*0.7,
+                '1106': 400*0.7,
+                '1114': 50*0.7,
+                '1215': 20*0.7,
+                '1115': 30*0.7,
+                '1105': 50*0.7,
+                '1216': 50*0.7,
+                '1116': 250*0.7,
+                '1110': 80*0.7,
+                '1210': 150*0.7,
+                '1112': 130*0.7,
+                '1108': 10*0.7,
+                '1407': 40*0.7,
+                '1207': 20*0.7,
+                '1107': 50*0.7,
+                '1307': 170*0.7,
+                '1211': 60*0.7,
+                }

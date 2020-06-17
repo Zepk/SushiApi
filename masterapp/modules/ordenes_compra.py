@@ -24,8 +24,12 @@ def crear_oc(proveedor, sku, minutos, cantidad, precio, canal):
     r = requests.put(url, headers=headers, data=json.dumps(payload))
     if r.status_code == 200:
         lista = json.loads(r.text)
+        print('Orden de compra creada exitosamente')
+        #print(lista)
         return lista
     else:
+        print('Error creando orden de compra')
+        #print(r.text)
         return False
 
 
@@ -76,7 +80,7 @@ def anular_oc(id, motivo):
 
     headers = {'content-type': 'application/json'}
 
-    payload = {'id': str(id), 'rechazo': str(motivo)}
+    payload = {'id': str(id), 'anulacion': str(motivo)}
 
     r = requests.delete(url, headers=headers, data=json.dumps(payload))
     if r.status_code == 200:
